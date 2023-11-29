@@ -44,7 +44,7 @@ def get_file_names(files):
     """
     list all file names
     """
-    return [splitext(basename(f))[0] for f in files]
+    return [splitext(basename(f))[0].replace("_", " ") for f in files]
 
 
 def read_fasta(c_file):
@@ -346,7 +346,7 @@ def calculate_and_plot_degeneracy(input_folder, output_folder):
                 showcaps=False,
                 ax=ax)
 
-    ax.set_xticklabels(labels = range(0, len(names)), rotation=45)
+    ax.set_xticklabels(labels=range(0, len(names)), rotation=45, ha="right")
     ax.set_xticklabels(names)
     sns.despine()
     plt.ylabel("degeneracy per primer")
@@ -407,7 +407,7 @@ def calculate_and_plot_mismatches(alignment_folder, bed_folder, tsv_folder, outp
         ncols=3
     )
     ax.add_artist(legend)
-    ax.set_xticklabels(rotation=45, labels=range(-1, len(counts_norm)))
+    ax.set_xticklabels(rotation=45, ha="right", labels=range(-1, len(counts_norm)))
     ax.set_xticklabels([""] + names)
     ax.set_ylabel("nt mismatches between primers and sequences")
     sns.despine()
@@ -488,7 +488,7 @@ def plot_primer_stats(output_folder, tsv_folder, bed_folder, consensus_folder):
     plt.axhline(y=56, linestyle=":", color="grey", label="min")
     plt.axhline(y=63, linestyle=":", color="grey", label="max")
     plt.legend(frameon=False,  loc="upper right")
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=45, ha="right")
     fig.savefig(f"{output_folder}/temp.pdf", bbox_inches='tight')
 
     # plot GC
@@ -508,7 +508,7 @@ def plot_primer_stats(output_folder, tsv_folder, bed_folder, consensus_folder):
     plt.axhline(y=35, linestyle=":", color="grey", label="min")
     plt.axhline(y=65, linestyle=":", color="grey", label="max")
     plt.legend(frameon=False,  loc="upper right")
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=45, ha="right")
     fig.savefig(f"{output_folder}/gc_content.pdf", bbox_inches='tight')
 
     # plot melting temp
@@ -526,7 +526,7 @@ def plot_primer_stats(output_folder, tsv_folder, bed_folder, consensus_folder):
     plt.ylim([0, 100])
     plt.axhline(y=47, linestyle="--", color="black", label="max")
     plt.legend(frameon=False, loc="upper right")
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=45, ha="right")
     fig.savefig(f"{output_folder}/melting_temp.pdf", bbox_inches='tight')
 
     # plot homo-dimer temp
@@ -544,7 +544,7 @@ def plot_primer_stats(output_folder, tsv_folder, bed_folder, consensus_folder):
     plt.ylim(top=100)
     plt.axhline(y=47, linestyle="--", color="black", label="max")
     plt.legend(frameon=False, loc="upper right")
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=45, ha="right")
     fig.savefig(f"{output_folder}/dimer_temp.pdf", bbox_inches='tight')
 
 
@@ -569,6 +569,7 @@ def main(color_scheme, output_folder):
     print("- Plotting primer stats...")
     plot_primer_stats(output_folder, "tsv_files", "bed_files", "consensus_files")
     print("\n###         Finished the analysis          ###")
+
 
 # run the analysis
 if __name__ == "__main__":

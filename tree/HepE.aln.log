@@ -1,0 +1,1441 @@
+IQ-TREE multicore version 2.0.7 for Linux 64-bit built Jan 21 2022
+Developed by Bui Quang Minh, Nguyen Lam Tung, Olga Chernomor,
+Heiko Schmidt, Dominik Schrempf, Michael Woodhams.
+
+Host:    VNBFUCHS (AVX512, FMA3, 31 GB RAM)
+Command: iqtree2 -s HepE.aln -bb 1000 -alrt 1000 -nt 8 -m GTR+F+R10
+Seed:    524941 (Using SPRNG - Scalable Parallel Random Number Generator)
+Time:    Tue Nov 28 13:53:59 2023
+Kernel:  AVX+FMA - 8 threads (8 CPU cores detected)
+
+Reading alignment file HepE.aln ... Fasta format detected
+Alignment most likely contains DNA/RNA sequences
+WARNING: 322 sites contain only gaps or ambiguous characters.
+Alignment has 1161 sequences with 11187 columns, 6262 distinct patterns
+4501 parsimony-informative, 1269 singleton sites, 5417 constant sites
+                      Gap/Ambiguity  Composition  p-value
+   1  HEV-1a_AF051830.1      35.65%    failed      0.00%
+   2  HEV-1a_DQ459342.1      35.51%    failed      0.00%
+   3  HEV-1a_JF443718.1      35.51%    failed      0.00%
+   4  HEV-1a_JF443719.1      35.51%    failed      0.00%
+   5  HEV-1a_LC061267.1      35.48%    failed      0.00%
+   6  HEV-1a_AF185822.1      36.15%    failed      0.00%
+   7  HEV-1a_D10330.1        35.69%    failed      0.00%
+   8  HEV-1a_M73218.1        35.58%    failed      0.00%
+   9  HEV-1a_AF076239.3      35.69%    failed      0.00%
+  10  HEV-1a_AF459438.1      35.59%    failed      0.00%
+  11  HEV-1a_JF443720.1      35.59%    failed      0.00%
+  12  HEV-1a_X99441.1        35.69%    failed      0.02%
+  13  HEV-1a_MH504157.1      35.78%    failed      0.00%
+  14  HEV-1f_AB720034.1      35.76%    failed      0.00%
+  15  HEV-1f_AB720035.1      35.76%    failed      0.00%
+  16  HEV-1f_MH991994.1      35.62%    failed      0.00%
+  17  HEV-1f_MH991998.1      35.52%    failed      0.02%
+  18  HEV-1f_MH992000.1      35.52%    failed      0.01%
+  19  HEV-1f_MH992001.1      35.51%    failed      0.01%
+  20  HEV-1f_MH992004.1      35.51%    failed      0.01%
+  21  HEV-1f_MH992006.1      35.51%    failed      0.01%
+  22  HEV-1f_MH992009.1      35.50%    failed      0.01%
+  23  HEV-1f_MH992005.1      35.51%    failed      0.00%
+  24  HEV-1f_MH992003.1      35.51%    failed      0.01%
+  25  HEV-1f_MH991993.1      35.62%    failed      0.01%
+  26  HEV-1f_MH991995.1      35.60%    failed      0.01%
+  27  HEV-1f_MH991997.1      35.51%    failed      0.02%
+  28  HEV-1f_MH991996.1      35.51%    failed      0.00%
+  29  HEV-1f_MH992008.1      35.50%    failed      0.02%
+  30  HEV-1f_MH992010.1      35.50%    failed      0.01%
+  31  HEV-1f_MH992012.1      35.49%    failed      0.01%
+  32  HEV-1f_MH992013.1      35.45%    failed      0.00%
+  33  HEV-1f_MH992007.1      35.50%    failed      0.00%
+  34  HEV-1f_MH992011.1      35.49%    failed      0.01%
+  35  HEV-1f_MH992002.1      35.51%    failed      0.00%
+  36  HEV-1f_MH991999.1      35.51%    failed      0.01%
+  37  HEV-1f_JF443721.1      35.49%    failed      0.00%
+  38  HEV-1f_JF443722.1      35.59%    failed      0.00%
+  39  HEV-1f_JF443726.1      35.41%    failed      0.00%
+  40  HEV-1uc1_JF443725.1    35.63%    failed      0.00%
+  41  HEV-1uc1_LC406664.1    36.68%    failed      0.00%
+  42  HEV-1uc1_LC406532.1    36.64%    failed      0.00%
+  43  HEV-1uc1_MH074880.1    35.57%    failed      0.00%
+  44  HEV-1uc1_LC406477.1    36.66%    failed      0.00%
+  45  HEV-1f_LC406519.1      36.64%    failed      0.00%
+  46  HEV-1f_JF443724.1      35.59%    failed      0.00%
+  47  HEV-1uc1_JF443723.1    35.54%    failed      0.00%
+  48  HEV-1f_MH504154.1      35.67%    failed      0.00%
+  49  HEV-1f_MH504162.1      35.55%    failed      0.00%
+  50  HEV-1uc1_FJ457024.1    35.49%    failed      0.00%
+  51  HEV-1b_D11092.1        35.58%    failed      0.00%
+  52  HEV-1b_L25547.1        35.70%    failed      0.00%
+  53  HEV-1b_L25595.1        35.45%    failed      0.00%
+  54  HEV-1b_M80581.1        36.19%    failed      0.00%
+  55  HEV-1b_L08816.1        35.85%    failed      0.00%
+  56  HEV-1b_NC_001434.1     35.85%    failed      0.00%
+  57  HEV-1b_M94177.1        35.64%    failed      0.00%
+  58  HEV-1b_JQ655734.1      35.53%    failed      0.00%
+  59  HEV-1b_D11093.1        35.69%    failed      0.00%
+  60  HEV-1c_JF443717.1      35.59%    failed      0.01%
+  61  HEV-1c_X98292.1        35.62%    failed      0.00%
+  62  HEV-1g_KY436505.1      35.68%    failed      0.00%
+  63  HEV-1g_KY436507.1      35.68%    failed      0.00%
+  64  HEV-1g_KY436506.1      35.72%    failed      0.00%
+  65  HEV-1g_LC225387.1      35.53%    failed      0.00%
+  66  HEV-1g_LC314156.1      35.59%    failed      0.00%
+  67  HEV-1g_LC314158.1      35.53%    failed      0.00%
+  68  HEV-1g_LC406467.1      36.62%    failed      0.00%
+  69  HEV-1g_LC406468.1      36.63%    failed      0.00%
+  70  HEV-1g_LC406470.1      36.62%    failed      0.00%
+  71  HEV-1g_LC406471.1      36.62%    failed      0.00%
+  72  HEV-1g_LC406469.1      36.62%    failed      0.00%
+  73  HEV-1g_MH504161.1      35.69%    failed      0.00%
+  74  HEV-1g_MH504155.1      35.74%    failed      0.00%
+  75  HEV-1g_MH504159.1      35.76%    failed      0.00%
+  76  HEV-1g_MH504160.1      35.77%    failed      0.00%
+  77  HEV-1g_MN401238.1      36.20%    failed      0.00%
+  78  HEV-1g_MH504156.1      35.74%    failed      0.00%
+  79  HEV-1g_MH504158.1      35.67%    failed      0.00%
+  80  HEV-1g_MH504163.1      35.74%    failed      0.00%
+  81  HEV-1g_LC684115.1      36.11%    failed      0.00%
+  82  HEV-1g_LC314157.1      35.53%    failed      0.00%
+  83  HEV-1g_LC314155.1      35.53%    failed      0.00%
+  84  HEV-1d_AY230202.1      35.53%    failed      0.03%
+  85  HEV-1e_AY204877.1      35.91%    failed      0.01%
+  86  HEV-1uce_MH918640.1    35.63%    failed      0.00%
+  87  HEV-1uce_OQ077986.1    35.62%    failed      0.04%
+  88  HEV-1a_AH006999.2      48.23%    failed      0.00%
+  89  HEV-1g_MZ289092.1      38.00%    passed     80.61%
+  90  HEV-3f1a_KC166971.1    34.20%    passed     56.91%
+  91  HEV-3f2b_KC166967.1    34.84%    passed     68.68%
+  92  HEV-3f2b_KC166968.1    34.79%    passed     59.40%
+  93  HEV-3f2b_KC166969.1    34.72%    passed     53.29%
+  94  HEV-3f2b_KC166970.1    34.70%    passed     54.81%
+  95  HEV-3f1a_MN646689.1    34.69%    passed     76.11%
+  96  HEV-3f1a_MN646696.1    34.88%    passed     39.10%
+  97  HEV-3f2b_JN906974.1    35.09%    passed     80.59%
+  98  HEV-3f2b_JN906975.1    35.11%    passed     79.82%
+  99  HEV-3f2b_JN906976.1    34.59%    passed     85.35%
+ 100  HEV-3f2b_MW383253.1    34.62%    passed     83.30%
+ 101  HEV-3f2b_MF444059.1    35.06%    passed     67.96%
+ 102  HEV-3f2b_MF444027.1    34.57%    passed     54.83%
+ 103  HEV-3f2b_MF444034.1    34.20%    passed     47.17%
+ 104  HEV-3f2b_MF444127.1    35.03%    passed     58.66%
+ 105  HEV-3f2b_MF444041.1    34.95%    passed     62.08%
+ 106  HEV-3f2b_MF444078.1    35.04%    passed     62.17%
+ 107  HEV-3f2b_MF444117.1    34.88%    passed     63.90%
+ 108  HEV-3f2b_MZ289099.1    36.43%    passed     63.23%
+ 109  HEV-3f2b_MZ289098.1    36.42%    passed     65.32%
+ 110  HEV-3f2b_MF444092.1    34.91%    passed     52.85%
+ 111  HEV-3f2b_MF444129.1    35.21%    passed     61.06%
+ 112  HEV-3f2b_MW355380.1    35.13%    passed     81.00%
+ 113  HEV-3f2b_MW355395.1    35.20%    passed     81.28%
+ 114  HEV-3f2b_MZ289118.1    36.42%    passed     68.95%
+ 115  HEV-3f1a_MW355371.1    34.95%    passed     96.68%
+ 116  HEV-3f2b_MW355254.1    35.13%    passed     96.20%
+ 117  HEV-3f2b_MW355330.1    35.14%    passed     97.00%
+ 118  HEV-3f2b_MW355398.1    35.13%    passed     91.64%
+ 119  HEV-3f2b_MW355363.1    35.19%    passed     97.43%
+ 120  HEV-3f2b_MZ289124.1    36.44%    passed     96.40%
+ 121  HEV-3f2b_MZ289127.1    36.44%    passed     97.25%
+ 122  HEV-3f2b_MZ289145.1    36.42%    passed     97.56%
+ 123  HEV-3f2b_MZ289107.1    36.41%    passed     90.98%
+ 124  HEV-3f2b_MZ289114.1    36.46%    passed     92.42%
+ 125  HEV-3f2b_MZ289126.1    36.43%    passed     91.74%
+ 126  HEV-3f2b_MZ289140.1    36.43%    passed     94.41%
+ 127  HEV-3f2b_MZ289130.1    36.36%    passed     94.89%
+ 128  HEV-3f2b_MF444069.1    34.93%    passed     92.79%
+ 129  HEV-3f2b_MW355230.1    34.64%    passed     87.42%
+ 130  HEV-3f2b_MW355350.1    35.18%    passed     92.12%
+ 131  HEV-3f2b_MZ289142.1    36.42%    passed     90.27%
+ 132  HEV-3f2b_MW355375.1    34.80%    passed     88.41%
+ 133  HEV-3f2b_MW355342.1    34.07%    passed     79.24%
+ 134  HEV-3f2b_MW355289.1    34.46%    passed     78.59%
+ 135  HEV-3f2b_MW355240.1    35.22%    passed     88.84%
+ 136  HEV-3f2b_LC055972.1    34.43%    passed     69.80%
+ 137  HEV-3f2b_MZ289086.1    36.39%    passed     91.01%
+ 138  HEV-3f2b_MZ289087.1    36.43%    passed     89.52%
+ 139  HEV-3f2b_MZ289102.1    36.43%    passed     81.72%
+ 140  HEV-3f2b_MZ289123.1    36.41%    passed     85.61%
+ 141  HEV-3f2b_KT581448.1    34.59%    passed     69.41%
+ 142  HEV-3f2b_MW355331.1    34.26%    passed     80.45%
+ 143  HEV-3f2b_MF444070.1    35.11%    passed     67.82%
+ 144  HEV-3f2b_MF444125.1    35.09%    passed     75.53%
+ 145  HEV-3f2b_MW355351.1    34.56%    passed     39.25%
+ 146  HEV-3f2b_MF444076.1    35.03%    passed     86.18%
+ 147  HEV-3f2b_MZ289134.1    36.77%    passed     74.17%
+ 148  HEV-3f2b_MW355339.1    34.83%    passed     73.19%
+ 149  HEV-3f2b_MN401237.1    35.64%    passed     72.03%
+ 150  HEV-3f2b_MW355394.1    34.92%    passed     83.14%
+ 151  HEV-3f2b_MZ289148.1    36.42%    passed     88.56%
+ 152  HEV-3f2b_MZ289147.1    36.43%    passed     82.18%
+ 153  HEV-3f2b_MW355388.1    34.70%    passed     60.14%
+ 154  HEV-3f2b_MF444090.1    34.75%    passed     85.18%
+ 155  HEV-3f2b_MZ289109.1    36.42%    passed     73.42%
+ 156  HEV-3f2b_MF444140.1    35.14%    passed     73.08%
+ 157  HEV-3f2b_MZ289120.1    36.49%    passed     70.98%
+ 158  HEV-3f2b_MZ289105.1    36.44%    passed     68.11%
+ 159  HEV-3f2b_MW355349.1    34.54%    passed     37.10%
+ 160  HEV-3f2b_MZ289125.1    36.85%    passed     74.94%
+ 161  HEV-3f2b_MW355358.1    35.09%    passed     58.95%
+ 162  HEV-3f2b_MZ289111.1    36.42%    passed     72.15%
+ 163  HEV-3f2b_MZ289116.1    36.42%    passed     58.35%
+ 164  HEV-3f2b_MW355265.1    35.09%    passed     74.32%
+ 165  HEV-3f2b_MZ289115.1    36.44%    passed     68.56%
+ 166  HEV-3f2b_MW355241.1    35.13%    passed     55.11%
+ 167  HEV-3f2b_MW355255.1    34.87%    passed     52.51%
+ 168  HEV-3f2b_MW355384.1    35.18%    passed     57.09%
+ 169  HEV-3f2b_MZ289132.1    36.43%    passed     55.95%
+ 170  HEV-3f2b_MW355301.1    34.18%    passed     54.50%
+ 171  HEV-3f1a_MF444119.1    34.30%    passed     81.07%
+ 172  HEV-3f2b_MW355228.1    34.57%    passed     53.85%
+ 173  HEV-3f2b_MW355324.1    35.15%    passed     75.15%
+ 174  HEV-3f2b_MZ289139.1    36.50%    passed     82.75%
+ 175  HEV-3f2b_MF444039.1    35.26%    passed     82.61%
+ 176  HEV-3f2b_MW355260.1    34.55%    passed     58.72%
+ 177  HEV-3f2b_MF444100.1    35.22%    passed     76.32%
+ 178  HEV-3f2b_MF444103.1    34.99%    passed     83.98%
+ 179  HEV-3f2b_MF444138.1    34.52%    passed     95.62%
+ 180  HEV-3f2b_MZ289080.1    36.43%    passed     65.94%
+ 181  HEV-3f2b_MF444112.1    34.71%    passed     85.17%
+ 182  HEV-3f2b_MZ289077.1    36.42%    passed     88.26%
+ 183  HEV-3f2b_MZ289078.1    36.40%    passed     87.21%
+ 184  HEV-3f2b_MZ289081.1    36.44%    passed     90.78%
+ 185  HEV-3f2b_MZ289085.1    36.48%    passed     90.73%
+ 186  HEV-3f2b_MZ289131.1    36.44%    passed     62.72%
+ 187  HEV-3f2b_MZ289143.1    36.43%    passed     75.43%
+ 188  HEV-3f2b_MZ289144.1    36.44%    passed     63.96%
+ 189  HEV-3f2b_MW355336.1    35.08%    passed     68.31%
+ 190  HEV-3f2b_MF444035.1    35.15%    passed     97.41%
+ 191  HEV-3f2b_MW355397.1    35.12%    passed     96.94%
+ 192  HEV-3f2b_MW355326.1    35.09%    passed     91.73%
+ 193  HEV-3f2b_MF444094.1    34.86%    passed     86.86%
+ 194  HEV-3f2b_MW355373.1    35.29%    passed     77.71%
+ 195  HEV-3f2b_MF444051.1    35.14%    passed     96.24%
+ 196  HEV-3f2b_MF444088.1    34.46%    passed     94.78%
+ 197  HEV-3f2b_MF444098.1    34.95%    passed     98.91%
+ 198  HEV-3f2b_MW355340.1    33.91%    passed     88.73%
+ 199  HEV-3f2b_MF444126.1    36.12%    passed     98.35%
+ 200  HEV-3f2b_MW355219.1    34.54%    passed     67.42%
+ 201  HEV-3f2b_MW355322.1    35.11%    passed     74.83%
+ 202  HEV-3f2b_MW355242.1    34.53%    passed     44.19%
+ 203  HEV-3f1a_MF444107.1    35.09%    passed     52.52%
+ 204  HEV-3f2b_MF444036.1    35.02%    passed     43.56%
+ 205  HEV-3f2b_MF444137.1    34.72%    passed     38.86%
+ 206  HEV-3f1a_MH377726.1    34.83%    passed     26.92%
+ 207  HEV-3f1a_MN646692.1    34.64%    passed     36.24%
+ 208  HEV-3f1a_MN646695.1    34.40%    passed     48.28%
+ 209  HEV-3f2b_MF444142.1    35.10%    passed     51.55%
+ 210  HEV-3f2b_MF444073.1    34.93%    passed     73.62%
+ 211  HEV-3f1a_MN646693.1    33.66%    passed     44.46%
+ 212  HEV-3f2b_MF444050.1    34.62%    passed     74.93%
+ 213  HEV-3f2b_MF444055.1    34.58%    passed     91.19%
+ 214  HEV-3f2b_MF444124.1    34.77%    passed     93.73%
+ 215  HEV-3f2b_MF444068.1    34.98%    passed     92.24%
+ 216  HEV-3f2b_MF444093.1    35.17%    passed     79.43%
+ 217  HEV-3f2b_MF444139.1    34.84%    passed     92.56%
+ 218  HEV-3f2b_MF444066.1    34.94%    passed     81.90%
+ 219  HEV-3f2b_AB850879.1    34.48%    passed     61.33%
+ 220  HEV-3f2b_MF444038.1    34.85%    passed     70.21%
+ 221  HEV-3f2b_MF444132.1    34.84%    passed     72.61%
+ 222  HEV-3f2b_MF444047.1    34.83%    passed     59.38%
+ 223  HEV-3f2b_MF444096.1    34.70%    passed     49.56%
+ 224  HEV-3f2b_LC164712.1    34.69%    passed     63.06%
+ 225  HEV-3f2b_MF444048.1    34.87%    passed     84.29%
+ 226  HEV-3f2b_MZ289108.1    36.42%    passed     82.44%
+ 227  HEV-3f2b_MF444130.1    35.17%    passed     90.97%
+ 228  HEV-3f2b_MW355346.1    35.34%    passed     87.31%
+ 229  HEV-3f2b_MW355276.1    34.55%    passed     68.25%
+ 230  HEV-3f2b_LC055973.1    34.69%    passed     61.59%
+ 231  HEV-3f2b_MW355248.1    34.57%    passed     77.45%
+ 232  HEV-3f2b_MW355249.1    34.85%    passed     89.10%
+ 233  HEV-3f2b_MW355376.1    34.94%    passed     87.68%
+ 234  HEV-3f2b_MW355296.1    34.59%    passed     78.61%
+ 235  HEV-3f2b_MF444054.1    34.40%    passed     44.28%
+ 236  HEV-3f2b_MF444061.1    35.33%    passed     88.48%
+ 237  HEV-3f2b_MW355247.1    34.48%    passed     78.44%
+ 238  HEV-3f2b_MZ289128.1    36.44%    passed     77.17%
+ 239  HEV-3f2b_MW355299.1    34.99%    passed     91.43%
+ 240  HEV-3f2b_MW355310.1    34.99%    passed     87.97%
+ 241  HEV-3f2b_MW355305.1    35.26%    passed     95.23%
+ 242  HEV-3f2b_MZ289106.1    36.43%    passed     85.06%
+ 243  HEV-3f2b_MW355292.1    34.99%    passed     60.16%
+ 244  HEV-3f2b_MF444097.1    35.09%    passed     95.64%
+ 245  HEV-3f2b_MW355308.1    35.15%    passed     95.11%
+ 246  HEV-3f2b_MZ289136.1    36.76%    passed     86.35%
+ 247  HEV-3f2b_MF444040.1    35.54%    passed     87.06%
+ 248  HEV-3f2b_MF444060.1    36.90%    passed     48.65%
+ 249  HEV-3f2b_MF444084.1    35.07%    passed     77.87%
+ 250  HEV-3f1b_MW355266.1    33.84%    passed     40.48%
+ 251  HEV-3f2b_MW355355.1    34.58%    passed     84.40%
+ 252  HEV-3f2b_MZ289129.1    36.43%    passed     77.08%
+ 253  HEV-3f2b_MW355392.1    35.25%    passed     95.30%
+ 254  HEV-3f2b_EU723514.2    34.71%    passed     92.31%
+ 255  HEV-3f2b_EU723515.1    34.93%    passed     85.30%
+ 256  HEV-3f2b_EU723516.1    34.93%    passed     91.46%
+ 257  HEV-3f2b_MF444108.1    35.04%    passed     99.41%
+ 258  HEV-3f2b_MW355274.1    34.50%    passed     48.59%
+ 259  HEV-3f2b_MZ289141.1    36.42%    passed     83.65%
+ 260  HEV-3f2b_MW355325.1    35.22%    passed     88.42%
+ 261  HEV-3f2b_MF444095.1    34.93%    passed     99.43%
+ 262  HEV-3f2b_MF444133.1    35.22%    passed     95.28%
+ 263  HEV-3f2b_MW355253.1    34.55%    passed     92.01%
+ 264  HEV-3f2b_MW355381.1    34.57%    passed     92.48%
+ 265  HEV-3f2b_MW355318.1    34.53%    passed     83.94%
+ 266  HEV-3f2b_MW355356.1    34.89%    passed     99.83%
+ 267  HEV-3f2b_MF444057.1    35.11%    passed     99.97%
+ 268  HEV-3f2b_MF444123.1    34.77%    passed     43.82%
+ 269  HEV-3f2b_MW355238.1    34.71%    passed     99.54%
+ 270  HEV-3f2b_MW355329.1    34.54%    passed     60.63%
+ 271  HEV-3f2b_MZ289146.1    36.36%    passed     81.97%
+ 272  HEV-3f2b_MZ289088.1    36.42%    passed     81.27%
+ 273  HEV-3f2b_EU495148.1    34.58%    passed     88.34%
+ 274  HEV-3f2b_MW355401.1    35.58%    passed     69.90%
+ 275  HEV-3f2b_MF444081.1    35.22%    passed     68.41%
+ 276  HEV-3f2b_MF444058.1    33.66%    passed     46.34%
+ 277  HEV-3f2b_MF444105.1    34.71%    passed     81.03%
+ 278  HEV-3f2b_MF444082.1    35.03%    passed     92.40%
+ 279  HEV-3f2b_MF444134.1    34.70%    passed     90.11%
+ 280  HEV-3f2b_MW355257.1    34.55%    passed     43.47%
+ 281  HEV-3f2b_MF444087.1    34.84%    passed     82.29%
+ 282  HEV-3f1a_AB291961.1    35.27%    passed     62.60%
+ 283  HEV-3f1a_AB369687.1    35.51%    passed     95.40%
+ 284  HEV-3f1a_FJ653660.1    35.50%    passed     85.83%
+ 285  HEV-3f1a_KY232312.1    35.33%    passed     68.21%
+ 286  HEV-3f1a_KY232313.1    35.33%    passed     66.17%
+ 287  HEV-3f1a_EU375463.1    35.24%    passed     66.63%
+ 288  HEV-3f1a_KT591532.1    36.48%    passed     92.61%
+ 289  HEV-3f1a_KT591533.1    36.68%    passed     88.80%
+ 290  HEV-3f1a_KT591534.1    34.00%    passed     90.19%
+ 291  HEV-3f1a_MF444028.1    35.44%    passed     75.27%
+ 292  HEV-3f1a_MW355223.1    35.30%    passed     68.40%
+ 293  HEV-3f1a_MF444079.1    35.52%    passed     98.76%
+ 294  HEV-3f1a_MW355306.1    35.05%    passed     97.40%
+ 295  HEV-3f1a_MF444046.1    35.86%    passed     96.86%
+ 296  HEV-3f1a_MF444101.1    35.59%    passed     97.42%
+ 297  HEV-3f1a_MF444062.1    36.27%    passed     74.07%
+ 298  HEV-3f1a_MF444104.1    35.94%    passed     92.82%
+ 299  HEV-3f1a_MF444067.1    36.08%    passed     83.80%
+ 300  HEV-3f1a_MF444029.1    35.42%    passed     91.30%
+ 301  HEV-3f1a_MF444032.1    35.98%    passed     94.14%
+ 302  HEV-3f1a_MW355343.1    35.28%    passed     51.49%
+ 303  HEV-3f1a_MW355250.1    35.26%    passed     98.55%
+ 304  HEV-3f1a_MW355251.1    35.61%    passed     96.61%
+ 305  HEV-3f1a_MW355261.1    35.94%    passed     92.17%
+ 306  HEV-3f1a_MW355333.1    35.85%    passed     95.22%
+ 307  HEV-3f1a_MW355252.1    35.86%    passed     80.08%
+ 308  HEV-3f1a_MW355337.1    35.83%    passed     69.92%
+ 309  HEV-3f1a_MW355353.1    35.25%    passed     71.63%
+ 310  HEV-3f1a_MW355393.1    35.98%    passed     81.75%
+ 311  HEV-3f1a_JQ953666.1    35.20%    passed     85.24%
+ 312  HEV-3f1a_MF444116.1    36.71%    passed     52.72%
+ 313  HEV-3f1a_MW355258.1    35.88%    passed     67.26%
+ 314  HEV-3f1a_MW355272.1    36.09%    passed     70.81%
+ 315  HEV-3f1a_MW355237.1    35.63%    passed     86.81%
+ 316  HEV-3f1a_MW355389.1    35.65%    passed     87.59%
+ 317  HEV-3f1a_MW355396.1    35.51%    passed     87.53%
+ 318  HEV-3f1a_MF444118.1    36.30%    passed     44.94%
+ 319  HEV-3f1a_MW355354.1    35.85%    passed     86.02%
+ 320  HEV-3f1a_MW355387.1    35.85%    passed     74.08%
+ 321  HEV-3f1a_MW355352.1    34.81%    passed     97.50%
+ 322  HEV-3f1a_MW355311.1    35.41%    passed     98.19%
+ 323  HEV-3f1a_MF444135.1    35.67%    passed     89.80%
+ 324  HEV-3f1a_MW355227.1    35.85%    passed     95.20%
+ 325  HEV-3f1a_MW355244.1    35.85%    passed     77.81%
+ 326  HEV-3f1a_MW355259.1    35.87%    passed     84.69%
+ 327  HEV-3f1a_MW355361.1    35.59%    passed     92.92%
+ 328  HEV-3f1a_MZ289091.1    37.14%    passed     92.50%
+ 329  HEV-3f1a_MZ289089.1    37.21%    passed     73.49%
+ 330  HEV-3f1a_MZ289097.1    37.14%    passed     73.08%
+ 331  HEV-3f2b_MZ289138.1    36.90%    passed     75.31%
+ 332  HEV-3f1a_MF444033.1    35.69%    passed     85.89%
+ 333  HEV-3f1a_MF444052.1    35.92%    passed     96.53%
+ 334  HEV-3f1a_MH450020.1    35.53%    passed     83.00%
+ 335  HEV-3f1a_MH450023.1    35.49%    passed     90.00%
+ 336  HEV-3f1a_MH450024.1    35.54%    passed     70.77%
+ 337  HEV-3f1a_MH450025.1    35.49%    passed     83.19%
+ 338  HEV-3f1a_MH450027.1    35.51%    passed     83.57%
+ 339  HEV-3f1a_MH450028.1    35.54%    passed     83.95%
+ 340  HEV-3f1a_MH450029.1    35.53%    passed     81.58%
+ 341  HEV-3f1a_MH450026.1    35.64%    passed     67.99%
+ 342  HEV-3f1a_MH450030.1    35.52%    passed     46.60%
+ 343  HEV-3f1a_MH450031.1    35.56%    passed     48.79%
+ 344  HEV-3f1a_OK340738.1    35.47%    passed     82.77%
+ 345  HEV-3f1a_MN735217.1    35.43%    passed     75.74%
+ 346  HEV-3f1a_MH504151.1    35.50%    passed     97.72%
+ 347  HEV-3f1a_MW355291.1    34.84%    passed     93.78%
+ 348  HEV-3f1a_MW355390.1    35.96%    passed     86.43%
+ 349  HEV-3f1a_MF444102.1    35.12%    passed     64.79%
+ 350  HEV-3f2b_MF444045.1    34.74%    passed     98.89%
+ 351  HEV-3f2b_MW355348.1    34.89%    passed     77.64%
+ 352  HEV-3f2b_MW355315.1    35.15%    passed     80.73%
+ 353  HEV-3f1a_MF444083.1    35.43%    passed     68.55%
+ 354  HEV-3f2b_MW355239.1    35.17%    passed     57.42%
+ 355  HEV-3j_FJ956757.1      35.23%    passed     99.54%
+ 356  HEV-3f1a_MF444113.1    35.91%    passed     89.64%
+ 357  HEV-3f1a_MF444144.1    36.18%    passed     97.89%
+ 358  HEV-3f1a_MW355285.1    34.00%    passed     89.89%
+ 359  HEV-3f1a_MN614142.1    44.78%    passed     64.90%
+ 360  HEV-3f1a_MN614143.1    42.59%    passed     65.92%
+ 361  HEV-3f1a_LC406633.1    35.66%    passed     72.58%
+ 362  HEV-3f1b_MZ289095.1    38.78%    passed     88.55%
+ 363  HEV-3f1a_MZ289101.1    37.20%    passed     89.57%
+ 364  HEV-3f1a_MZ289110.1    37.19%    passed     91.69%
+ 365  HEV-3f1a_MZ289117.1    37.19%    passed     88.80%
+ 366  HEV-3f1a_MZ289121.1    37.19%    passed     90.31%
+ 367  HEV-3f1a_MZ289135.1    37.20%    passed     77.06%
+ 368  HEV-3f1a_MZ289079.1    37.21%    passed     96.60%
+ 369  HEV-3f1a_MZ289083.1    37.20%    passed     91.57%
+ 370  HEV-3f1b_MZ289084.1    37.21%    passed     96.48%
+ 371  HEV-3f1a_MW355377.1    36.06%    passed     95.72%
+ 372  HEV-3f1a_MF444075.1    35.65%    passed     98.10%
+ 373  HEV-3f1a_MW355404.1    35.93%    passed     93.52%
+ 374  HEV-3f1a_MW355366.1    35.32%    passed     62.91%
+ 375  HEV-3f1b_MW355290.1    35.86%    passed     82.55%
+ 376  HEV-3f1a_MZ289137.1    37.52%    passed     95.38%
+ 377  HEV-3f1a_MW355359.1    35.93%    passed     81.34%
+ 378  HEV-3f1b_MW355344.1    35.92%    passed     83.45%
+ 379  HEV-3f1a_MZ289104.1    37.21%    passed     83.18%
+ 380  HEV-3f1a_MW355281.1    35.77%    passed     97.12%
+ 381  HEV-3f1a_MZ289112.1    37.24%    passed     98.72%
+ 382  HEV-3f1a_MZ289094.1    37.21%    passed     81.36%
+ 383  HEV-3f1a_MF444053.1    36.20%    passed     85.71%
+ 384  HEV-3f1a_MF444091.1    35.58%    passed     88.33%
+ 385  HEV-3f1a_MW355243.1    35.69%    passed     90.47%
+ 386  HEV-3f1a_MZ289093.1    37.21%    passed     80.05%
+ 387  HEV-3f1a_MZ289149.1    37.21%    passed     56.95%
+ 388  HEV-3f1a_MW355368.1    35.51%    passed     91.21%
+ 389  HEV-3f1a_MW355400.1    35.13%    passed     20.45%
+ 390  HEV-3f1b_MW355382.1    35.92%    passed     77.56%
+ 391  HEV-3f1b_EU723512.2    35.50%    passed     98.62%
+ 392  HEV-3f1b_EU723513.1    35.71%    passed     80.93%
+ 393  HEV-3f1a_MZ983635.1    36.20%    passed     64.91%
+ 394  HEV-3f2a_EU360977.1    35.15%    passed     89.01%
+ 395  HEV-3f2a_KT581444.1    35.42%    passed     91.41%
+ 396  HEV-3f2a_KT581446.1    35.67%    passed     98.98%
+ 397  HEV-3f2a_KT581447.1    35.85%    passed     99.71%
+ 398  HEV-3f2a_KT581445.1    35.42%    passed     96.63%
+ 399  HEV-3f2a_KU980235.1    35.19%    passed     93.54%
+ 400  HEV-3f2a_KT581443.1    35.59%    passed     99.52%
+ 401  HEV-3f2a_KU747141.1    35.97%    passed     91.40%
+ 402  HEV-3f2a_KU747142.1    36.01%    passed     98.64%
+ 403  HEV-3f2a_OK076715.1    35.47%    passed     85.52%
+ 404  HEV-3f2a_MF444080.1    36.13%    passed     95.72%
+ 405  HEV-3f2a_KT447527.1    35.12%    passed     82.44%
+ 406  HEV-3f2a_MW355369.1    35.80%    passed     99.42%
+ 407  HEV-3f2a_MT840365.1    38.78%    passed     90.72%
+ 408  HEV-3f2a_OK429318.1    35.36%    passed     80.12%
+ 409  HEV-3f2a_OK429319.1    35.36%    passed     94.83%
+ 410  HEV-3f2a_MK089847.1    35.15%    passed     74.46%
+ 411  HEV-3f2a_MH504147.1    35.79%    passed     89.33%
+ 412  HEV-3f2a_OK340740.1    35.45%    passed     95.17%
+ 413  HEV-3f2a_MZ289122.1    37.19%    passed     90.90%
+ 414  HEV-3f2a_MW355319.1    35.93%    passed     89.70%
+ 415  HEV-3f2a_MH377725.1    34.85%    passed     71.45%
+ 416  HEV-3uc1_AB290313.1    35.29%    passed     56.78%
+ 417  HEV-3f1a_MH664124.2    35.42%    passed     75.26%
+ 418  HEV-3e_AB248520.1      34.92%    passed     94.30%
+ 419  HEV-3e_AB291958.1      35.93%    passed     98.48%
+ 420  HEV-3e_AB780450.1      36.44%    passed     80.48%
+ 421  HEV-3e_AB780451.1      36.18%    passed     85.26%
+ 422  HEV-3e_AB780453.1      36.10%    passed     85.22%
+ 423  HEV-3e_AB780452.1      35.95%    passed     75.93%
+ 424  HEV-3e_JQ953665.1      35.25%    passed     62.19%
+ 425  HEV-3e_AB248521.1      35.49%    passed     77.74%
+ 426  HEV-3e_AB481226.1      35.44%    passed     74.21%
+ 427  HEV-3e_AB248522.1      35.43%    passed     96.70%
+ 428  HEV-3e_JQ026407.1      35.53%    passed     71.20%
+ 429  HEV-3e_FJ998015.1      36.08%    passed     99.69%
+ 430  HEV-3e_MK089848.1      35.16%    passed     98.31%
+ 431  HEV-3e_HM055578.1      35.74%    passed     65.40%
+ 432  HEV-3e_KF922359.1      36.26%    passed     38.83%
+ 433  HEV-3e_MH504153.1      35.48%    passed     91.57%
+ 434  HEV-3e_MH184579.1      35.85%    passed     89.55%
+ 435  HEV-3e_MH184584.1      35.50%    passed     95.91%
+ 436  HEV-3e_MH504148.1      35.44%    passed     51.34%
+ 437  HEV-3e_JQ013795.1      35.46%    passed     97.63%
+ 438  HEV-3e_MF444109.1      35.76%    passed     96.03%
+ 439  HEV-3e_MF444141.1      36.14%    passed     98.08%
+ 440  HEV-3e_MW355403.1      36.02%    passed     98.47%
+ 441  HEV-3e_MH504146.1      35.27%    passed     95.60%
+ 442  HEV-3e_MT840363.1      35.31%    passed     87.45%
+ 443  HEV-3e_MT840367.1      35.76%    passed     97.54%
+ 444  HEV-3e_OL658617.1      35.37%    passed     97.63%
+ 445  HEV-3e_KP698919.1      35.81%    passed     87.78%
+ 446  HEV-3e_MH504145.1      35.27%    passed     92.58%
+ 447  HEV-3e_MH184583.1      36.00%    passed     93.28%
+ 448  HEV-3e_MH184582.1      36.02%    passed     80.63%
+ 449  HEV-3e_MH504139.1      35.37%    passed     99.07%
+ 450  HEV-3e_MH504152.1      35.33%    passed     98.53%
+ 451  HEV-3e_MH504140.1      35.27%    passed     99.56%
+ 452  HEV-3e_MH504141.1      35.44%    passed     78.94%
+ 453  HEV-3e_MH504142.1      35.49%    passed     74.65%
+ 454  HEV-3e_MH504143.1      35.48%    passed     83.49%
+ 455  HEV-3e_MH504149.1      35.56%    passed     63.75%
+ 456  HEV-3e_MH504150.1      35.32%    passed     97.62%
+ 457  HEV-3f2b_MH184580.1    34.67%    passed     93.77%
+ 458  HEV-3f2b_MH184581.1    34.50%    passed     92.43%
+ 459  HEV-3e_MH504144.1      35.47%    passed     59.10%
+ 460  HEV-3e_MF444086.1      35.46%    passed     94.01%
+ 461  HEV-3e_MN646690.1      34.43%    passed     81.80%
+ 462  HEV-3e_MN646691.1      34.41%    passed     82.24%
+ 463  HEV-3e_MH377724.1      34.83%    passed     70.55%
+ 464  HEV-3f2b_KJ873911.1    40.22%    passed     64.08%
+ 465  HEV-3g_AF455784.1      35.40%    passed     73.14%
+ 466  HEV-3a_AB074918.2      35.14%    passed     94.18%
+ 467  HEV-3a_LC406474.1      35.99%    passed     88.16%
+ 468  HEV-3a_LC406553.1      36.17%    passed     93.46%
+ 469  HEV-3a_LC406508.1      36.17%    passed     91.21%
+ 470  HEV-3a_LC406569.1      36.15%    passed     91.87%
+ 471  HEV-3a_AB630970.1      35.14%    passed     97.28%
+ 472  HEV-3a_AB074920.3      35.28%    passed     74.27%
+ 473  HEV-3a_LC406534.1      35.31%    passed     58.60%
+ 474  HEV-3a_LC406581.1      35.31%    passed     79.10%
+ 475  HEV-3a_LC406600.1      36.47%    passed     41.18%
+ 476  HEV-3a_LC406651.1      35.32%    passed     53.13%
+ 477  HEV-3a_AB089824.1      35.09%    passed     77.39%
+ 478  HEV-3a_AB481228.1      35.05%    passed     99.96%
+ 479  HEV-3a_AF060668.1      35.70%    passed     61.29%
+ 480  HEV-3a_LC406501.1      35.56%    passed     72.30%
+ 481  HEV-3a_LC406517.1      35.56%    passed     97.21%
+ 482  HEV-3a_LC406607.1      35.30%    passed     91.03%
+ 483  HEV-3a_LC406612.1      35.31%    passed     92.95%
+ 484  HEV-3a_AF060669.1      35.07%    passed     90.91%
+ 485  HEV-3a_JN837481.1      35.18%    passed     64.24%
+ 486  HEV-3a_KJ507955.1      35.26%    passed     84.03%
+ 487  HEV-3a_AF082843.1      35.58%    passed     90.35%
+ 488  HEV-3a_LC406603.1      36.68%    passed     84.84%
+ 489  HEV-3a_LC406617.1      35.13%    passed     94.12%
+ 490  HEV-3a_LC406618.1      35.13%    passed     94.12%
+ 491  HEV-3a_LC406619.1      35.32%    passed     94.13%
+ 492  HEV-3a_LC406620.1      35.32%    passed     94.13%
+ 493  HEV-3a_LC406621.1      35.32%    passed     94.13%
+ 494  HEV-3a_LC406622.1      35.32%    passed     94.13%
+ 495  HEV-3a_LC406624.1      35.32%    passed     94.13%
+ 496  HEV-3a_LC406623.1      35.34%    passed     94.05%
+ 497  HEV-3a_LC406625.1      35.34%    passed     95.58%
+ 498  HEV-3a_KT447526.1      35.13%    passed     94.93%
+ 499  HEV-3a_KT447528.1      35.13%    passed     97.63%
+ 500  HEV-3a_LC406571.1      35.36%    passed     95.44%
+ 501  HEV-3a_LC406610.1      36.29%    passed     86.85%
+ 502  HEV-3a_MW355288.1      35.17%    passed     84.75%
+ 503  HEV-3a_HQ389543.1      35.11%    passed     86.55%
+ 504  HEV-3a_JQ679014.1      34.92%    passed     89.49%
+ 505  HEV-3a_HQ389544.1      33.57%    passed     78.22%
+ 506  HEV-3a_HQ709170.1      33.61%    passed     76.40%
+ 507  HEV-3a_JQ679013.1      32.97%    passed     38.84%
+ 508  HEV-3a_JN564006.1      34.81%    passed     64.74%
+ 509  HEV-3a_LC406644.1      36.37%    passed     95.12%
+ 510  HEV-3k_LC406662.1      35.46%    passed     92.33%
+ 511  HEV-3a_FJ426403.1      35.18%    passed     81.07%
+ 512  HEV-3a_FJ426404.1      35.29%    passed     97.62%
+ 513  HEV-3a_MN614429.1      35.29%    passed     97.52%
+ 514  HEV-3a_MN614430.1      35.29%    passed     96.73%
+ 515  HEV-3a_KX574712.1      35.07%    passed     94.32%
+ 516  HEV-3a_LC406493.1      35.28%    passed     87.02%
+ 517  HEV-3g_LC406539.1      35.68%    passed     89.29%
+ 518  HEV-3k_LC406583.1      35.38%    passed     99.81%
+ 519  HEV-3a_MW355225.1      35.71%    passed     91.02%
+ 520  HEV-3b_LC406629.1      36.90%    passed     88.09%
+ 521  HEV-3k_LC406635.1      36.76%    passed     93.22%
+ 522  HEV-3a_AB591734.1      35.20%    passed     90.85%
+ 523  HEV-3a_LC406639.1      35.52%    passed     98.34%
+ 524  HEV-3a_MH450022.1      35.42%    passed     53.00%
+ 525  HEV-3a_LC406541.1      36.62%    passed     99.99%
+ 526  HEV-3a_KT727028.1      34.89%    passed     83.08%
+ 527  HEV-3a_KX981911.1      34.58%    passed     55.86%
+ 528  HEV-3a_KF303502.2      36.17%    passed     89.78%
+ 529  HEV-3a_MH504130.1      35.59%    passed     84.68%
+ 530  HEV-3a_OK340739.1      35.70%    passed     95.86%
+ 531  HEV-3a_MG833836.1      35.18%    passed     85.99%
+ 532  HEV-3j_AY115488.1      35.15%    passed     98.76%
+ 533  HEV-3k_AB369689.1      35.51%    passed     82.10%
+ 534  HEV-3k_LC131066.1      35.30%    passed     61.57%
+ 535  HEV-3k_LC176492.1      35.33%    passed     84.75%
+ 536  HEV-3k_LC176493.1      35.33%    passed     83.44%
+ 537  HEV-3k_LC406561.1      36.01%    passed     88.76%
+ 538  HEV-3k_AB740232.1      35.05%    passed     56.19%
+ 539  HEV-3b_AB073912.1      35.13%    passed     41.35%
+ 540  HEV-3b_LC406523.1      35.51%    passed     71.36%
+ 541  HEV-3b_LC406572.1      35.50%    passed     70.45%
+ 542  HEV-3b_AB091394.1      35.49%    passed     88.29%
+ 543  HEV-3b_AB222182.1      35.30%    passed     93.04%
+ 544  HEV-3b_AB630971.1      35.30%    passed     97.74%
+ 545  HEV-3b_AB222183.1      35.27%    passed     87.62%
+ 546  HEV-3b_LC406533.1      35.53%    passed     92.15%
+ 547  HEV-3b_LC386855.1      35.37%    passed     86.60%
+ 548  HEV-3b_AB236320.1      35.33%    passed     96.92%
+ 549  HEV-3b_AB591733.1      35.32%    passed     97.03%
+ 550  HEV-3b_LC406505.1      35.47%    passed     97.22%
+ 551  HEV-3b_AB301710.1      35.23%    passed     99.43%
+ 552  HEV-3b_AB362840.1      35.24%    passed     99.34%
+ 553  HEV-3b_AB362841.1      35.23%    passed     99.27%
+ 554  HEV-3b_AB362839.1      35.25%    passed     99.18%
+ 555  HEV-3b_AB362842.1      35.24%    passed     99.21%
+ 556  HEV-3b_LC126331.1      35.27%    passed     99.32%
+ 557  HEV-3b_LC126332.1      35.23%    passed     99.53%
+ 558  HEV-3b_AB362843.1      35.23%    passed     98.58%
+ 559  HEV-3b_AB425830.1      35.23%    passed     98.61%
+ 560  HEV-3b_AB425831.1      35.23%    passed     99.27%
+ 561  HEV-3b_AB593690.1      35.24%    passed     99.45%
+ 562  HEV-3b_AB481229.1      35.29%    passed     98.83%
+ 563  HEV-3b_LC439299.1      35.30%    passed     98.66%
+ 564  HEV-3b_LC490579.1      35.33%    passed     98.75%
+ 565  HEV-3b_LC406560.1      35.48%    passed     95.28%
+ 566  HEV-3b_LC406562.1      35.48%    passed     98.42%
+ 567  HEV-3b_LC406611.1      35.26%    passed     98.17%
+ 568  HEV-3b_LC406643.1      35.47%    passed     97.08%
+ 569  HEV-3b_LC406657.1      36.16%    passed     92.00%
+ 570  HEV-3b_AB291963.1      35.32%    passed     66.86%
+ 571  HEV-3b_AB246676.1      35.36%    passed     98.25%
+ 572  HEV-3b_LC406546.1      35.48%    passed     91.84%
+ 573  HEV-3b_LC406518.1      35.46%    passed     77.42%
+ 574  HEV-3b_LC406646.1      36.83%    passed     57.11%
+ 575  HEV-3b_LC406555.1      36.35%    passed     96.47%
+ 576  HEV-3b_LC406578.1      35.49%    passed     90.35%
+ 577  HEV-3b_LC406626.1      35.50%    passed     92.15%
+ 578  HEV-3b_LC406606.1      35.50%    passed     86.59%
+ 579  HEV-3b_AB189070.1      35.22%    passed     91.25%
+ 580  HEV-3b_AB698071.1      35.41%    passed     90.04%
+ 581  HEV-3b_AB189071.1      35.37%    passed     91.21%
+ 582  HEV-3b_AB189072.1      35.82%    passed     93.02%
+ 583  HEV-3b_AB189074.1      35.82%    passed     93.55%
+ 584  HEV-3b_AB189075.1      35.82%    passed     93.23%
+ 585  HEV-3b_AB189073.1      35.82%    passed     94.95%
+ 586  HEV-3b_AB369691.1      35.51%    passed     76.66%
+ 587  HEV-3b_LC406522.1      35.47%    passed     71.43%
+ 588  HEV-3b_LC406601.1      35.48%    passed     82.32%
+ 589  HEV-3b_AP003430.1      35.37%    passed     99.68%
+ 590  HEV-3b_LC406542.1      35.52%    passed     97.13%
+ 591  HEV-3b_LC406492.1      36.59%    passed     90.34%
+ 592  HEV-3b_LC406650.1      35.45%    passed     95.85%
+ 593  HEV-3b_LC406580.1      35.46%    passed     94.64%
+ 594  HEV-3b_LC406627.1      35.48%    passed     95.88%
+ 595  HEV-3b_LC406585.1      36.47%    passed     97.47%
+ 596  HEV-3b_LC406524.1      35.47%    passed     97.05%
+ 597  HEV-3b_AB291962.1      35.32%    passed     99.89%
+ 598  HEV-3b_LC406497.1      35.56%    passed     93.44%
+ 599  HEV-3b_LC406531.1      35.52%    passed     98.32%
+ 600  HEV-3b_LC406575.1      35.47%    passed     99.12%
+ 601  HEV-3b_LC406632.1      35.45%    passed     90.95%
+ 602  HEV-3b_LC406658.1      36.98%    passed     41.97%
+ 603  HEV-3b_LC406526.1      36.80%    passed     77.61%
+ 604  HEV-3b_AB291951.1      35.51%    passed     50.02%
+ 605  HEV-3b_AB291952.1      35.51%    passed     18.39%
+ 606  HEV-3b_AB291953.1      35.51%    passed     24.46%
+ 607  HEV-3b_AB291955.1      35.51%    passed     26.34%
+ 608  HEV-3b_AB291956.1      35.51%    passed     23.69%
+ 609  HEV-3b_AB443625.1      35.56%    passed     14.98%
+ 610  HEV-3b_AB443627.1      35.55%    passed     16.41%
+ 611  HEV-3b_AB291954.1      35.51%    passed     35.36%
+ 612  HEV-3b_AB291957.1      35.51%    passed     36.38%
+ 613  HEV-3b_AB291960.1      35.32%    passed     42.29%
+ 614  HEV-3b_AB443623.1      35.56%    passed     41.66%
+ 615  HEV-3b_AB443624.1      35.56%    passed     41.66%
+ 616  HEV-3b_AB443626.1      35.56%    passed     43.38%
+ 617  HEV-3b_LC651410.1      35.24%    passed     63.69%
+ 618  HEV-3b_LC406636.1      35.48%    passed     81.36%
+ 619  HEV-3b_AB222184.1      35.29%    passed     94.93%
+ 620  HEV-3b_LC406637.1      35.49%    passed     98.98%
+ 621  HEV-3b_LC406579.1      35.49%    passed     95.92%
+ 622  HEV-3b_LC406587.1      35.47%    passed     64.45%
+ 623  HEV-3b_FJ527832.2      35.15%    passed     80.90%
+ 624  HEV-3b_OM780137.1      35.16%    passed     72.34%
+ 625  HEV-3b_LC406475.1      35.26%    passed     38.14%
+ 626  HEV-3b_LC406645.1      35.52%    passed     93.27%
+ 627  HEV-3b_KJ507956.1      35.42%    passed     94.12%
+ 628  HEV-3b_LC406615.1      35.52%    passed     92.86%
+ 629  HEV-3b_LC406647.1      35.47%    passed     90.94%
+ 630  HEV-3b_LC406654.1      35.49%    passed     80.65%
+ 631  HEV-3b_LC406648.1      35.81%    passed     67.23%
+ 632  HEV-3b_LC406535.1      35.50%    passed     98.46%
+ 633  HEV-3b_LC406509.1      35.41%    passed     88.83%
+ 634  HEV-3b_MW355222.1      35.31%    passed     57.29%
+ 635  HEV-3a_MW355298.1      35.93%    passed     95.44%
+ 636  HEV-3c_MF444064.1      36.04%    passed     96.37%
+ 637  HEV-3c_MW355323.1      35.43%    passed     96.11%
+ 638  HEV-3c_MW355221.1      35.57%    passed     98.13%
+ 639  HEV-3c_MW355385.1      35.94%    passed     99.41%
+ 640  HEV-3c_MW355235.1      35.98%    passed     97.54%
+ 641  HEV-3c_MW355297.1      35.41%    passed     97.15%
+ 642  HEV-3c_MW355357.1      35.43%    passed     96.77%
+ 643  HEV-3c_MW355280.1      35.38%    passed     96.67%
+ 644  HEV-3c_MW355231.1      36.01%    passed     95.50%
+ 645  HEV-3c_MW355277.1      35.84%    passed     97.76%
+ 646  HEV-3c_MH504133.1      35.38%    passed     95.39%
+ 647  HEV-3c_MN735215.1      35.51%    passed     94.27%
+ 648  HEV-3c_MW355364.1      35.97%    passed     96.12%
+ 649  HEV-3c_MH504125.1      35.38%    passed     88.23%
+ 650  HEV-3c_FJ705359.1      35.31%    passed     92.51%
+ 651  HEV-3c_MH504134.1      35.31%    passed     93.05%
+ 652  HEV-3c_MW355279.1      36.03%    passed     88.17%
+ 653  HEV-3c_MW837253.1      36.50%    passed     80.82%
+ 654  HEV-3c_MW837254.1      37.74%    passed     96.85%
+ 655  HEV-3c_MW837255.1      35.06%    passed     74.42%
+ 656  HEV-3c_MN614139.1      36.48%    passed     98.15%
+ 657  HEV-3c_MN614140.1      35.75%    passed     99.41%
+ 658  HEV-3c_MN629976.1      36.60%    passed     98.59%
+ 659  HEV-3c_MN614141.1      35.47%    passed     97.64%
+ 660  HEV-3c_MH504135.1      35.31%    passed     94.08%
+ 661  HEV-3c_MF444085.1      34.98%    passed     66.39%
+ 662  HEV-3c_MF444115.1      36.01%    passed     90.43%
+ 663  HEV-3c_MW355218.1      35.96%    passed     92.03%
+ 664  HEV-3c_MZ289133.1      37.24%    passed     92.87%
+ 665  HEV-3c_MH504127.1      35.45%    passed     97.56%
+ 666  HEV-3c_MH504138.1      35.31%    passed     97.98%
+ 667  HEV-3c_KC618402.1      33.65%    passed     93.16%
+ 668  HEV-3c_KC618403.1      33.65%    passed     94.78%
+ 669  HEV-3c_MH504137.1      35.31%    passed     97.61%
+ 670  HEV-3c_KX172133.1      35.31%    passed     95.11%
+ 671  HEV-3c_MW355234.1      35.72%    passed     95.53%
+ 672  HEV-3g_MT362711.1      35.98%    passed     91.89%
+ 673  HEV-3c_KU176129.1      35.80%    passed     89.68%
+ 674  HEV-3c_MK089849.1      35.18%    passed     92.89%
+ 675  HEV-3c_MT840359.1      35.55%    passed     94.91%
+ 676  HEV-3c_MT840360.1      36.88%    passed     83.93%
+ 677  HEV-3c_MT840362.1      37.61%    passed     88.05%
+ 678  HEV-3c_MT840361.1      39.45%    passed     91.44%
+ 679  HEV-3c_MW355273.1      35.99%    passed     90.94%
+ 680  HEV-3c_MW355220.1      35.73%    passed     97.28%
+ 681  HEV-3c_LC406479.1      36.58%    passed     81.37%
+ 682  HEV-3c_MW355245.1      35.99%    passed     97.30%
+ 683  HEV-3c_MH504124.1      35.31%    passed     88.78%
+ 684  HEV-3c_MW355233.1      36.14%    passed     96.81%
+ 685  HEV-3c_MW355268.1      35.95%    passed     97.91%
+ 686  HEV-3c_MW355309.1      35.98%    passed     97.83%
+ 687  HEV-3c_MW355295.1      36.10%    passed     95.62%
+ 688  HEV-3c_MW355316.1      35.74%    passed     98.28%
+ 689  HEV-3c_MW355378.1      35.42%    passed     97.84%
+ 690  HEV-3c_MW355256.1      35.71%    passed     99.17%
+ 691  HEV-3c_MW355320.1      35.95%    passed     97.36%
+ 692  HEV-3c_MW355286.1      35.94%    passed     98.14%
+ 693  HEV-3c_MW355370.1      35.90%    passed     94.35%
+ 694  HEV-3c_MW355270.1      35.78%    passed     97.98%
+ 695  HEV-3c_MH504131.1      35.36%    passed     94.99%
+ 696  HEV-3c_MW355304.1      35.97%    passed     91.15%
+ 697  HEV-3c_MW355338.1      35.85%    passed     92.35%
+ 698  HEV-3c_MW355313.1      36.13%    passed     95.48%
+ 699  HEV-3c_MH504128.1      35.36%    passed     94.72%
+ 700  HEV-3c_MW355345.1      35.29%    passed     67.19%
+ 701  HEV-3c_MW355402.1      35.93%    passed     97.28%
+ 702  HEV-3c_MW355287.1      35.33%    passed     98.14%
+ 703  HEV-3c_KT159771.1      35.19%    passed     16.43%
+ 704  HEV-3c_MH504136.1      35.48%    passed     97.62%
+ 705  HEV-3c_MW355367.1      35.68%    passed     97.67%
+ 706  HEV-3c_OK665855.1      36.54%    passed     65.40%
+ 707  HEV-3c_MW355294.1      35.35%    passed     92.34%
+ 708  HEV-3c_MW355362.1      35.96%    passed     60.33%
+ 709  HEV-3c_MH377723.1      34.85%    passed     47.85%
+ 710  HEV-3c_MW355332.1      34.82%    passed     71.52%
+ 711  HEV-3c_MH377727.1      34.85%    passed     38.36%
+ 712  HEV-3c_KX462160.1      35.60%    passed     81.43%
+ 713  HEV-3c_MH450021.1      35.44%    passed     91.12%
+ 714  HEV-3c_MW355328.1      35.94%    passed     89.58%
+ 715  HEV-3c_MH504126.1      35.32%    passed     77.38%
+ 716  HEV-3c_MH504129.1      35.31%    passed     84.60%
+ 717  HEV-3c_MT840364.1      38.10%    passed     64.64%
+ 718  HEV-3c_MT840366.1      36.65%    passed     92.19%
+ 719  HEV-3c_MH504132.1      35.51%    passed     55.81%
+ 720  HEV-3c_MF444043.1      35.42%    passed     94.52%
+ 721  HEV-3c_MW355264.1      35.34%    passed     82.69%
+ 722  HEV-3c_MW355334.1      35.40%    passed     91.59%
+ 723  HEV-3c_MW355341.1      35.36%    passed     92.98%
+ 724  HEV-3c_MF444114.1      36.25%    passed     73.79%
+ 725  HEV-3c_OK340742.1      35.59%    passed     87.12%
+ 726  HEV-3c_MH377722.1      34.86%    passed     49.46%
+ 727  HEV-3c_MN735216.1      35.51%    passed     97.41%
+ 728  HEV-3c_MZ463196.1      35.58%    passed     86.22%
+ 729  HEV-3c_KJ701409.1      37.03%    passed     72.78%
+ 730  HEV-3c_MF444031.1      36.24%    passed     79.22%
+ 731  HEV-3c_MF444049.1      35.79%    passed     81.16%
+ 732  HEV-3c_MW355229.1      36.06%    passed     89.03%
+ 733  HEV-3c_MW355269.1      36.12%    passed     93.87%
+ 734  HEV-3c_MW355303.1      36.10%    passed     91.56%
+ 735  HEV-3c_MF444042.1      35.51%    passed     93.23%
+ 736  HEV-3c_MF444063.1      36.78%    passed     66.16%
+ 737  HEV-3c_MW355217.1      35.34%    passed     94.60%
+ 738  HEV-3c_MW355391.1      35.38%    passed     94.84%
+ 739  HEV-3c_MF444111.1      35.79%    passed     95.99%
+ 740  HEV-3c_MF444044.1      36.30%    passed     90.12%
+ 741  HEV-3c_MF444143.1      35.69%    passed     97.45%
+ 742  HEV-3c_MW355224.1      35.96%    passed     94.92%
+ 743  HEV-3c_MW355283.1      36.00%    passed     96.10%
+ 744  HEV-3c_MW355293.1      35.95%    passed     94.11%
+ 745  HEV-3c_MW355347.1      35.94%    passed     96.40%
+ 746  HEV-3c_MW355335.1      36.05%    passed     96.47%
+ 747  HEV-3c_MW355278.1      35.96%    passed     94.18%
+ 748  HEV-3c_MW355386.1      35.95%    passed     94.44%
+ 749  HEV-3c_MW355327.1      35.92%    passed     97.84%
+ 750  HEV-3c_MW355232.1      35.70%    passed     98.81%
+ 751  HEV-3c_MW355267.1      35.30%    passed     97.73%
+ 752  HEV-3c_MW355262.1      35.37%    passed     96.90%
+ 753  HEV-3c_MW355365.1      35.72%    passed     94.10%
+ 754  HEV-3c_MF444071.1      36.28%    passed     88.46%
+ 755  HEV-3c_MW355374.1      35.67%    passed     84.41%
+ 756  HEV-3c_MW355263.1      34.43%    passed     96.34%
+ 757  HEV-3c_MW355379.1      35.99%    passed     95.29%
+ 758  HEV-3c_MW355271.1      35.97%    passed     98.38%
+ 759  HEV-3c_MW355312.1      35.94%    passed     89.68%
+ 760  HEV-3c_MW355284.1      35.67%    passed     90.61%
+ 761  HEV-3c_MF444072.1      35.35%    passed     92.22%
+ 762  HEV-3c_MW355300.1      35.95%    passed     95.14%
+ 763  HEV-3c_MW355314.1      35.85%    passed     88.96%
+ 764  HEV-3c_MW355321.1      35.91%    passed     96.29%
+ 765  HEV-3c_MF444122.1      35.67%    passed     81.20%
+ 766  HEV-3c_MW355282.1      35.96%    passed     61.96%
+ 767  HEV-3c_MF444065.1      35.82%    passed     91.73%
+ 768  HEV-3c_MF444128.1      35.56%    passed     83.50%
+ 769  HEV-3c_MF444106.1      35.78%    passed     85.72%
+ 770  HEV-3c_MG783569.1      35.31%    passed     80.93%
+ 771  HEV-3c_MW355372.1      35.95%    passed     88.76%
+ 772  HEV-3c_MW355360.1      36.01%    passed     91.93%
+ 773  HEV-3c_MG783570.1      35.29%    passed     94.12%
+ 774  HEV-3c_MW355226.1      35.37%    passed     77.03%
+ 775  HEV-3f2b_MZ289076.1    36.49%    passed     88.37%
+ 776  HEV-3c_OM104034.1      37.07%    passed     96.01%
+ 777  HEV-3i_FJ998008.1      35.60%    passed     75.45%
+ 778  HEV-3i_MH377721.1      34.85%    passed     74.74%
+ 779  HEV-3uc3_LR777863.1    35.05%    passed     77.17%
+ 780  HEV-3uc3_LR777865.1    35.35%    passed     75.82%
+ 781  HEV-3uc3_LR777864.1    35.05%    passed     75.76%
+ 782  HEV-3uc3_OK340741.1    35.64%    passed     91.59%
+ 783  HEV-3uc3_LR777866.1    35.05%    passed     75.33%
+ 784  HEV-3uc3_MF959764.1    35.62%    passed     71.88%
+ 785  HEV-3uc3_MW355317.1    35.95%    passed     59.35%
+ 786  HEV-3uc3_MW355383.1    33.68%    passed     96.86%
+ 787  HEV-3uc3_OK076716.1    35.51%    passed     70.47%
+ 788  HEV-3uc2_KP294371.1    35.04%    passed     65.34%
+ 789  HEV-3m_KU176130.1      35.65%    passed     92.11%
+ 790  HEV-3m_KU513561.1      36.69%    passed     92.37%
+ 791  HEV-3m_MF444089.1      35.94%    passed     94.22%
+ 792  HEV-3m_MN646694.1      35.03%    passed     71.11%
+ 793  HEV-3m_MZ289090.1      37.21%    passed     93.50%
+ 794  HEV-3m_MZ289096.1      37.21%    passed     93.50%
+ 795  HEV-3m_MZ289119.1      37.28%    passed     92.47%
+ 796  HEV-3m_MW355399.1      35.41%    passed     88.51%
+ 797  HEV-3m_LC406481.1      35.50%    passed     67.63%
+ 798  HEV-3m_MF444030.1      35.36%    passed     60.55%
+ 799  HEV-3m_MZ289100.1      37.22%    passed     39.34%
+ 800  HEV-3m_MZ289082.1      37.24%    passed     41.90%
+ 801  HEV-3m_MW355236.1      35.35%    passed     76.33%
+ 802  HEV-3m_MZ289113.1      37.28%    passed     55.43%
+ 803  HEV-3m_MZ289103.1      37.24%    passed     43.07%
+ 804  HEV-3h1_AB290312.1     35.31%    passed     74.32%
+ 805  HEV-3h1_JQ013794.1     35.84%    passed     43.44%
+ 806  HEV-3h1_MF444120.1     35.83%    passed     37.10%
+ 807  HEV-3h1_MW355246.1     35.66%    passed     41.51%
+ 808  HEV-3h1_MF444056.1     36.01%    passed     47.10%
+ 809  HEV-3h1_KU176131.1     35.49%    passed     83.60%
+ 810  HEV-3h1_MF444037.1     35.49%    passed     73.01%
+ 811  HEV-3h1_MF444136.1     35.87%    passed     82.29%
+ 812  HEV-3h1_MF444077.1     35.35%    passed     84.45%
+ 813  HEV-3h1_MF444110.1     35.28%    passed     81.31%
+ 814  HEV-3h1_KU176132.1     35.54%    passed     69.11%
+ 815  HEV-3h1_MW355302.1     36.07%    passed     75.92%
+ 816  HEV-3h1_MF444145.1     34.68%    passed     40.20%
+ 817  HEV-3h1_MW355307.1     35.26%    passed     82.79%
+ 818  HEV-3h1_KY780957.1     35.25%    passed     72.97%
+ 819  HEV-3h1_MF346772.1     35.30%    passed     56.68%
+ 820  HEV-3h1_MF346773.1     35.40%    passed     55.06%
+ 821  HEV-3h1_MG573193.1     35.26%    passed     66.54%
+ 822  HEV-3h1_MZ923557.1     36.05%    passed     69.14%
+ 823  HEV-3h1_MZ923543.1     36.59%    passed     63.31%
+ 824  HEV-3h1_MZ923533.1     35.30%    passed     82.51%
+ 825  HEV-3h1_MZ923536.1     35.26%    passed     75.52%
+ 826  HEV-3h1_MZ923534.1     36.31%    passed     52.15%
+ 827  HEV-3h1_MN714358.1     35.31%    passed     47.07%
+ 828  HEV-3l_JQ953664.1      35.30%    passed     74.42%
+ 829  HEV-3l_KY766999.1      36.33%    passed     77.19%
+ 830  HEV-3l_MG674164.1      36.29%    passed     77.93%
+ 831  HEV-3l_MF444121.1      37.58%    passed     57.09%
+ 832  HEV-3l_MF444131.1      36.06%    passed     28.69%
+ 833  HEV-3l_MW355275.1      35.82%    passed     49.35%
+ 834  HEV-3i_MW596896.1      35.38%    passed     58.59%
+ 835  HEV-3uc3_MZ969073.1    36.72%    passed     89.21%
+ 836  HEV-3uc6_MK390970.1    35.55%    passed     97.40%
+ 837  HEV-3uc6_MK390971.1    35.55%    passed     94.55%
+ 838  HEV-3uc6_OK340737.1    35.66%    passed     82.78%
+ 839  HEV-3uc4_MF959765.1    35.38%    passed     95.76%
+ 840  HEV-3uc5_LC260517.1    35.51%    passed     44.91%
+ 841  HEV-3b_KT633715.1      35.23%    passed      7.88%
+ 842  HEV-3g_MG783571.1      35.63%    passed     10.45%
+ 843  HEV-3a_JQ013792.1      35.30%    passed     93.67%
+ 844  HEV-3ra_JQ013791.1     35.00%    passed     96.51%
+ 845  HEV-3ra_AB740220.1     34.77%    passed     55.67%
+ 846  HEV-3ra_KX227751.1     34.73%    passed     75.95%
+ 847  HEV-3ra_AB740222.1     34.69%    passed     50.34%
+ 848  HEV-3ra_FJ906895.1     34.58%    passed     19.28%
+ 849  HEV-3ra_MT364355.1     34.67%    passed     38.61%
+ 850  HEV-3ra_MF444099.1     35.18%    passed     27.97%
+ 851  HEV-3ra_MZ676761.1     35.78%    passed     94.75%
+ 852  HEV-3ra_MZ676749.1     35.81%    passed     53.35%
+ 853  HEV-3ra_MZ676760.1     35.79%    passed     58.68%
+ 854  HEV-3ra_MZ676757.1     35.79%    passed     44.64%
+ 855  HEV-3ra_MZ676774.1     35.79%    passed     33.89%
+ 856  HEV-3ra_MZ676755.1     35.79%    passed     25.34%
+ 857  HEV-3ra_MZ676773.1     35.79%    passed     36.35%
+ 858  HEV-3ra_JX565469.1     34.69%    passed     98.96%
+ 859  HEV-3ra_GU937805.1     34.67%    passed     96.55%
+ 860  HEV-3ra_LC535077.1     34.80%    passed     68.97%
+ 861  HEV-3ra_FJ906896.1     34.74%    passed     98.00%
+ 862  HEV-3ra_JQ013793.1     35.03%    passed     83.90%
+ 863  HEV-3ra_MW002522.1     35.74%    passed     33.54%
+ 864  HEV-3ra_MW002523.1     35.01%    passed     42.29%
+ 865  HEV-3ra_MZ676765.1     35.77%    passed     36.27%
+ 866  HEV-3ra_MZ676752.1     35.84%    passed     35.71%
+ 867  HEV-3ra_MZ676768.1     35.76%    passed     81.16%
+ 868  HEV-3ra_MZ676751.1     35.76%    passed     43.97%
+ 869  HEV-3ra_MZ676756.1     35.76%    passed     50.01%
+ 870  HEV-3ra_MZ676759.1     35.84%    passed     37.61%
+ 871  HEV-3ra_MZ676763.1     35.76%    passed     51.18%
+ 872  HEV-3ra_MZ676769.1     35.80%    passed     70.86%
+ 873  HEV-3ra_MZ676770.1     35.76%    passed     58.03%
+ 874  HEV-3ra_MZ676754.1     35.76%    passed     70.09%
+ 875  HEV-3ra_MZ676758.1     35.76%    passed     79.21%
+ 876  HEV-3ra_MZ676764.1     35.76%    passed     82.23%
+ 877  HEV-3ra_MZ676762.1     35.77%    passed     88.71%
+ 878  HEV-3ra_MZ676771.1     37.03%    passed     83.98%
+ 879  HEV-3ra_MZ676766.1     35.77%    passed     59.59%
+ 880  HEV-3ra_MZ676767.1     36.28%    passed     64.31%
+ 881  HEV-3ra_MZ676753.1     36.13%    passed     78.57%
+ 882  HEV-3ra_MZ676772.1     36.19%    passed     56.50%
+ 883  HEV-3ra_KY496200.1     34.75%    passed     98.06%
+ 884  HEV-3ra_MZ676750.1     35.76%    passed     91.50%
+ 885  HEV-3ra_KY436898.1     34.96%    passed     52.03%
+ 886  HEV-3ra_MK050463.1     35.83%    passed     99.99%
+ 887  HEV-3ra_MF480297.1     34.73%    passed     98.75%
+ 888  HEV-3ra_MF480298.1     34.90%    passed     91.43%
+ 889  HEV-3ra_MF444074.1     35.60%    passed     60.72%
+ 890  HEV-3ra_MG211750.1     35.38%    passed     76.30%
+ 891  HEV-3ra_MG211751.1     35.00%    passed     65.04%
+ 892  HEV-3g_OM777188.1      35.20%    passed     14.96%
+ 893  HEV-3f2b_KJ873912.1    62.00%    passed     72.72%
+ 894  HEV-3g_MZ983634.1      36.37%    passed     12.22%
+ 895  HEV-4a_AB197673.1      35.13%    passed     13.41%
+ 896  HEV-4a_GU119960.2      35.16%    passed     10.06%
+ 897  HEV-4a_HQ634346.1      35.14%    passed      8.54%
+ 898  HEV-4a_MK330953.1      35.01%    passed     25.28%
+ 899  HEV-4a_EU366959.1      34.92%    failed      1.47%
+ 900  HEV-4a_MF567575.1      36.23%    passed      7.70%
+ 901  HEV-4a_KC492825.1      35.20%    passed     24.24%
+ 902  HEV-4a_OP185389.1      35.06%    passed     22.54%
+ 903  HEV-4a_ON226517.1      35.82%    passed     13.24%
+ 904  HEV-4a_ON571310.1      35.82%    passed     13.24%
+ 905  HEV-4a_KC692453.1      34.74%    passed     13.68%
+ 906  HEV-4a_MK410047.1      35.28%    passed     28.74%
+ 907  HEV-4a_LC406552.1      36.74%    passed     29.93%
+ 908  HEV-4a_MK410049.1      35.17%    passed     27.05%
+ 909  HEV-4a_MK410051.1      35.21%    passed     30.83%
+ 910  HEV-4a_MK410053.1      35.36%    passed     29.32%
+ 911  HEV-4a_MK410052.1      35.24%    passed     23.07%
+ 912  HEV-4a_MW365405.1      35.25%    passed     11.18%
+ 913  HEV-4a_ON226515.1      35.40%    passed      9.53%
+ 914  HEV-4a_ON571312.1      35.40%    passed      9.53%
+ 915  HEV-4a_MK410050.1      35.23%    passed     19.24%
+ 916  HEV-4uc1b_MK410045.1   35.09%    passed     10.93%
+ 917  HEV-4a_MW365406.1      35.46%    passed      6.73%
+ 918  HEV-4a_AB197674.1      35.12%    passed      6.79%
+ 919  HEV-4a_EF077630.1      35.09%    passed     22.53%
+ 920  HEV-4a_JQ655733.1      34.83%    passed     78.42%
+ 921  HEV-4a_ON226510.1      35.62%    passed     34.00%
+ 922  HEV-4a_ON226511.1      35.69%    passed     45.63%
+ 923  HEV-4a_ON226513.1      35.26%    passed     32.39%
+ 924  HEV-4a_ON226512.1      35.56%    passed     43.38%
+ 925  HEV-4a_ON226514.1      35.33%    passed     16.81%
+ 926  HEV-4a_ON571313.1      35.48%    passed     16.90%
+ 927  HEV-4a_ON226516.1      35.61%    passed     36.51%
+ 928  HEV-4a_ON571311.1      35.31%    passed     36.57%
+ 929  HEV-4a_ON226518.1      35.48%    passed     17.80%
+ 930  HEV-4a_LC037955.1      35.12%    passed     38.82%
+ 931  HEV-4a_MK410046.1      35.57%    passed     71.92%
+ 932  HEV-4a_FJ763142.1      35.10%    passed     79.57%
+ 933  HEV-4b_AB253420.1      35.17%    passed      8.83%
+ 934  HEV-4b_AB291964.1      35.26%    passed     14.29%
+ 935  HEV-4b_DQ279091.2      35.34%    passed     33.19%
+ 936  HEV-4b_EU676172.2      35.02%    passed     64.85%
+ 937  HEV-4b_LC406551.1      35.43%    passed     91.07%
+ 938  HEV-4b_LC406594.1      35.47%    passed     63.21%
+ 939  HEV-4b_LC042232.1      35.45%    passed     32.04%
+ 940  HEV-4b_LC406649.1      35.43%    passed     61.99%
+ 941  HEV-4b_JX855794.1      35.34%    passed     73.06%
+ 942  HEV-4b_LC406556.1      36.70%    passed     90.72%
+ 943  HEV-4b_LC428039.1      35.25%    passed     86.17%
+ 944  HEV-4b_LC406570.1      36.92%    passed     90.68%
+ 945  HEV-4b_LC406663.1      35.46%    passed     77.77%
+ 946  HEV-4b_OM388298.1      35.38%    passed     73.86%
+ 947  HEV-4b_LC436449.1      35.28%    passed     51.87%
+ 948  HEV-4b_LC436450.1      35.30%    passed     53.60%
+ 949  HEV-4b_LC603639.1      35.30%    passed     53.73%
+ 950  HEV-4b_LC406496.1      36.72%    passed     23.36%
+ 951  HEV-4d_KF176351.1      35.20%    passed     47.64%
+ 952  HEV-4d_GU361892.1      35.23%    failed      4.28%
+ 953  HEV-4d_MZ544001.1      35.34%    passed     19.18%
+ 954  HEV-4d_OM780138.1      35.14%    passed     35.77%
+ 955  HEV-4d_KC163335.1      35.17%    passed     34.63%
+ 956  HEV-4d_ON759255.1      35.27%    passed      9.12%
+ 957  HEV-4b_ON759256.1      39.90%    passed     17.99%
+ 958  HEV-4d_MZ544004.1      35.35%    passed     25.51%
+ 959  HEV-4d_MZ544007.1      35.23%    passed     54.48%
+ 960  HEV-4d_KX531115.1      35.17%    passed     18.86%
+ 961  HEV-4d_ON759254.1      35.29%    passed     25.35%
+ 962  HEV-4d_MZ544006.1      35.34%    passed     10.55%
+ 963  HEV-4d_LC406545.1      35.35%    passed     24.47%
+ 964  HEV-4d_MK410044.1      35.51%    passed     17.57%
+ 965  HEV-4d_AJ272108.1      35.36%    passed     24.09%
+ 966  HEV-4d_KX827238.1      35.18%    passed     22.94%
+ 967  HEV-4d_GU206559.1      35.01%    passed     25.26%
+ 968  HEV-4d_HM152568.1      35.00%    passed     34.04%
+ 969  HEV-4d_JQ655736.1      35.09%    passed     22.33%
+ 970  HEV-4d_AY594199.1      35.01%    passed     19.67%
+ 971  HEV-4d_FJ610232.1      34.89%    passed     10.23%
+ 972  HEV-4c_AB074915.3      35.32%    passed     62.51%
+ 973  HEV-4c_LC406588.1      35.33%    passed     69.69%
+ 974  HEV-4c_LC406547.1      35.36%    passed     76.53%
+ 975  HEV-4c_LC406577.1      35.34%    passed     69.23%
+ 976  HEV-4c_LC406590.1      36.44%    passed     87.88%
+ 977  HEV-4c_AB080575.1      35.76%    passed     71.60%
+ 978  HEV-4c_AB091395.1      35.34%    passed     69.99%
+ 979  HEV-4c_AB200239.1      35.19%    passed     71.22%
+ 980  HEV-4c_AB193176.1      35.18%    passed     51.42%
+ 981  HEV-4c_AB099347.1      35.19%    passed     67.42%
+ 982  HEV-4c_AB193177.1      35.14%    passed     80.45%
+ 983  HEV-4c_AB193178.1      36.05%    passed     78.02%
+ 984  HEV-4c_AB097811.1      35.12%    passed     73.99%
+ 985  HEV-4c_AB097812.1      35.12%    passed     81.62%
+ 986  HEV-4c_AB220971.1      35.09%    passed     82.82%
+ 987  HEV-4c_LC406549.1      36.62%    passed     79.06%
+ 988  HEV-4c_AB481227.1      35.18%    passed     78.24%
+ 989  HEV-4c_LC406559.1      36.25%    passed     99.48%
+ 990  HEV-4c_AB074917.3      35.34%    passed     54.20%
+ 991  HEV-4c_LC406472.1      36.24%    passed     77.30%
+ 992  HEV-4c_LC406652.1      35.36%    passed     52.21%
+ 993  HEV-4c_LC406503.1      35.15%    passed     52.80%
+ 994  HEV-4c_AB161718.1      35.62%    passed     42.65%
+ 995  HEV-4c_AB161719.1      35.62%    passed     48.04%
+ 996  HEV-4c_AB220972.1      35.01%    passed     44.25%
+ 997  HEV-4c_AB220973.1      35.01%    passed     52.41%
+ 998  HEV-4c_AB480825.1      35.02%    passed     56.24%
+ 999  HEV-4c_LC406604.1      36.54%    passed     59.85%
+1000  HEV-4c_LC406498.1      35.38%    passed     49.90%
+1001  HEV-4c_LC406666.1      35.35%    passed     67.87%
+1002  HEV-4c_AB220975.1      35.09%    passed     41.91%
+1003  HEV-4c_AB220978.1      34.96%    passed     23.36%
+1004  HEV-4c_AB161717.1      35.62%    passed     50.83%
+1005  HEV-4c_LC406596.1      35.14%    passed     58.19%
+1006  HEV-4c_LC406513.1      35.36%    passed     31.26%
+1007  HEV-4c_LC406565.1      36.33%    passed     52.38%
+1008  HEV-4c_LC406667.1      35.36%    passed     27.21%
+1009  HEV-4c_LC406586.1      35.17%    passed     29.82%
+1010  HEV-4c_LC406630.1      35.15%    passed     22.69%
+1011  HEV-4c_LC387631.1      35.17%    passed     43.25%
+1012  HEV-4c_LC406494.1      35.36%    passed     51.43%
+1013  HEV-4c_LC406507.1      35.40%    passed     51.79%
+1014  HEV-4c_LC406567.1      35.45%    passed     43.59%
+1015  HEV-4c_LC406511.1      35.36%    passed     55.68%
+1016  HEV-4c_LC406528.1      35.35%    passed     41.83%
+1017  HEV-4c_LC406616.1      35.40%    passed     40.16%
+1018  HEV-4c_LC406613.1      35.39%    passed     40.45%
+1019  HEV-4c_LC406540.1      35.16%    passed     47.37%
+1020  HEV-4c_LC406504.1      35.35%    passed     54.08%
+1021  HEV-4c_LC406557.1      35.36%    passed     52.86%
+1022  HEV-4c_LC406661.1      35.22%    passed     56.93%
+1023  HEV-4c_LC406665.1      35.16%    passed     45.67%
+1024  HEV-4c_LC406653.1      35.39%    passed     48.09%
+1025  HEV-4c_LC406598.1      35.38%    passed     54.03%
+1026  HEV-4c_LC406638.1      35.71%    passed     57.46%
+1027  HEV-4c_LC406640.1      36.46%    passed     72.26%
+1028  HEV-4c_LC406476.1      35.16%    passed     66.17%
+1029  HEV-4c_LC406543.1      35.15%    passed     66.57%
+1030  HEV-4c_LC406558.1      36.06%    passed     84.45%
+1031  HEV-4c_LC406478.1      35.15%    passed     71.75%
+1032  HEV-4c_LC406537.1      35.15%    passed     73.62%
+1033  HEV-4c_LC406605.1      35.39%    passed     69.31%
+1034  HEV-4c_LC406516.1      35.14%    passed     76.03%
+1035  HEV-4c_LC406520.1      35.14%    passed     71.83%
+1036  HEV-4c_LC406564.1      36.25%    passed     88.42%
+1037  HEV-4c_LC406608.1      35.36%    passed     69.14%
+1038  HEV-4c_LC406495.1      35.37%    passed     71.65%
+1039  HEV-4c_LC406514.1      35.17%    passed     69.80%
+1040  HEV-4c_LC406521.1      35.36%    passed     69.23%
+1041  HEV-4c_LC406530.1      35.17%    passed     70.41%
+1042  HEV-4c_LC406599.1      35.35%    passed     71.13%
+1043  HEV-4c_LC406502.1      35.36%    passed     65.15%
+1044  HEV-4c_LC406506.1      35.51%    passed     60.48%
+1045  HEV-4c_LC406510.1      36.25%    passed     57.82%
+1046  HEV-4c_LC406550.1      35.36%    passed     43.77%
+1047  HEV-4c_LC406480.1      35.16%    passed     53.91%
+1048  HEV-4c_LC406525.1      35.15%    passed     50.84%
+1049  HEV-4c_LC406592.1      35.15%    passed     51.80%
+1050  HEV-4c_LC406500.1      35.38%    passed     47.97%
+1051  HEV-4c_LC406544.1      35.38%    passed     47.18%
+1052  HEV-4c_LC406538.1      35.38%    passed     50.42%
+1053  HEV-4c_LC406628.1      35.38%    passed     45.37%
+1054  HEV-4c_LC406574.1      35.38%    passed     53.24%
+1055  HEV-4c_LC406554.1      35.60%    passed     51.01%
+1056  HEV-4c_LC406634.1      35.16%    passed     65.70%
+1057  HEV-4c_LC406499.1      35.17%    passed     41.85%
+1058  HEV-4c_LC406595.1      35.14%    passed     40.47%
+1059  HEV-4c_LC406563.1      35.15%    passed     56.16%
+1060  HEV-4c_LC406573.1      35.35%    passed     45.05%
+1061  HEV-4c_LC406656.1      35.35%    passed     44.97%
+1062  HEV-4c_LC406655.1      35.38%    passed     51.56%
+1063  HEV-4c_AB220976.1      35.09%    passed     67.74%
+1064  HEV-4c_AB220977.1      35.16%    passed     61.89%
+1065  HEV-4c_LC022745.1      35.23%    passed     66.73%
+1066  HEV-4c_AB291965.1      35.16%    passed     73.83%
+1067  HEV-4c_AB291966.1      35.19%    passed     75.72%
+1068  HEV-4c_AB291967.1      35.15%    passed     72.16%
+1069  HEV-4c_AB291968.1      35.15%    passed     69.90%
+1070  HEV-4c_AB220979.1      35.09%    passed     59.39%
+1071  HEV-4c_AB291959.1      35.64%    passed     69.38%
+1072  HEV-4c_LC406631.1      36.05%    passed     90.03%
+1073  HEV-4c_LC406591.1      35.16%    passed     61.39%
+1074  HEV-4c_LC406473.1      35.39%    passed     66.41%
+1075  HEV-4c_LC406566.1      35.16%    passed     62.90%
+1076  HEV-4c_LC406642.1      35.39%    passed     61.25%
+1077  HEV-4c_LC406527.1      35.15%    passed     68.32%
+1078  HEV-4c_LC406614.1      35.15%    passed     60.71%
+1079  HEV-4c_LC406582.1      35.15%    passed     63.53%
+1080  HEV-4c_LC406602.1      35.38%    passed     41.48%
+1081  HEV-4c_LC406512.1      35.56%    passed     56.03%
+1082  HEV-4c_LC406597.1      35.38%    passed     55.06%
+1083  HEV-4c_LC406536.1      36.54%    passed     72.18%
+1084  HEV-4c_LC406641.1      35.35%    passed     55.27%
+1085  HEV-4c_LC406548.1      36.27%    passed     73.00%
+1086  HEV-4c_LC406576.1      35.36%    passed     54.36%
+1087  HEV-4c_LC406593.1      35.36%    passed     45.53%
+1088  HEV-4c_LC406660.1      35.51%    passed     54.95%
+1089  HEV-4c_LC406609.1      35.35%    passed     53.44%
+1090  HEV-4c_LC406584.1      35.16%    passed     66.93%
+1091  HEV-4c_LC406589.1      35.38%    passed     26.45%
+1092  HEV-4h_GU119961.3      35.09%    passed     91.13%
+1093  HEV-4h_KF736234.1      35.35%    passed     90.21%
+1094  HEV-4h_KJ155502.1      35.07%    passed     79.07%
+1095  HEV-4h_KR872416.1      35.07%    passed     80.45%
+1096  HEV-4h_KU356182.1      35.07%    passed     78.60%
+1097  HEV-4h_KU356185.1      35.07%    passed     77.37%
+1098  HEV-4h_KU356183.1      35.07%    passed     78.39%
+1099  HEV-4h_KU356188.1      35.07%    passed     79.85%
+1100  HEV-4h_KU356184.1      35.07%    passed     80.47%
+1101  HEV-4h_KR872414.1      35.07%    passed     80.76%
+1102  HEV-4h_KU356186.1      35.07%    passed     79.45%
+1103  HEV-4h_KY929403.1      35.07%    passed     81.78%
+1104  HEV-4h_KY929404.1      35.07%    passed     82.54%
+1105  HEV-4h_KR872415.1      35.07%    passed     88.83%
+1106  HEV-4h_KR872417.1      35.07%    passed     89.05%
+1107  HEV-4h_KU356187.1      35.07%    passed     83.30%
+1108  HEV-4h_KU356189.1      35.07%    passed     82.96%
+1109  HEV-4h_LC406515.1      35.35%    passed     38.26%
+1110  HEV-4h_GU188851.1      35.18%    passed     88.06%
+1111  HEV-4h_JQ740781.1      35.17%    passed     43.65%
+1112  HEV-4h_JQ655735.1      35.13%    passed     66.06%
+1113  HEV-4h_KM253769.1      35.17%    passed     85.85%
+1114  HEV-4h_MZ544005.1      35.27%    passed     90.76%
+1115  HEV-4f_AB220974.1      35.08%    passed     18.70%
+1116  HEV-4g_AB108537.1      35.70%    passed     49.32%
+1117  HEV-4g_AB698654.1      35.32%    passed     13.83%
+1118  HEV-4g_LC387632.1      35.18%    passed     68.54%
+1119  HEV-4g_LC406568.1      35.38%    passed     59.35%
+1120  HEV-4g_MZ544002.1      35.36%    passed     15.37%
+1121  HEV-4g_MZ544003.1      35.37%    passed     72.23%
+1122  HEV-4uc1a_AB369688.1   35.40%    passed     28.04%
+1123  HEV-4uc1b_MK410048.1   35.59%    failed      3.31%
+1124  HEV-4h_DQ450072.1      35.21%    passed     87.65%
+1125  HEV-4i_AB369690.1      35.32%    passed     29.61%
+1126  HEV-4i_JQ993308.1      35.25%    passed     24.43%
+1127  HEV-4i_JF915746.1      35.09%    passed      9.34%
+1128  HEV-4i_AB521805.1      35.48%    passed     59.30%
+1129  HEV-4i_AB521806.1      35.48%    passed     57.18%
+1130  HEV-4i_AB909125.1      35.51%    passed     72.68%
+1131  HEV-4i_LC406484.1      35.51%    passed     65.87%
+1132  HEV-4i_LC406485.1      35.28%    passed     62.89%
+1133  HEV-4i_LC406486.1      35.63%    passed     48.44%
+1134  HEV-4i_LC646471.1      35.09%    passed     58.88%
+1135  HEV-4i_LC657084.1      35.09%    passed     59.09%
+1136  HEV-4i_AB602439.1      35.17%    passed     48.23%
+1137  HEV-4i_AB602440.1      35.17%    passed     54.34%
+1138  HEV-4i_LC406487.1      35.51%    passed     24.91%
+1139  HEV-4i_LC406488.1      35.51%    passed     31.11%
+1140  HEV-4i_LC406489.1      35.51%    passed     26.69%
+1141  HEV-4i_LC406529.1      35.59%    passed     22.20%
+1142  HEV-4i_LC406490.1      35.51%    passed     47.55%
+1143  HEV-4i_LC406482.1      35.51%    passed     32.71%
+1144  HEV-4i_LC406483.1      35.51%    passed     31.24%
+1145  HEV-4i_LC406659.1      35.74%    passed     37.79%
+1146  HEV-4i_LC406491.1      35.28%    passed     27.57%
+1147  HEV-4i_AB909124.1      35.51%    passed     50.29%
+1148  HEV-4i_EF570133.1      34.81%    passed     20.79%
+1149  HEV-4i_HM439284.1      35.38%    passed     45.67%
+1150  HEV-4e_AY723745.1      35.09%    failed      1.28%
+1151  HEV-2a_KX578717.1      36.02%    passed     25.62%
+1152  HEV-2a_M74506.1        35.82%    passed     28.08%
+1153  HEV-2b_MH809516.1      35.51%    failed      0.51%
+1154  HEV-2b_ON799233.1      36.11%    failed      0.57%
+1155  HEV-2b_ON799236.1      36.11%    failed      0.49%
+1156  HEV-2b_ON799235.1      36.11%    failed      0.47%
+1157  HEV-2b_ON799234.1      36.11%    failed      0.74%
+1158  HEV-2b_ON799238.1      36.12%    failed      0.66%
+1159  HEV-2b_ON799237.1      36.41%    failed      0.37%
+1160  HEV-1uce_OQ077997.1    71.74%    failed      0.87%
+1161  HEV-3c_MT362712.1      57.19%    passed     88.88%
+WARNING: 3 sequences contain more than 50% gaps/ambiguity
+****  TOTAL                  35.64%  100 sequences failed composition chi2 test (p-value<5%; df=3)
+NOTE: HEV-1b_NC_001434.1 is identical to HEV-1b_L08816.1 but kept for subsequent analysis
+NOTE: HEV-3a_LC406618.1 is identical to HEV-3a_LC406617.1 but kept for subsequent analysis
+NOTE: HEV-3a_LC406620.1 is identical to HEV-3a_LC406619.1 but kept for subsequent analysis
+NOTE: HEV-3m_MZ289096.1 is identical to HEV-3m_MZ289090.1 but kept for subsequent analysis
+NOTE: HEV-4a_ON571310.1 is identical to HEV-4a_ON226517.1 but kept for subsequent analysis
+NOTE: HEV-4a_ON571312.1 is identical to HEV-4a_ON226515.1 but kept for subsequent analysis
+NOTE: 2 identical sequences (see below) will be ignored for subsequent analysis
+NOTE: HEV-3a_LC406621.1 (identical to HEV-3a_LC406619.1) is ignored but added at the end
+NOTE: HEV-3a_LC406622.1 (identical to HEV-3a_LC406619.1) is ignored but added at the end
+Alignment was printed to HepE.aln.uniqueseq.phy
+
+For your convenience alignment with unique sequences printed to HepE.aln.uniqueseq.phy
+
+Create initial parsimony tree by phylogenetic likelihood library (PLL)... 1.832 seconds
+Generating 1000 samples for ultrafast bootstrap (seed: 524941)...
+
+NOTE: 2379 MB RAM (2 GB) is required!
+Estimate model parameters (epsilon = 0.100)
+1. Initial log-likelihood: -1039905.922
+2. Current log-likelihood: -878804.962
+3. Current log-likelihood: -877072.181
+4. Current log-likelihood: -876899.953
+5. Current log-likelihood: -876755.829
+6. Current log-likelihood: -876631.405
+7. Current log-likelihood: -876523.969
+8. Current log-likelihood: -876431.065
+9. Current log-likelihood: -876350.408
+10. Current log-likelihood: -876280.128
+11. Current log-likelihood: -876218.470
+12. Current log-likelihood: -876164.200
+13. Current log-likelihood: -876116.180
+14. Current log-likelihood: -876073.536
+15. Current log-likelihood: -876035.518
+16. Current log-likelihood: -876001.516
+17. Current log-likelihood: -875970.969
+18. Current log-likelihood: -875943.471
+19. Current log-likelihood: -875918.608
+20. Current log-likelihood: -875896.060
+21. Current log-likelihood: -875875.609
+22. Current log-likelihood: -875857.058
+23. Current log-likelihood: -875840.457
+24. Current log-likelihood: -875826.345
+25. Current log-likelihood: -875818.272
+26. Current log-likelihood: -875813.909
+27. Current log-likelihood: -875810.492
+28. Current log-likelihood: -875808.874
+29. Current log-likelihood: -875807.379
+30. Current log-likelihood: -875806.247
+31. Current log-likelihood: -875805.994
+32. Current log-likelihood: -875805.880
+Optimal log-likelihood: -875805.742
+Rate parameters:  A-C: 1.24286  A-G: 14.57237  A-T: 2.39859  C-G: 0.63985  C-T: 23.53561  G-T: 1.00000
+Base frequencies:  A: 0.185  C: 0.293  G: 0.260  T: 0.262
+Site proportion and rates:  (0.473,0.022) (0.027,0.149) (0.034,0.150) (0.014,0.258) (0.031,0.370) (0.029,0.630) (0.035,1.094) (0.084,1.725) (0.174,2.449) (0.098,3.439)
+Parameters optimization took 32 rounds (1228.156 sec)
+Computing ML distances based on estimated model parameters... 209.802 sec
+Computing BIONJ tree...
+1.391 seconds
+Log-likelihood of BIONJ tree: -888402.264
+--------------------------------------------------------------------
+|             INITIALIZING CANDIDATE TREE SET                      |
+--------------------------------------------------------------------
+Generating 98 parsimony trees... 194.758 second
+Computing log-likelihood of 98 initial trees ... 150.235 seconds
+Current best score: -875805.742
+
+Do NNI search on 20 best initial trees
+Estimate model parameters (epsilon = 0.100)
+BETTER TREE FOUND at iteration 1: -874848.042
+Estimate model parameters (epsilon = 0.100)
+BETTER TREE FOUND at iteration 2: -874708.275
+Estimate model parameters (epsilon = 0.100)
+BETTER TREE FOUND at iteration 3: -874666.829
+Estimate model parameters (epsilon = 0.100)
+BETTER TREE FOUND at iteration 8: -874629.413
+Estimate model parameters (epsilon = 0.100)
+BETTER TREE FOUND at iteration 9: -874587.251
+Iteration 10 / LogL: -874641.189 / Time: 1h:40m:10s
+Iteration 20 / LogL: -874664.032 / Time: 1h:48m:8s
+Finish initializing candidate tree set (20)
+Current best tree score: -874587.251 / CPU time: 5207.087
+Number of iterations: 20
+--------------------------------------------------------------------
+|               OPTIMIZING CANDIDATE TREE SET                      |
+--------------------------------------------------------------------
+Iteration 30 / LogL: -874608.176 / Time: 1h:54m:22s (5h:11m:27s left)
+Iteration 40 / LogL: -874633.358 / Time: 2h:0m:27s (3h:33m:4s left)
+Estimate model parameters (epsilon = 0.100)
+BETTER TREE FOUND at iteration 45: -874586.136
+Iteration 50 / LogL: -874606.433 / Time: 2h:7m:52s (4h:7m:50s left)
+Log-likelihood cutoff on original alignment: -874721.719
+Iteration 60 / LogL: -874825.201 / Time: 2h:13m:54s (3h:12m:52s left)
+Iteration 70 / LogL: -874637.344 / Time: 2h:19m:48s (2h:31m:56s left)
+Estimate model parameters (epsilon = 0.100)
+BETTER TREE FOUND at iteration 74: -874584.526
+Iteration 80 / LogL: -874619.099 / Time: 2h:26m:17s (2h:54m:2s left)
+Iteration 90 / LogL: -874654.726 / Time: 2h:32m:27s (2h:23m:51s left)
+Iteration 100 / LogL: -874661.024 / Time: 2h:38m:26s (1h:58m:24s left)
+Log-likelihood cutoff on original alignment: -874716.788
+NOTE: Bootstrap correlation coefficient of split occurrence frequencies: 0.997
+Iteration 110 / LogL: -874707.732 / Time: 2h:44m:36s (2h:15m:53s left)
+Iteration 120 / LogL: -874626.937 / Time: 2h:50m:27s (1h:54m:34s left)
+Estimate model parameters (epsilon = 0.100)
+BETTER TREE FOUND at iteration 124: -874574.860
+Iteration 130 / LogL: -874620.917 / Time: 2h:57m:6s (2h:9m:1s left)
+Iteration 140 / LogL: -874608.785 / Time: 3h:3m:11s (1h:50m:41s left)
+Iteration 150 / LogL: -874611.963 / Time: 3h:9m:3s (1h:33m:52s left)
+Log-likelihood cutoff on original alignment: -874716.788
+Iteration 160 / LogL: -875107.018 / Time: 3h:15m:27s (1h:18m:39s left)
+Iteration 170 / LogL: -874626.561 / Time: 3h:22m:21s (1h:4m:38s left)
+Iteration 180 / LogL: -874981.859 / Time: 3h:29m:58s (0h:51m:36s left)
+Iteration 190 / LogL: -874620.850 / Time: 3h:37m:15s (0h:39m:4s left)
+Iteration 200 / LogL: -874599.443 / Time: 3h:43m:32s (0h:26m:57s left)
+Log-likelihood cutoff on original alignment: -874716.788
+NOTE: Bootstrap correlation coefficient of split occurrence frequencies: 0.997
+Iteration 210 / LogL: -874833.089 / Time: 3h:49m:40s (1h:38m:53s left)
+Iteration 220 / LogL: -874590.452 / Time: 3h:55m:42s (1h:26m:5s left)
+Estimate model parameters (epsilon = 0.100)
+BETTER TREE FOUND at iteration 222: -874570.408
+Iteration 230 / LogL: -874617.457 / Time: 4h:2m:7s (1h:37m:15s left)
+Iteration 240 / LogL: -874638.912 / Time: 4h:8m:22s (1h:25m:12s left)
+Iteration 250 / LogL: -874934.736 / Time: 4h:14m:16s (1h:13m:31s left)
+Log-likelihood cutoff on original alignment: -874716.788
+Iteration 260 / LogL: -874594.674 / Time: 4h:20m:32s (1h:2m:21s left)
+Iteration 270 / LogL: -874679.234 / Time: 4h:26m:44s (0h:51m:33s left)
+Iteration 280 / LogL: -874606.794 / Time: 4h:32m:50s (0h:41m:4s left)
+Estimate model parameters (epsilon = 0.100)
+BETTER TREE FOUND at iteration 282: -874564.185
+Iteration 290 / LogL: -875062.340 / Time: 4h:39m:3s (1h:28m:49s left)
+Iteration 300 / LogL: -874588.211 / Time: 4h:45m:11s (1h:18m:12s left)
+Log-likelihood cutoff on original alignment: -874716.788
+NOTE: Bootstrap correlation coefficient of split occurrence frequencies: 0.998
+Iteration 310 / LogL: -875122.106 / Time: 4h:51m:20s (1h:24m:50s left)
+Iteration 320 / LogL: -875129.438 / Time: 4h:57m:30s (1h:14m:36s left)
+Iteration 330 / LogL: -874690.780 / Time: 5h:3m:47s (1h:4m:37s left)
+Iteration 340 / LogL: -874837.013 / Time: 5h:10m:8s (0h:54m:53s left)
+Iteration 350 / LogL: -874587.220 / Time: 5h:16m:17s (0h:45m:18s left)
+Log-likelihood cutoff on original alignment: -874716.788
+Iteration 360 / LogL: -874634.893 / Time: 5h:22m:34s (0h:35m:56s left)
+Iteration 370 / LogL: -874642.310 / Time: 5h:28m:43s (0h:26m:43s left)
+Iteration 380 / LogL: -874994.599 / Time: 5h:34m:34s (0h:17m:39s left)
+TREE SEARCH COMPLETED AFTER 383 ITERATIONS / Time: 5h:36m:20s
+
+--------------------------------------------------------------------
+|                    FINALIZING TREE SEARCH                        |
+--------------------------------------------------------------------
+Performs final model parameters optimization
+Estimate model parameters (epsilon = 0.010)
+1. Initial log-likelihood: -874564.185
+2. Current log-likelihood: -874564.073
+3. Current log-likelihood: -874563.935
+4. Current log-likelihood: -874563.778
+5. Current log-likelihood: -874563.646
+6. Current log-likelihood: -874563.523
+7. Current log-likelihood: -874563.390
+8. Current log-likelihood: -874563.266
+9. Current log-likelihood: -874563.140
+10. Current log-likelihood: -874563.021
+11. Current log-likelihood: -874562.906
+12. Current log-likelihood: -874562.792
+13. Current log-likelihood: -874562.680
+14. Current log-likelihood: -874562.570
+15. Current log-likelihood: -874562.461
+16. Current log-likelihood: -874562.362
+17. Current log-likelihood: -874562.252
+18. Current log-likelihood: -874562.153
+19. Current log-likelihood: -874562.047
+20. Current log-likelihood: -874561.959
+21. Current log-likelihood: -874561.840
+22. Current log-likelihood: -874561.746
+23. Current log-likelihood: -874561.657
+24. Current log-likelihood: -874561.541
+25. Current log-likelihood: -874561.455
+26. Current log-likelihood: -874561.346
+27. Current log-likelihood: -874561.255
+28. Current log-likelihood: -874561.166
+29. Current log-likelihood: -874561.074
+30. Current log-likelihood: -874560.997
+31. Current log-likelihood: -874560.894
+32. Current log-likelihood: -874560.793
+33. Current log-likelihood: -874560.704
+34. Current log-likelihood: -874560.605
+35. Current log-likelihood: -874560.545
+36. Current log-likelihood: -874560.475
+37. Current log-likelihood: -874560.388
+38. Current log-likelihood: -874560.302
+39. Current log-likelihood: -874560.228
+40. Current log-likelihood: -874560.168
+41. Current log-likelihood: -874560.101
+42. Current log-likelihood: -874560.033
+43. Current log-likelihood: -874559.973
+44. Current log-likelihood: -874559.911
+45. Current log-likelihood: -874559.870
+46. Current log-likelihood: -874559.818
+47. Current log-likelihood: -874559.775
+48. Current log-likelihood: -874559.724
+49. Current log-likelihood: -874559.683
+50. Current log-likelihood: -874559.632
+51. Current log-likelihood: -874559.591
+52. Current log-likelihood: -874559.540
+53. Current log-likelihood: -874559.500
+54. Current log-likelihood: -874559.451
+55. Current log-likelihood: -874559.410
+56. Current log-likelihood: -874559.360
+57. Current log-likelihood: -874559.321
+58. Current log-likelihood: -874559.274
+59. Current log-likelihood: -874559.234
+60. Current log-likelihood: -874559.181
+61. Current log-likelihood: -874559.143
+62. Current log-likelihood: -874559.094
+63. Current log-likelihood: -874559.056
+64. Current log-likelihood: -874559.007
+65. Current log-likelihood: -874558.978
+66. Current log-likelihood: -874558.930
+67. Current log-likelihood: -874558.891
+68. Current log-likelihood: -874558.856
+69. Current log-likelihood: -874558.809
+70. Current log-likelihood: -874558.775
+71. Current log-likelihood: -874558.753
+Optimal log-likelihood: -874558.740
+Rate parameters:  A-C: 1.25598  A-G: 14.82946  A-T: 2.42887  C-G: 0.64790  C-T: 24.13377  G-T: 1.00000
+Base frequencies:  A: 0.185  C: 0.293  G: 0.260  T: 0.262
+Site proportion and rates:  (0.418,0.012) (0.042,0.084) (0.052,0.085) (0.055,0.251) (0.038,0.553) (0.034,1.033) (0.079,1.668) (0.137,2.332) (0.114,3.019) (0.030,3.984)
+Parameters optimization took 71 rounds (1268.143 sec)
+BEST SCORE FOUND : -874558.740
+
+Testing tree branches by SH-like aLRT with 1000 replicates...
+Alternative NNI shows better log-likelihood -874558.716 > -874558.740
+Alternative NNI shows better log-likelihood -874558.630 > -874558.740
+Alternative NNI shows better log-likelihood -874558.701 > -874558.740
+Alternative NNI shows better log-likelihood -874558.622 > -874558.740
+Alternative NNI shows better log-likelihood -874558.734 > -874558.740
+Alternative NNI shows better log-likelihood -874558.734 > -874558.740
+51.378 sec.
+Creating bootstrap support values...
+Split supports printed to NEXUS file HepE.aln.splits.nex
+Total tree length: 41.666
+
+Total number of iterations: 383
+CPU time used for tree search: 144610.525 sec (40h:10m:10s)
+Wall-clock time used for tree search: 18898.709 sec (5h:14m:58s)
+Total CPU time used: 164055.700 sec (45h:34m:15s)
+Total wall-clock time used: 21503.819 sec (5h:58m:23s)
+
+Computing bootstrap consensus tree...
+Reading input file HepE.aln.splits.nex...
+1159 taxa and 3401 splits.
+Consensus tree written to HepE.aln.contree
+Reading input trees file HepE.aln.contree
+Log-likelihood of consensus tree: -874559.069
+
+Analysis results written to: 
+  IQ-TREE report:                HepE.aln.iqtree
+  Maximum-likelihood tree:       HepE.aln.treefile
+  Likelihood distances:          HepE.aln.mldist
+
+Ultrafast bootstrap approximation results written to:
+  Split support values:          HepE.aln.splits.nex
+  Consensus tree:                HepE.aln.contree
+  Screen log file:               HepE.aln.log
+
+Date and Time: Tue Nov 28 19:52:51 2023
