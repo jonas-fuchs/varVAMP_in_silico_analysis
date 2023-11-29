@@ -575,7 +575,7 @@ def main(color_scheme, output_folder):
 if __name__ == "__main__":
     main(color_scheme="PuOr", output_folder="output")
 
+calc_dimer("aagttggaccaaactgttgtcca", "aagttggaccaaactgttgtcca", structure=True)
 
-
-
+calc_dimer("gccatgtgttacatagccaagtgg", "atcggtgacgcttcagttgact", structure=True)
 
