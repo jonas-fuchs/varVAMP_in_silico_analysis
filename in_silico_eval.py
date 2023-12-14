@@ -16,6 +16,7 @@ import seaborn as sns
 from Bio.Seq import Seq
 import primer3 as p3
 import itertools
+import statistics
 
 
 AMBIG_NUCS = {
@@ -126,6 +127,27 @@ def alignment_stats(alignment_folder):
         alignment = read_alignment(file)
         gc_content = round(np.mean([(x[1].count("g")+x[1].count("c"))/(x[1].count("g")+x[1].count("c")+x[1].count("a")+x[1].count("t"))*100 for x in alignment]), 2)
         print(f"\t{name}: n of sequences: {len(alignment)}, GC content: {gc_content} %")
+
+
+def pairwise_evaluation(filepath):
+    """
+    analysis of the pairwise sequence identities
+    produced by https://github.com/BioinformaticsToolsmith/Identity
+    """
+    files = get_files(filepath)
+    names = get_file_names(files)
+    results = []
+
+    for file, name in zip(files, names):
+        if file.endswith(".txt"):
+            identities = []
+            with open(file, "r") as identity_file:
+                for line in identity_file:
+                    identities.append(float(line.strip().split("\t")[2]))
+
+            results.append([name, statistics.mean(identities), statistics.stdev(identities)])
+
+    return pd.DataFrame(results, columns=["virus", "mean", "std"])
 
 
 def entropy(chars, states):
@@ -559,6 +581,9 @@ def main(color_scheme, output_folder):
     print("### Starting the analysis of varVAMP schemes ###\n")
     print("- Alignments to be analysed:")
     alignment_stats("alignments")
+    print("-pairwise sequence identity:")
+    identity_all = pairwise_evaluation("sequence_identity/all")
+    print(identity_all)
     sns.set_palette(palette=color_scheme)
     print("- Plotting entropy...")
     calculate_and_plot_entropy("alignments", output_folder)
