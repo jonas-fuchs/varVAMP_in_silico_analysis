@@ -1,0 +1,3 @@
+>isoalte_1	>isoalte_2	0.88484412
+>isoalte_1	>isoalte_3	0.88126702
+>isoalte_2	>isoalte_3	0.8894879

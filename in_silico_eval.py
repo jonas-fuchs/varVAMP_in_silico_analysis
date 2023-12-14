@@ -144,8 +144,10 @@ def pairwise_evaluation(filepath):
             with open(file, "r") as identity_file:
                 for line in identity_file:
                     identities.append(float(line.strip().split("\t")[2]))
-
-            results.append([name, statistics.mean(identities), statistics.stdev(identities)])
+            if len(identities) > 1:
+                results.append([name, statistics.mean(identities), statistics.stdev(identities)])
+            else:
+                results.append([name, identities[0], 0])
 
     return pd.DataFrame(results, columns=["virus", "mean", "std"])
 
@@ -570,6 +572,43 @@ def plot_primer_stats(output_folder, tsv_folder, bed_folder, consensus_folder):
     fig.savefig(f"{output_folder}/dimer_temp.pdf", bbox_inches='tight')
 
 
+def plot_sequence_identity_comparison(identity_all_df, identity_folder, output_folder):
+    """
+    plot the pairwise sequences identities of the alignment and the newly produced sequences
+    as a dumbbell plot
+    """
+
+    # get one df with sequence identities and alignment identities
+    identity_comparison = pairwise_evaluation(identity_folder)
+
+    alignment_identity, alignment_std = [], []
+
+    for name in identity_comparison["virus"]:
+        if name in list(identity_all_df["virus"]):
+            alignment_identity.append(float(identity_all_df[identity_all_df["virus"] == name]["mean"]))
+            alignment_std.append(float(identity_all_df[identity_all_df["virus"] == name]["std"]))
+        else:
+            alignment_identity.append("NA"), alignment_std.append("NA")
+    # add columns
+    identity_comparison["alignment_mean"], identity_comparison["alignment_std"] = alignment_identity, alignment_std
+
+    # dumbbell plot
+    plt.figure(figsize=(9, 4.5))
+    plt.hlines(y=identity_comparison["virus"], xmin=identity_comparison["mean"],
+               xmax=identity_comparison["alignment_mean"],
+               color="#d9d9d9", lw=10)
+    plt.scatter(identity_comparison["mean"], identity_comparison["virus"], color="#0096d7", s=200,
+                label="new sequences", zorder=3)
+    plt.scatter(identity_comparison["alignment_mean"], identity_comparison["virus"], color="grey", s=200,
+                label="alignment", zorder=3)
+    sns.despine()
+    plt.legend(ncol=2, bbox_to_anchor=(1., 1.01), loc="lower right", frameon=False)
+    plt.xlabel("mean pairwise identity")
+    plt.tight_layout()
+
+    plt.savefig(f"{output_folder}/identity_comparision.pdf", bbox_inches='tight')
+
+
 def main(color_scheme, output_folder):
     """
     main function
@@ -578,7 +617,7 @@ def main(color_scheme, output_folder):
     if exists(output_folder):
         shutil.rmtree(output_folder)
     makedirs(output_folder)
-    print("### Starting the analysis of varVAMP schemes ###\n")
+    print("### Starting the varVAMP in silico analysis ###\n")
     print("- Alignments to be analysed:")
     alignment_stats("alignments")
     print("-pairwise sequence identity:")
@@ -593,6 +632,9 @@ def main(color_scheme, output_folder):
     calculate_and_plot_mismatches("alignments", "bed_files", "tsv_files", output_folder)
     print("- Plotting primer stats...")
     plot_primer_stats(output_folder, "tsv_files", "bed_files", "consensus_files")
+    print("- Plotting identity comparison...")
+    plot_sequence_identity_comparison(identity_all, "sequence_identity/new_seq", output_folder)
+
     print("\n###         Finished the analysis          ###")
 
 

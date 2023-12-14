@@ -1,0 +1,15 @@
+>isolate_1	>isolate_2	0.87096368
+>isolate_1	>patient_1	0.93815441
+>isolate_1	>patient_2	0.79373579
+>isolate_1	>patient_3	0.91155165
+>isolate_1	>patient_4	0.90410947
+>isolate_2	>patient_1	0.88421053
+>isolate_2	>patient_2	0.79546897
+>isolate_2	>patient_3	0.87802795
+>isolate_2	>patient_4	0.86965724
+>patient_1	>patient_2	0.79621204
+>patient_1	>patient_3	0.91176109
+>patient_1	>patient_4	0.90033924
+>patient_2	>patient_3	0.80143432
+>patient_2	>patient_4	0.7905926
+>patient_3	>patient_4	0.9090507
