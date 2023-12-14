@@ -6,7 +6,7 @@ This repository contains the complete code and input files for the in silico ana
 
 ### Requirements
 
-For the phylogenetic tree, you will need ``R >= 4.2`` and for the primer evaluation ``python3 >= 3.9`` installed.
+For the phylogenetic tree, you will need ``R >= 4.2`` and for the remaining analysis ``python3 >= 3.9`` installed.
 
 ### Run the code
 
@@ -17,7 +17,7 @@ git clone github.com/jonas-fuchs/varVAMP_in_silico_analysis
 cd varVAMP_in_silico_analysis
 ```
 
-To reproduce the figures for the primer evaluation run:
+To reproduce the figures run:
 
 ```bash
 pip install -r requirements.txt
