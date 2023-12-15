@@ -1,3 +1,0 @@
->Sabin_type_1	>Sabin_type_2	0.62476466
->Sabin_type_1	>Sabin_type_3	0.65240439
->Sabin_type_2	>Sabin_type_3	0.64983573

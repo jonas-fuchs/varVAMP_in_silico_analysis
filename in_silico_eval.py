@@ -2,22 +2,22 @@
 this script contains the code for the in silico varVAMP evaluation
 """
 
-# import libraries
+# BUILT-INS
 import shutil
 import math
 import warnings
-from os import listdir, makedirs
-from os.path import isfile, join, basename, splitext, exists
-import pandas as pd
-import numpy as np
-from Bio import AlignIO
-import matplotlib.pyplot as plt
-import seaborn as sns
-from Bio.Seq import Seq
-import primer3 as p3
 import itertools
 import statistics
-
+from os import listdir, makedirs
+from os.path import isfile, join, basename, splitext, exists, isdir
+# LIBS
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import primer3 as p3
+from Bio.Seq import Seq
+from Bio import AlignIO
 
 AMBIG_NUCS = {
     "r": ["a", "g"],
@@ -46,6 +46,13 @@ def get_file_names(files):
     list all file names
     """
     return [splitext(basename(f))[0].replace("_", " ") for f in files]
+
+
+def list_folder_names(folder):
+    """
+    list all subfolders
+    """
+    return [name for name in listdir(folder) if isdir(join(folder, name))]
 
 
 def read_fasta(c_file):
@@ -598,25 +605,82 @@ def plot_sequence_identity_comparison(identity_all_df, identity_folder, output_f
     plt.figure(figsize=(9, 4.5))
     colors = np.where(identity_comparison["mean"] < identity_comparison["alignment_mean"], "#d9d9d9", "#d57883")
     # plot hlines with colors dependent if the mean identity is higher or lower
-    plt.hlines(y=identity_comparison["virus"], xmin=identity_comparison["mean"],
+    plt.hlines(y=identity_comparison["virus"],
+               xmin=identity_comparison["mean"],
                xmax=identity_comparison["alignment_mean"],
-               color=colors, lw=10)
+               color=colors,
+               lw=10)
     # generate x,y tuple for annotation
     xy_values = [(x+1, y) for x, y in zip(identity_comparison[["mean", "alignment_mean"]].max(axis=1), np.arange(0, len(identity_comparison.index) + 1))]
     # annotate change
     for annotation, xy in zip(list(identity_comparison["change"]), xy_values):
         plt.annotate(annotation, xy, verticalalignment="center")
-    plt.scatter(identity_comparison["mean"], identity_comparison["virus"], color="#0096d7", s=200,
-                label="new sequences", zorder=3)
-    plt.scatter(identity_comparison["alignment_mean"], identity_comparison["virus"], color="grey", s=200,
-                label="alignment", zorder=3)
+    plt.scatter(identity_comparison["mean"],
+                identity_comparison["virus"],
+                color="#0096d7",
+                s=200,
+                label="new sequences",
+                zorder=3)
+    plt.scatter(identity_comparison["alignment_mean"],
+                identity_comparison["virus"],
+                color="grey",
+                s=200,
+                label="alignment",
+                zorder=3)
     sns.despine()
-    plt.legend(ncol=2, bbox_to_anchor=(1., 1.01), loc="lower right", frameon=False)
+    plt.legend(ncol=2,
+               bbox_to_anchor=(1., 1.01),
+               loc="lower right",
+               frameon=False)
     plt.xlim(right=100)
-    plt.xlabel("% mean pairwise identity")
+    plt.xlabel("% mean pairwise sequence identity")
     plt.tight_layout()
 
     plt.savefig(f"{output_folder}/identity_comparision.pdf", bbox_inches='tight')
+
+
+def plot_per_amplicon_coverages(coverages, output_folder):
+    """
+    plot for all viruses the per amplicon mean coverages
+    """
+
+    for virus in list_folder_names(coverages):
+        files = get_files(f"{coverages}/{virus}")
+        names = get_file_names(files)
+
+        # get normalized coverages
+        normalized_coverages = []
+        for file in files:
+            per_amplicon_cov = pd.read_csv(file, sep="\t", header=0)
+            max_coverage = max(per_amplicon_cov["mean coverage"]*per_amplicon_cov["recovery"]/(per_amplicon_cov["stop"]-per_amplicon_cov["start"]))
+            normalized_coverages.append(
+                list(
+                    (per_amplicon_cov["mean coverage"]*per_amplicon_cov["recovery"]/(per_amplicon_cov["stop"]-per_amplicon_cov["start"]))/max_coverage*100)
+            )
+
+        # sort all elements by element in the first list
+        normalized_coverages_sorted = []
+        sort_index = sorted(range(len(normalized_coverages[0])), key=lambda i: normalized_coverages[0][i], reverse=True)
+        for cov_list in normalized_coverages:
+            normalized_coverages_sorted.append([cov_list[i] for i in sort_index])
+
+        # traverse coverages
+        normalized_coverages_trav = []
+        for i in range(0, len(normalized_coverages_sorted[0])-1):
+            normalized_coverages_trav.append([item[i] for item in normalized_coverages_sorted])
+
+        # plot
+        plt.figure(figsize=(len(files)*0.8, 4.5))
+        palette = sns.color_palette("copper", len(normalized_coverages_trav))  # define colours
+        for idx, amplicon in enumerate(normalized_coverages_trav):
+            sns.lineplot(x=names, y=amplicon, marker="o", color=palette[idx])
+        plt.yscale("log")
+        sns.despine()
+        plt.ylim(bottom=0.07, top=150)
+        plt.ylabel("normalized mean coverage/covered base")
+        plt.tight_layout()
+        plt.xticks(rotation=45, ha="right")
+        plt.savefig(f"{output_folder}/{virus}_per_amplicon_coverage.pdf", bbox_inches='tight')
 
 
 def main(color_scheme, output_folder):
@@ -637,17 +701,20 @@ def main(color_scheme, output_folder):
     print("- Plotting entropy...")
     calculate_and_plot_entropy("alignments", output_folder)
     print("- Plotting primer degeneracy...")
-    calculate_and_plot_degeneracy("tsv_files", output_folder)
+    calculate_and_plot_degeneracy("primer_tsv_files", output_folder)
     print("- Plotting mismatches...")
-    calculate_and_plot_mismatches("alignments", "bed_files", "tsv_files", output_folder)
+    calculate_and_plot_mismatches("alignments", "primer_bed_files", "primer_tsv_files", output_folder)
     print("- Plotting primer stats...")
-    plot_primer_stats(output_folder, "tsv_files", "bed_files", "consensus_files")
+    plot_primer_stats(output_folder, "primer_tsv_files", "primer_bed_files", "consensus_files")
     print("- Plotting identity comparison...")
     plot_sequence_identity_comparison(identity_all, "sequence_identity/new_seq", output_folder)
-
+    print("- Plotting per amplicon coverages...")
+    plot_per_amplicon_coverages("coverages_per_amplicon", output_folder)
     print("\n###         Finished the analysis          ###")
 
 
 # run the analysis
 if __name__ == "__main__":
     main(color_scheme="PuOr", output_folder="output")
+
+
