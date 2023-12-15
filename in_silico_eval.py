@@ -143,7 +143,7 @@ def pairwise_evaluation(filepath):
             identities = []
             with open(file, "r") as identity_file:
                 for line in identity_file:
-                    identities.append(float(line.strip().split("\t")[2]))
+                    identities.append(float(line.strip().split("\t")[2])*100)
             if len(identities) > 1:
                 results.append([name, statistics.mean(identities), statistics.stdev(identities)])
             else:
@@ -581,29 +581,39 @@ def plot_sequence_identity_comparison(identity_all_df, identity_folder, output_f
     # get one df with sequence identities and alignment identities
     identity_comparison = pairwise_evaluation(identity_folder)
 
-    alignment_identity, alignment_std = [], []
+    alignment_identity, alignment_std, text = [], [], []
 
     for name in identity_comparison["virus"]:
         if name in list(identity_all_df["virus"]):
-            alignment_identity.append(float(identity_all_df[identity_all_df["virus"] == name]["mean"]))
-            alignment_std.append(float(identity_all_df[identity_all_df["virus"] == name]["std"]))
+            alignment_identity_temp = float(identity_all_df[identity_all_df["virus"] == name]["mean"])
+            identity_diff = alignment_identity_temp - float(identity_comparison[identity_comparison["virus"] == name]["mean"])
+            alignment_identity.append(alignment_identity_temp)
+            text.append(f"{round(identity_diff)}%")
         else:
-            alignment_identity.append("NA"), alignment_std.append("NA")
+            alignment_identity.append("NA"), alignment_std.append("NA"), text.append("NA")
     # add columns
-    identity_comparison["alignment_mean"], identity_comparison["alignment_std"] = alignment_identity, alignment_std
+    identity_comparison["alignment_mean"], identity_comparison["change"] = alignment_identity, text
 
     # dumbbell plot
     plt.figure(figsize=(9, 4.5))
+    colors = np.where(identity_comparison["mean"] < identity_comparison["alignment_mean"], "#d9d9d9", "#d57883")
+    # plot hlines with colors dependent if the mean identity is higher or lower
     plt.hlines(y=identity_comparison["virus"], xmin=identity_comparison["mean"],
                xmax=identity_comparison["alignment_mean"],
-               color="#d9d9d9", lw=10)
+               color=colors, lw=10)
+    # generate x,y tuple for annotation
+    xy_values = [(x+1, y) for x, y in zip(identity_comparison[["mean", "alignment_mean"]].max(axis=1), np.arange(0, len(identity_comparison.index) + 1))]
+    # annotate change
+    for annotation, xy in zip(list(identity_comparison["change"]), xy_values):
+        plt.annotate(annotation, xy, verticalalignment="center")
     plt.scatter(identity_comparison["mean"], identity_comparison["virus"], color="#0096d7", s=200,
                 label="new sequences", zorder=3)
     plt.scatter(identity_comparison["alignment_mean"], identity_comparison["virus"], color="grey", s=200,
                 label="alignment", zorder=3)
     sns.despine()
     plt.legend(ncol=2, bbox_to_anchor=(1., 1.01), loc="lower right", frameon=False)
-    plt.xlabel("mean pairwise identity")
+    plt.xlim(right=100)
+    plt.xlabel("% mean pairwise identity")
     plt.tight_layout()
 
     plt.savefig(f"{output_folder}/identity_comparision.pdf", bbox_inches='tight')
