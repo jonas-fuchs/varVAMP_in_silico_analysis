@@ -652,10 +652,10 @@ def plot_per_amplicon_coverages(coverages, output_folder):
         normalized_coverages = []
         for file in files:
             per_amplicon_cov = pd.read_csv(file, sep="\t", header=0)
-            max_coverage = max(per_amplicon_cov["mean coverage"]*per_amplicon_cov["recovery"]/(per_amplicon_cov["stop"]-per_amplicon_cov["start"]))
+            max_coverage = max(per_amplicon_cov["mean coverage"]/(per_amplicon_cov["stop"]-per_amplicon_cov["start"]))
             normalized_coverages.append(
                 list(
-                    (per_amplicon_cov["mean coverage"]*per_amplicon_cov["recovery"]/(per_amplicon_cov["stop"]-per_amplicon_cov["start"]))/max_coverage*100)
+                    (per_amplicon_cov["mean coverage"]/(per_amplicon_cov["stop"]-per_amplicon_cov["start"]))/max_coverage*100)
             )
 
         # sort all elements by element in the first list
