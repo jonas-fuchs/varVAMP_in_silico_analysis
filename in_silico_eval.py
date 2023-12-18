@@ -639,7 +639,7 @@ def plot_sequence_identity_comparison(identity_all_df, identity_folder, output_f
     plt.savefig(f"{output_folder}/identity_comparision.pdf", bbox_inches='tight')
 
 
-def plot_per_amplicon_coverages(coverages, output_folder):
+def plot_per_amplicon_coverages(coverages, output_folder,):
     """
     plot for all viruses the per amplicon mean coverages
     """
@@ -649,35 +649,42 @@ def plot_per_amplicon_coverages(coverages, output_folder):
         names = get_file_names(files)
 
         # get normalized coverages
-        normalized_coverages = []
-        for file in files:
+        all_dfs = []
+        for file, name in zip(files, names):
             per_amplicon_cov = pd.read_csv(file, sep="\t", header=0)
             max_coverage = max(per_amplicon_cov["mean coverage"]/(per_amplicon_cov["stop"]-per_amplicon_cov["start"]))
-            normalized_coverages.append(
-                list(
-                    (per_amplicon_cov["mean coverage"]/(per_amplicon_cov["stop"]-per_amplicon_cov["start"]))/max_coverage*100)
-            )
-
-        # sort all elements by element in the first list
-        normalized_coverages_sorted = []
-        sort_index = sorted(range(len(normalized_coverages[0])), key=lambda i: normalized_coverages[0][i], reverse=True)
-        for cov_list in normalized_coverages:
-            normalized_coverages_sorted.append([cov_list[i] for i in sort_index])
-
-        # traverse coverages
-        normalized_coverages_trav = []
-        for i in range(0, len(normalized_coverages_sorted[0])-1):
-            normalized_coverages_trav.append([item[i] for item in normalized_coverages_sorted])
-
+            per_amplicon_cov["normalized_coverages"] = list((per_amplicon_cov["mean coverage"]/(per_amplicon_cov["stop"]-per_amplicon_cov["start"]))/max_coverage*100)
+            per_amplicon_cov["scheme_name"] = [name]*len(per_amplicon_cov["normalized_coverages"])
+            all_dfs.append(per_amplicon_cov)
+        final_df = pd.concat(all_dfs)
         # plot
-        plt.figure(figsize=(len(files)*0.8, 4.5))
-        palette = sns.color_palette("copper", len(normalized_coverages_trav))  # define colours
-        for idx, amplicon in enumerate(normalized_coverages_trav):
-            sns.lineplot(x=names, y=amplicon, marker="o", color=palette[idx])
-        plt.yscale("log")
+        fig, (ax1, ax2) = plt.subplots(figsize=(len(files)*0.8, 4.5), nrows=2, squeeze=True, sharex=True)
+        palette = sns.color_palette("copper", len(set(per_amplicon_cov["normalized_coverages"])))  # define colours
+        for index, amplicon_name in enumerate(list(set(final_df["name"]))):
+            sns.lineplot(
+                data=final_df[final_df["name"] == amplicon_name],
+                x="scheme_name",
+                y="recovery",
+                marker="o",
+                color=palette[index],
+                legend=False,
+                ax=ax1
+            )
+            sns.lineplot(
+                data=final_df[final_df["name"] == amplicon_name],
+                x="scheme_name",
+                y="normalized_coverages",
+                marker="o",
+                color=palette[index],
+                legend=False,
+                ax=ax2
+            )
         sns.despine()
-        plt.ylim(bottom=0.07, top=150)
-        plt.ylabel("normalized mean coverage/covered base")
+        ax1.set_ylabel("amplicon recovery")
+        ax2.set_ylabel("normalized coverage")
+        ax2.set_yscale("log")
+        ax2.xaxis.set_label_text("")
+        ax1.set_ylim([0, 105])
         plt.tight_layout()
         plt.xticks(rotation=45, ha="right")
         plt.savefig(f"{output_folder}/{virus}_per_amplicon_coverage.pdf", bbox_inches='tight')
