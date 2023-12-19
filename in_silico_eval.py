@@ -680,8 +680,8 @@ def plot_per_amplicon_coverages(coverages, output_folder,):
                 ax=ax2
             )
         sns.despine()
-        ax1.set_ylabel("amplicon recovery")
-        ax2.set_ylabel("normalized coverage")
+        ax1.set_ylabel("% amplicon recovery (>= 20x)")
+        ax2.set_ylabel("% normalized coverage")
         ax2.set_yscale("log")
         ax2.xaxis.set_label_text("")
         ax1.set_ylim([0, 105])
