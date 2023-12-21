@@ -1,8 +1,8 @@
-## varVAMP in silico analysis
+## [varVAMP](https://github.com/jonas-fuchs/varVAMP) in silico analysis
 
-This repository contains the complete code and input files for the in silico analysis of varVAMP schemes and the code and data to reproduce the phylogenetic tree of HEV in the publication:
+This repository contains the complete code and input files for the in silico analysis of [varVAMP schemes](https://github.com/jonas-fuchs/ViralPrimerSchemes) and the code and data to reproduce the phylogenetic tree of HEV in the publication:
 
-**"varVAMP: automatic pan-specific primer design for tiled full genome sequencing and qPCR of highly diverse viral pathogens."**
+**"varVAMP: automated pan-specific primer design for tiled full genome sequencing and qPCR of highly diverse viral pathogens."**
 
 ### Requirements
 
