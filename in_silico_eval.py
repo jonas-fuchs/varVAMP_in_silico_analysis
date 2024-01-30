@@ -62,9 +62,12 @@ def read_fasta(c_file):
     with open(c_file, "r") as f:
         for line in f:
             if line.startswith(">"):
-                continue
-            return Seq(line.rstrip("\n"))
+                seq_id = line[1:].rstrip("\n")
+                seq_id = seq_id.split(" ")[0]
+            else:
+                sequence = Seq(line.rstrip("\n"))
 
+    return seq_id, sequence
 
 def read_alignment(alignment_path):
     """
@@ -490,7 +493,7 @@ def plot_primer_stats(output_folder, tsv_folder, bed_folder, consensus_folder):
         df_new = pd.DataFrame()
         tsv_df = pd.read_csv(tsv_file, sep="\t", header=0)
         bed_df = pd.read_csv(bed_file, sep="\t", header=None)
-        consensus_seq = read_fasta(consensus_seq)
+        consensus_seq = read_fasta(consensus_seq)[1]
         hairpin_temps = calc_dimer_and_hairpin_temps(bed_df, tsv_df, consensus_seq)
         df_new["% GC content"] = list(tsv_df["gc_best"])+list(tsv_df["mean_gc"])
         df_new["°C melting temp"] = list(tsv_df["temp_best"]) + list(tsv_df["mean_temp"])
@@ -639,7 +642,7 @@ def plot_sequence_identity_comparison(identity_all_df, identity_folder, output_f
     plt.savefig(f"{output_folder}/identity_comparision.pdf", bbox_inches='tight')
 
 
-def plot_per_amplicon_coverages(coverages, output_folder,):
+def plot_per_amplicon_coverages(coverages, output_folder):
     """
     plot for all viruses the per amplicon mean coverages
     """
@@ -688,6 +691,63 @@ def plot_per_amplicon_coverages(coverages, output_folder,):
         plt.tight_layout()
         plt.xticks(rotation=45, ha="right")
         plt.savefig(f"{output_folder}/{virus}_per_amplicon_coverage.pdf", bbox_inches='tight')
+
+
+primer_mismatch_dictionary = {}
+
+for virus_name in list_folder_names("adapted_bed_primer_files"):
+    print(virus_name)
+    # ini new dict for each folder
+    primer_mismatch_dictionary[virus_name] = {}
+    # read in files
+    bed_files = get_files(f"adapted_bed_primer_files/{virus_name}")
+    ref_files = get_files(f"reference_seq/{virus_name}")
+    variant_files = get_files(f"variant_tables/{virus_name}")
+    sample_names = get_file_names(variant_files)
+    # create a dictionary with all relevant information from bed and tsv file
+    for bed_file, ref_file in zip(bed_files, ref_files):
+        ref_id, ref_seq = read_fasta(ref_file)
+        bed_df = pd.read_csv(bed_file, sep="\t", header=None)
+        tsv_df = pd.read_csv(f"primer_tsv_files/{virus_name}.tsv", sep="\t", header=0)
+        primer_mismatch_dictionary[virus_name][ref_id] = {}
+        primer_mismatch_dictionary[virus_name][ref_id]["ref seq"] = ref_seq
+        for ref, start, stop, name, direction in zip(bed_df[0], bed_df[1], bed_df[2], bed_df[3], bed_df[5]):
+            primer_mismatch_dictionary[virus_name][ref][name] = {
+                "start": start,
+                "stop": stop,
+                "direction": direction
+            }
+            primer_mismatch_dictionary[virus_name][ref][name]["primer_seq"] = tsv_df[tsv_df["primer_name"] == name]["seq"].to_string(header=False, index=False)
+    # read in variant files
+    for variant_file, sample_name in zip(variant_files, sample_names):
+        print(sample_name)
+        variant_df = pd.read_csv(variant_file, sep="\t", header=0)
+        seq_id = variant_df["CHROM"][0]
+        seq_mut = list(str(primer_mismatch_dictionary[virus_name][seq_id]["ref seq"]))
+        # mutate the ref seq
+        for row in variant_df.iterrows():
+            if row[1]["AF"] >= 0.7 and len(row[1]["REF"]) == 1 and len(row[1]["ALT"]) == 1:
+                seq_mut[row[1]["POS"]-1] = row[1]["ALT"]
+        seq_mut = Seq("".join(seq_mut).lower())
+        # check mismatches between primers and mutated seq
+        for attribute in primer_mismatch_dictionary[virus_name][seq_id]:
+            # get the sequences
+            if attribute == "ref seq":
+                continue
+            sample_seq = seq_mut[primer_mismatch_dictionary[virus_name][seq_id][attribute]["start"]:primer_mismatch_dictionary[virus_name][seq_id][attribute]["stop"]]
+            if primer_mismatch_dictionary[virus_name][seq_id][attribute]["direction"] == "-":
+                sample_seq = rev_complement(sample_seq)
+            primer_seq = primer_mismatch_dictionary[virus_name][seq_id][attribute]["primer_seq"]
+            # compare each position and count mismatches
+            mismatches = 0
+            for primer_nuc, seq_nuc in zip(primer_seq, sample_seq):
+                if primer_nuc in AMBIG_NUCS:
+                    primer_nuc = AMBIG_NUCS[primer_nuc]
+                if seq_nuc not in primer_nuc:
+                    mismatches += 1
+            print(mismatches)
+
+
 
 
 def main(color_scheme, output_folder):
