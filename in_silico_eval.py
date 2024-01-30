@@ -693,61 +693,89 @@ def plot_per_amplicon_coverages(coverages, output_folder):
         plt.savefig(f"{output_folder}/{virus}_per_amplicon_coverage.pdf", bbox_inches='tight')
 
 
-primer_mismatch_dictionary = {}
+def analyse_and_plot_primer_binding(adapted_bed_folder, ref_folder, variant_folder, per_base_coverages_folder, tsv_folder, output_folder):
+    """
+    analyse how well the primers bind to each newly generated sequence and plot
+    """
 
-for virus_name in list_folder_names("adapted_bed_primer_files"):
-    print(virus_name)
-    # ini new dict for each folder
-    primer_mismatch_dictionary[virus_name] = {}
-    # read in files
-    bed_files = get_files(f"adapted_bed_primer_files/{virus_name}")
-    ref_files = get_files(f"reference_seq/{virus_name}")
-    variant_files = get_files(f"variant_tables/{virus_name}")
-    sample_names = get_file_names(variant_files)
-    # create a dictionary with all relevant information from bed and tsv file
-    for bed_file, ref_file in zip(bed_files, ref_files):
-        ref_id, ref_seq = read_fasta(ref_file)
-        bed_df = pd.read_csv(bed_file, sep="\t", header=None)
-        tsv_df = pd.read_csv(f"primer_tsv_files/{virus_name}.tsv", sep="\t", header=0)
-        primer_mismatch_dictionary[virus_name][ref_id] = {}
-        primer_mismatch_dictionary[virus_name][ref_id]["ref seq"] = ref_seq
-        for ref, start, stop, name, direction in zip(bed_df[0], bed_df[1], bed_df[2], bed_df[3], bed_df[5]):
-            primer_mismatch_dictionary[virus_name][ref][name] = {
-                "start": start,
-                "stop": stop,
-                "direction": direction
-            }
-            primer_mismatch_dictionary[virus_name][ref][name]["primer_seq"] = tsv_df[tsv_df["primer_name"] == name]["seq"].to_string(header=False, index=False)
-    # read in variant files
-    for variant_file, sample_name in zip(variant_files, sample_names):
-        print(sample_name)
-        variant_df = pd.read_csv(variant_file, sep="\t", header=0)
-        seq_id = variant_df["CHROM"][0]
-        seq_mut = list(str(primer_mismatch_dictionary[virus_name][seq_id]["ref seq"]))
-        # mutate the ref seq
-        for row in variant_df.iterrows():
-            if row[1]["AF"] >= 0.7 and len(row[1]["REF"]) == 1 and len(row[1]["ALT"]) == 1:
-                seq_mut[row[1]["POS"]-1] = row[1]["ALT"]
-        seq_mut = Seq("".join(seq_mut).lower())
-        # check mismatches between primers and mutated seq
-        for attribute in primer_mismatch_dictionary[virus_name][seq_id]:
-            # get the sequences
-            if attribute == "ref seq":
-                continue
-            sample_seq = seq_mut[primer_mismatch_dictionary[virus_name][seq_id][attribute]["start"]:primer_mismatch_dictionary[virus_name][seq_id][attribute]["stop"]]
-            if primer_mismatch_dictionary[virus_name][seq_id][attribute]["direction"] == "-":
-                sample_seq = rev_complement(sample_seq)
-            primer_seq = primer_mismatch_dictionary[virus_name][seq_id][attribute]["primer_seq"]
-            # compare each position and count mismatches
-            mismatches = 0
-            for primer_nuc, seq_nuc in zip(primer_seq, sample_seq):
-                if primer_nuc in AMBIG_NUCS:
-                    primer_nuc = AMBIG_NUCS[primer_nuc]
-                if seq_nuc not in primer_nuc:
-                    mismatches += 1
-            print(mismatches)
+    primer_mismatch_dictionary = {}
 
+    for virus_name in list_folder_names("adapted_bed_primer_files"):
+        # read in files
+        bed_files = get_files(f"{adapted_bed_folder}/{virus_name}")
+        ref_files = get_files(f"{ref_folder}/{virus_name}")
+        variant_files = get_files(f"{variant_folder}/{virus_name}")
+        coverage_files = get_files(f"{per_base_coverages_folder}/{virus_name}")
+        sample_names = get_file_names(variant_files)
+        # ini stuff
+        primer_mismatch_dictionary[virus_name] = {}
+        mismatch_df_per_virus = pd.DataFrame()
+        # create a dictionary with all relevant information from bed and tsv file
+        for bed_file, ref_file in zip(bed_files, ref_files):
+            ref_id, ref_seq = read_fasta(ref_file)
+            bed_df = pd.read_csv(bed_file, sep="\t", header=None)
+            tsv_df = pd.read_csv(f"{tsv_folder}/{virus_name}.tsv", sep="\t", header=0)
+            primer_mismatch_dictionary[virus_name][ref_id] = {}
+            primer_mismatch_dictionary[virus_name][ref_id]["ref seq"] = ref_seq
+            for ref, start, stop, name, direction in zip(bed_df[0], bed_df[1], bed_df[2], bed_df[3], bed_df[5]):
+                primer_mismatch_dictionary[virus_name][ref][name] = {
+                    "start": start,
+                    "stop": stop,
+                    "direction": direction
+                }
+                primer_mismatch_dictionary[virus_name][ref][name]["primer_seq"] = tsv_df[tsv_df["primer_name"] == name]["seq"].to_string(header=False, index=False)
+        # read in variant files
+        for variant_file, coverage_file, sample_name in zip(variant_files,coverage_files, sample_names):
+            # read in variants and define seq to mutate
+            covered_primer_counter = [0, 0]  # [no, yes]
+            variant_df = pd.read_csv(variant_file, sep="\t", header=0)
+            coverage_df = pd.read_csv(coverage_file, sep="\t", header=0)
+            seq_id = coverage_df["#chr"][0]
+            seq_mut = list(str(primer_mismatch_dictionary[virus_name][seq_id]["ref seq"]))
+            # mutate the ref seq
+            for row in variant_df.iterrows():
+                if row[1]["AF"] >= 0.7 and len(row[1]["REF"]) == 1 and len(row[1]["ALT"]) == 1:
+                    seq_mut[row[1]["POS"]-1] = row[1]["ALT"]
+            seq_mut = Seq("".join(seq_mut).lower())
+            # remember for each primer the number of mismatches
+            mismatch_list = []
+            # check mismatches between primers and mutated seq
+            for attribute in primer_mismatch_dictionary[virus_name][seq_id]:
+                # get the sequences
+                if attribute == "ref seq":
+                    continue
+                start, stop = primer_mismatch_dictionary[virus_name][seq_id][attribute]["start"], primer_mismatch_dictionary[virus_name][seq_id][attribute]["stop"]
+                primer_coverage = list(coverage_df[(coverage_df["pos"] > start) & (coverage_df["pos"] <= stop)]["coverage"])  # tsv is one based and bed file is 0 based
+                sample_seq = seq_mut[start:stop]
+                # check if the primer region is sufficiently covered, if not the primer is not included in the analysis
+                if not all(x >= 20 for x in primer_coverage) or len(primer_coverage) != len(sample_seq):
+                    covered_primer_counter[0] += 1  # primer is not sufficiently covered
+                    continue
+                covered_primer_counter[1] += 1  # primer is sufficiently covered
+                if primer_mismatch_dictionary[virus_name][seq_id][attribute]["direction"] == "-":
+                    sample_seq = rev_complement(sample_seq)
+                primer_seq = primer_mismatch_dictionary[virus_name][seq_id][attribute]["primer_seq"]
+                # compare each position and count mismatches
+                mismatches = 0
+                for primer_nuc, seq_nuc in zip(primer_seq, sample_seq):
+                    if primer_nuc in AMBIG_NUCS:
+                        primer_nuc = AMBIG_NUCS[primer_nuc]
+                    if seq_nuc not in primer_nuc:
+                        mismatches += 1
+                mismatch_list.append(mismatches)
 
+            mismatch_df_per_virus = pd.concat([mismatch_df_per_virus, pd.Series(mismatch_list, name=sample_name).value_counts().to_frame()], axis=1)
+        # plot results
+        mismatch_df_per_virus = mismatch_df_per_virus.T.plot(
+            kind="bar",
+            stacked=True,
+            figsize=(len(variant_files)*0.8, 4.5)
+        )
+        sns.despine()
+        plt.xticks(rotation=45, ha="right")
+        plt.legend(loc="lower left", title="number of mismatches", ncol=3, bbox_to_anchor=(0,1))
+        plt.ylabel("primer target sequences covered >= 20x")
+        plt.savefig(f"{output_folder}/{virus_name}_primer_mismatches.pdf", bbox_inches='tight')
 
 
 def main(color_scheme, output_folder):
@@ -769,7 +797,7 @@ def main(color_scheme, output_folder):
     calculate_and_plot_entropy("alignments", output_folder)
     print("- Plotting primer degeneracy...")
     calculate_and_plot_degeneracy("primer_tsv_files", output_folder)
-    print("- Plotting mismatches...")
+    print("- Plotting mismatches with alignment sequences...")
     calculate_and_plot_mismatches("alignments", "primer_bed_files", "primer_tsv_files", output_folder)
     print("- Plotting primer stats...")
     plot_primer_stats(output_folder, "primer_tsv_files", "primer_bed_files", "consensus_files")
@@ -777,6 +805,8 @@ def main(color_scheme, output_folder):
     plot_sequence_identity_comparison(identity_all, "sequence_identity/new_seq", output_folder)
     print("- Plotting per amplicon coverages...")
     plot_per_amplicon_coverages("coverages_per_amplicon", output_folder)
+    print("- Plotting how well primers match to new sequences...")
+    analyse_and_plot_primer_binding("adapted_bed_primer_files", "reference_seq", "variant_tables", "per_base_coverages", "primer_tsv_files", output_folder)
     print("\n###         Finished the analysis          ###")
 
 
