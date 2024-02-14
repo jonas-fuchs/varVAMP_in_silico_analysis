@@ -683,7 +683,7 @@ def plot_per_amplicon_coverages(coverages, output_folder):
                 ax=ax2
             )
         sns.despine()
-        ax1.set_ylabel("% amplicon recovery (>= 20x)")
+        ax1.set_ylabel("% recovery (>= 20x)")
         ax2.set_ylabel("% normalized coverage")
         ax2.set_yscale("log")
         ax2.xaxis.set_label_text("")
@@ -727,7 +727,6 @@ def analyse_and_plot_primer_binding(adapted_bed_folder, ref_folder, variant_fold
         # read in variant files
         for variant_file, coverage_file, sample_name in zip(variant_files,coverage_files, sample_names):
             # read in variants and define seq to mutate
-            covered_primer_counter = [0, 0]  # [no, yes]
             variant_df = pd.read_csv(variant_file, sep="\t", header=0)
             coverage_df = pd.read_csv(coverage_file, sep="\t", header=0)
             seq_id = coverage_df["#chr"][0]
@@ -749,9 +748,7 @@ def analyse_and_plot_primer_binding(adapted_bed_folder, ref_folder, variant_fold
                 sample_seq = seq_mut[start:stop]
                 # check if the primer region is sufficiently covered, if not the primer is not included in the analysis
                 if not all(x >= 20 for x in primer_coverage) or len(primer_coverage) != len(sample_seq):
-                    covered_primer_counter[0] += 1  # primer is not sufficiently covered
                     continue
-                covered_primer_counter[1] += 1  # primer is sufficiently covered
                 if primer_mismatch_dictionary[virus_name][seq_id][attribute]["direction"] == "-":
                     sample_seq = rev_complement(sample_seq)
                 primer_seq = primer_mismatch_dictionary[virus_name][seq_id][attribute]["primer_seq"]
