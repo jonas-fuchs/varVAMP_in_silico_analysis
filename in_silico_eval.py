@@ -661,7 +661,7 @@ def plot_per_amplicon_coverages(coverages, output_folder):
             all_dfs.append(per_amplicon_cov)
         final_df = pd.concat(all_dfs)
         # plot
-        fig, (ax1, ax2) = plt.subplots(figsize=(len(files)*0.8, 4.5), nrows=2, squeeze=True, sharex=True)
+        fig, (ax1, ax2) = plt.subplots(figsize=(len(files)*0.65, 4.5), nrows=2, squeeze=True, sharex=True)
         palette = sns.color_palette("copper", len(set(per_amplicon_cov["normalized_coverages"])))  # define colours
         for index, amplicon_name in enumerate(list(set(final_df["name"]))):
             sns.lineplot(
@@ -769,7 +769,7 @@ def analyse_and_plot_primer_binding(adapted_bed_folder, ref_folder, variant_fold
         mismatch_df_per_virus = mismatch_df_per_virus.T.plot(
             kind="bar",
             stacked=True,
-            figsize=(len(variant_files)*0.8, 4.5)
+            figsize=(len(variant_files)*0.65, 4.5)
         )
         sns.despine()
         plt.xticks(rotation=45, ha="right")
