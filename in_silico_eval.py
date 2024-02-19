@@ -45,7 +45,14 @@ def get_file_names(files):
     """
     list all file names
     """
-    return [splitext(basename(f))[0].replace("_", " ") for f in files]
+    name_list = []
+    for name in [splitext(basename(f))[0].replace("_", " ") for f in files]:
+        # allows to manually sort files by a prepending 1_ etc
+        if name[0].isdigit():
+            name = name[2:]
+        name_list.append(name)
+
+    return name_list
 
 
 def list_folder_names(folder):
@@ -486,7 +493,6 @@ def plot_primer_stats(output_folder, tsv_folder, bed_folder, consensus_folder):
     consensus_files = get_files(consensus_folder)
     names = get_file_names(tsv_files)
 
-
     all_dfs = []
 
     for tsv_file, bed_file, consensus_seq, name in zip(tsv_files, bed_files, consensus_files, names):
@@ -700,6 +706,8 @@ def analyse_and_plot_primer_binding(adapted_bed_folder, ref_folder, variant_fold
 
     primer_mismatch_dictionary = {}
 
+    tsv_files = get_files(tsv_folder)
+
     for virus_name in list_folder_names("adapted_bed_primer_files"):
         # read in files
         bed_files = get_files(f"{adapted_bed_folder}/{virus_name}")
@@ -714,7 +722,8 @@ def analyse_and_plot_primer_binding(adapted_bed_folder, ref_folder, variant_fold
         for bed_file, ref_file in zip(bed_files, ref_files):
             ref_id, ref_seq = read_fasta(ref_file)
             bed_df = pd.read_csv(bed_file, sep="\t", header=None)
-            tsv_df = pd.read_csv(f"{tsv_folder}/{virus_name}.tsv", sep="\t", header=0)
+            tsv_file = [filename for filename in tsv_files if virus_name in filename][0]  # a bit hacky way to get the correct file
+            tsv_df = pd.read_csv(tsv_file, sep="\t", header=0)
             primer_mismatch_dictionary[virus_name][ref_id] = {}
             primer_mismatch_dictionary[virus_name][ref_id]["ref seq"] = ref_seq
             for ref, start, stop, name, direction in zip(bed_df[0], bed_df[1], bed_df[2], bed_df[3], bed_df[5]):
