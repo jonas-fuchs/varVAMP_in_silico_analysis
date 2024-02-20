@@ -357,7 +357,7 @@ def calculate_and_plot_entropy(input_folder, output_folder):
     fig.savefig(f"{output_folder}/entropy.pdf")
 
 
-def calculate_and_plot_degeneracy(input_folder, output_folder):
+def calculate_and_plot_degeneracy(input_folder, output_folder, colorscheme):
     """
     calc the degeneracy of the individual primers of each scheme and plot
     """
@@ -375,7 +375,7 @@ def calculate_and_plot_degeneracy(input_folder, output_folder):
         permutations.append(permutations_per_scheme)
 
     plt.figure(figsize=(3, 4.5))
-    ax = sns.stripplot(permutations, palette="PuOr")
+    ax = sns.stripplot(permutations, palette=colorscheme)
     sns.boxplot(showmeans=True,
                 meanline=True,
                 meanprops={'color': 'k', 'ls': '-', 'lw': 2},
@@ -710,7 +710,7 @@ def plot_per_amplicon_coverages(coverages, output_folder):
         ax1.set_ylim([0, 105])
         plt.tight_layout()
         plt.xticks(rotation=45, ha="right")
-        set_size(len(files)*0.65, 4.5)
+        set_size(len(files)*0.5, 4.5)
         plt.savefig(f"{output_folder}/{virus}_per_amplicon_coverage.pdf", bbox_inches='tight')
 
 
@@ -793,7 +793,7 @@ def analyse_and_plot_primer_binding(adapted_bed_folder, ref_folder, variant_fold
         )
         sns.despine()
         plt.xticks(rotation=45, ha="right")
-        set_size(len(variant_files) * 0.65, 4.5)
+        set_size(len(variant_files) * 0.5, 4.5)
         plt.legend(loc="lower left", title="number of mismatches", ncol=3, bbox_to_anchor=(0,1))
         plt.ylabel("primer target sequences covered >= 20x")
         plt.savefig(f"{output_folder}/{virus_name}_primer_mismatches.pdf", bbox_inches='tight')
@@ -817,7 +817,7 @@ def main(color_scheme, output_folder):
     print("- Plotting entropy...")
     calculate_and_plot_entropy("alignments", output_folder)
     print("- Plotting primer degeneracy...")
-    calculate_and_plot_degeneracy("primer_tsv_files", output_folder)
+    calculate_and_plot_degeneracy("primer_tsv_files", output_folder, color_scheme)
     print("- Plotting mismatches with alignment sequences...")
     calculate_and_plot_mismatches("alignments", "primer_bed_files", "primer_tsv_files", output_folder)
     print("- Plotting primer stats...")
@@ -833,6 +833,6 @@ def main(color_scheme, output_folder):
 
 # run the analysis
 if __name__ == "__main__":
-    main(color_scheme="PuOr", output_folder="output")
+    main(color_scheme="coolwarm", output_folder="output")
 
 
