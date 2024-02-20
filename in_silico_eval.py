@@ -76,6 +76,7 @@ def read_fasta(c_file):
 
     return seq_id, sequence
 
+
 def read_alignment(alignment_path):
     """
     read alignment with AlignIO and
@@ -374,7 +375,7 @@ def calculate_and_plot_degeneracy(input_folder, output_folder):
         permutations.append(permutations_per_scheme)
 
     plt.figure(figsize=(3, 4.5))
-    ax = sns.stripplot(permutations)
+    ax = sns.stripplot(permutations, palette="PuOr")
     sns.boxplot(showmeans=True,
                 meanline=True,
                 meanprops={'color': 'k', 'ls': '-', 'lw': 2},
@@ -481,6 +482,18 @@ def calculate_and_plot_mismatches(alignment_folder, bed_folder, tsv_folder, outp
     sns.despine()
     plt.xticks(np.arange(0, 25, 2.0))
     fig.savefig(f"{output_folder}/mismatches_distance_from_3_prime.pdf")
+
+
+def set_size(w,h, ax=None):
+    """ w, h: width, height in inches """
+    if not ax: ax=plt.gca()
+    l = ax.figure.subplotpars.left
+    r = ax.figure.subplotpars.right
+    t = ax.figure.subplotpars.top
+    b = ax.figure.subplotpars.bottom
+    figw = float(w)/(r-l)
+    figh = float(h)/(t-b)
+    ax.figure.set_size_inches(figw, figh)
 
 
 def plot_primer_stats(output_folder, tsv_folder, bed_folder, consensus_folder):
@@ -667,7 +680,7 @@ def plot_per_amplicon_coverages(coverages, output_folder):
             all_dfs.append(per_amplicon_cov)
         final_df = pd.concat(all_dfs)
         # plot
-        fig, (ax1, ax2) = plt.subplots(figsize=(len(files)*0.65, 4.5), nrows=2, squeeze=True, sharex=True)
+        fig, (ax1, ax2) = plt.subplots(nrows=2, squeeze=True, sharex=True)
         palette = sns.color_palette("copper", len(set(per_amplicon_cov["normalized_coverages"])))  # define colours
         for index, amplicon_name in enumerate(list(set(final_df["name"]))):
             sns.lineplot(
@@ -693,9 +706,11 @@ def plot_per_amplicon_coverages(coverages, output_folder):
         ax2.set_ylabel("% normalized coverage")
         ax2.set_yscale("log")
         ax2.xaxis.set_label_text("")
+        ax2.set_xlim(left=-0.5, right=len(set(final_df["scheme_name"]))-0.5)  # overwrite autospacing so it matches barplot
         ax1.set_ylim([0, 105])
         plt.tight_layout()
         plt.xticks(rotation=45, ha="right")
+        set_size(len(files)*0.65, 4.5)
         plt.savefig(f"{output_folder}/{virus}_per_amplicon_coverage.pdf", bbox_inches='tight')
 
 
@@ -734,7 +749,7 @@ def analyse_and_plot_primer_binding(adapted_bed_folder, ref_folder, variant_fold
                 }
                 primer_mismatch_dictionary[virus_name][ref][name]["primer_seq"] = tsv_df[tsv_df["primer_name"] == name]["seq"].to_string(header=False, index=False)
         # read in variant files
-        for variant_file, coverage_file, sample_name in zip(variant_files,coverage_files, sample_names):
+        for variant_file, coverage_file, sample_name in zip(variant_files, coverage_files, sample_names):
             # read in variants and define seq to mutate
             variant_df = pd.read_csv(variant_file, sep="\t", header=0)
             coverage_df = pd.read_csv(coverage_file, sep="\t", header=0)
@@ -775,10 +790,10 @@ def analyse_and_plot_primer_binding(adapted_bed_folder, ref_folder, variant_fold
         mismatch_df_per_virus = mismatch_df_per_virus.T.plot(
             kind="bar",
             stacked=True,
-            figsize=(len(variant_files)*0.65, 4.5)
         )
         sns.despine()
         plt.xticks(rotation=45, ha="right")
+        set_size(len(variant_files) * 0.65, 4.5)
         plt.legend(loc="lower left", title="number of mismatches", ncol=3, bbox_to_anchor=(0,1))
         plt.ylabel("primer target sequences covered >= 20x")
         plt.savefig(f"{output_folder}/{virus_name}_primer_mismatches.pdf", bbox_inches='tight')
