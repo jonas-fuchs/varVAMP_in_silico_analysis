@@ -1,0 +1,8 @@
+start	stop	strand	name	score	mean coverage	recovery
+71	1197	+	amplicon_0	0	138709	97.96
+887	2280	+	amplicon_4	1	91787	100.0
+2123	3509	+	amplicon_1	0	76670	100.0
+3205	4596	+	amplicon_5	1	68933	100.0
+4470	5796	+	amplicon_2	0	148773	100.0
+5547	6695	+	amplicon_6	1	106264	100.0
+6389	7402	+	amplicon_3	0	107747	97.83
