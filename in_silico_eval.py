@@ -1,5 +1,59 @@
+#!/usr/bin/env python3
+
 """
-this script contains the code for the in silico varVAMP evaluation
+########################## INFO ################################
+
+this script reproduces all plots for the in silico analysis of:
+
+"varVAMP: automated pan-specific primer design for tiled
+full genome sequencing and qPCR of highly diverse viral pathogens."
+
+All relevant data is given within this repo. The data was produced with:
+
+- adapted bed primer files:
+    bed annotations for the primer locations of the varVAMP output were adapted to the appropriate references
+    used for mapping the raw reads.
+- alignments:
+    Output of varVAMP. The inital non-gap masked alignment used as the varVAMP input can be found at
+    https://github.com/jonas-fuchs/ViralPrimerSchemes
+- consensus files:
+    varVAMP output
+- coverages per amplicon:
+    bamDASH output from mapped *.bam files and the adapted bed files used as track (--dump to dump the data to tabular)
+- new sequences:
+    output of the mapping and consensus Galaxy pipeline. The regions of the most left and right primers were
+    masked with 'N'. Additionally low covered regions (<20x) and mutations between a frequency of 0.3 and 0.7
+    were also masked with 'N'.
+- per base coverages:
+    output of bamQC (https://github.com/s-andrews/BamQC) generated from mapped *.bam files
+- primer bed files:
+    initial primer bed files from the varVAMP output. Locations are relative to the consensus sequences
+- primer tsv files:
+    varVAMP output
+- reference seq:
+    reference sequences used for mapping
+- sequence identity:
+    pairwise identities calculated with https://github.com/BioinformaticsToolsmith/Identity using either the initial
+    sequences used to generate the MAFFT alignment used as the varVAMP input
+- variant tables:
+    tabular files extracted from vcf files (variant callings on *.bam)
+
+########################## INSTALLATION AND RUNNING THE ANALYSIS ################################
+
+requires python 3.11
+
+Run:
+    pip install .
+    python3 extract_as_fasta.py
+
+will produce a new "output folder" with all files
+
+########################## COPYRIGHT ################################
+
+Dr. Jonas Fuchs (jonas.fuchs@uniklinik-freiburg.de)
+Institute for Virology, Freiburg, Germany
+
+
 """
 
 # BUILT-INS
@@ -485,7 +539,10 @@ def calculate_and_plot_mismatches(alignment_folder, bed_folder, tsv_folder, outp
 
 
 def set_size(w,h, ax=None):
-    """ w, h: width, height in inches """
+    """
+    set size of the axis rather than the plot - circumvents weird plotting issues that automatically scales white space
+    w, h: width, height in inches
+    """
     if not ax: ax=plt.gca()
     l = ax.figure.subplotpars.left
     r = ax.figure.subplotpars.right
