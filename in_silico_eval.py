@@ -19,7 +19,8 @@ All relevant data is given within this repo. The data was produced with:
 - consensus files:
     varVAMP output
 - coverages per amplicon:
-    bamDASH output from mapped *.bam files and the adapted bed files used as track (--dump to dump the data to tabular)
+    bamDASH output from mapped *.bam files and bed files for the amplicons used as track
+    (--dump to dump the data to tabular)
 - new sequences:
     output of the mapping and consensus Galaxy pipeline. The regions of the most left and right primers were
     masked with 'N'. Additionally low covered regions (<20x) and mutations between a frequency of 0.3 and 0.7
