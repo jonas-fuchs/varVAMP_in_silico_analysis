@@ -813,7 +813,7 @@ def main(color_scheme, output_folder):
     print("-pairwise sequence identity:")
     identity_all = pairwise_evaluation("sequence_identity/all")
     print(identity_all)
-    sns.set_palette(palette=color_scheme)
+    sns.set_palette(palette=color_scheme, n_colors=7)
     print("- Plotting entropy...")
     calculate_and_plot_entropy("alignments", output_folder)
     print("- Plotting primer degeneracy...")
