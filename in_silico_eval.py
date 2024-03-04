@@ -14,7 +14,7 @@ All relevant data is given within this repo. The data was produced with:
     bed annotations for the primer locations of the varVAMP output were adapted to the appropriate references
     used for mapping the raw reads.
 - alignments:
-    Output of varVAMP. The inital non-gap masked alignment used as the varVAMP input can be found at
+    Output of varVAMP. The initial non-gap masked alignment used as the varVAMP input can be found at
     https://github.com/jonas-fuchs/ViralPrimerSchemes
 - consensus files:
     varVAMP output
@@ -35,9 +35,9 @@ All relevant data is given within this repo. The data was produced with:
     reference sequences used for mapping
 - sequence identity:
     pairwise identities calculated with https://github.com/BioinformaticsToolsmith/Identity using either the initial
-    sequences used to generate the MAFFT alignment used as the varVAMP input
+    sequences used to generate the MAFFT alignment of the varVAMP input or the new sequences
 - variant tables:
-    tabular files extracted from vcf files (variant callings on *.bam)
+    tabular files extracted from vcf files (variant callings on *.bam files)
 
 ########################## INSTALLATION AND RUNNING THE ANALYSIS ################################
 
