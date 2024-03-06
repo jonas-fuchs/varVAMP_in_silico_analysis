@@ -1,0 +1,10 @@
+>14-16753	>patient_1	0.8873326
+>14-16753	>patient_2	0.87399287
+>14-16753	>patient_3	0.76649341
+>14-16753	>patient_4	0.8629706
+>patient_1	>patient_2	0.86397781
+>patient_1	>patient_3	0.76046756
+>patient_1	>patient_4	0.85528709
+>patient_2	>patient_3	0.77311074
+>patient_2	>patient_4	0.8514689
+>patient_3	>patient_4	0.77504648

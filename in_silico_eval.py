@@ -768,7 +768,7 @@ def plot_per_amplicon_coverages(coverages, output_folder):
         ax1.set_ylim([0, 105])
         plt.tight_layout()
         plt.xticks(rotation=45, ha="right")
-        set_size(len(files)*0.5, 4.5)
+        set_size(len(files)*0.35, 4.5)
         plt.savefig(f"{output_folder}/{virus}_per_amplicon_coverage.pdf", bbox_inches='tight')
 
 
@@ -851,7 +851,7 @@ def analyse_and_plot_primer_binding(adapted_bed_folder, ref_folder, variant_fold
         )
         sns.despine()
         plt.xticks(rotation=45, ha="right")
-        set_size(len(variant_files) * 0.5, 4.5)
+        set_size(len(variant_files) * 0.35, 4.5)
         plt.legend(loc="lower left", title="number of mismatches", ncol=3, bbox_to_anchor=(0,1))
         plt.ylabel("primer target sequences covered >= 20x")
         plt.savefig(f"{output_folder}/{virus_name}_primer_mismatches.pdf", bbox_inches='tight')
