@@ -67,6 +67,7 @@ from os import listdir, makedirs
 from os.path import isfile, join, basename, splitext, exists, isdir
 # LIBS
 import pandas as pd
+from scipy import stats
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -218,11 +219,11 @@ def pairwise_evaluation(filepath):
                 for line in identity_file:
                     identities.append(float(line.strip().split("\t")[2])*100)
             if len(identities) > 1:
-                results.append([name, statistics.mean(identities), statistics.stdev(identities)])
+                results.append([name, statistics.mean(identities), statistics.stdev(identities), identities])
             else:
-                results.append([name, identities[0], 0])
+                results.append([name, identities[0], 0, identities])
 
-    return pd.DataFrame(results, columns=["virus", "mean", "std"])
+    return pd.DataFrame(results, columns=["virus", "mean", "std", "all_values"])
 
 
 def entropy(chars, states):
@@ -539,7 +540,7 @@ def calculate_and_plot_mismatches(alignment_folder, bed_folder, tsv_folder, outp
     fig.savefig(f"{output_folder}/mismatches_distance_from_3_prime.pdf")
 
 
-def set_size(w,h, ax=None):
+def set_size(w, h, ax=None):
     """
     set size of the axis rather than the plot - circumvents weird plotting issues that automatically scales white space
     w, h: width, height in inches
@@ -664,11 +665,10 @@ def plot_sequence_identity_comparison(identity_all_df, identity_folder, output_f
     plot the pairwise sequences identities of the alignment and the newly produced sequences
     as a dumbbell plot
     """
-
     # get one df with sequence identities and alignment identities
     identity_comparison = pairwise_evaluation(identity_folder)
 
-    alignment_identity, alignment_std, text = [], [], []
+    alignment_identity, text, ttest_result = [], [], []
 
     for name in identity_comparison["virus"]:
         if name in list(identity_all_df["virus"]):
@@ -676,14 +676,24 @@ def plot_sequence_identity_comparison(identity_all_df, identity_folder, output_f
             identity_diff = alignment_identity_temp - float(identity_comparison[identity_comparison["virus"] == name]["mean"])
             alignment_identity.append(alignment_identity_temp)
             text.append(f"{round(identity_diff)}%")
+            # t-test for the alignment seq identities and new seq identities
+            all_values_new = list(identity_comparison[identity_comparison["virus"] == name]["all_values"])[0]
+            all_values_aln = list(identity_all_df[identity_all_df["virus"] == name]["all_values"])[0]
+            # check if n at least 3
+            if all([len(all_values_new) >= 3, len(all_values_aln) >= 3]):
+                ttest_result.append(
+                    f"p = {round(stats.ttest_ind(all_values_new, all_values_aln, equal_var = False).pvalue, 4)}"
+                )
+            else:
+                ttest_result.append("n.d.")
         else:
-            alignment_identity.append("NA"), alignment_std.append("NA"), text.append("NA")
-    # add columns
-    identity_comparison["alignment_mean"], identity_comparison["change"] = alignment_identity, text
+            alignment_identity.append("NA"), text.append("NA"), ttest_result.append("NA")
 
+    # add columns
+    identity_comparison["alignment_mean"], identity_comparison["change"], identity_comparison["ttest_pvalue"] = alignment_identity, text, ttest_result
     # dumbbell plot
     plt.figure(figsize=(9, 4.5))
-    colors = np.where(identity_comparison["mean"] < identity_comparison["alignment_mean"], "#d9d9d9", "#d57883")
+    colors = np.where(identity_comparison["mean"] < identity_comparison["alignment_mean"], "#d9d9d9", "#ed98a2")
     # plot hlines with colors dependent if the mean identity is higher or lower
     plt.hlines(y=identity_comparison["virus"],
                xmin=identity_comparison["mean"],
@@ -691,10 +701,11 @@ def plot_sequence_identity_comparison(identity_all_df, identity_folder, output_f
                color=colors,
                lw=10)
     # generate x,y tuple for annotation
-    xy_values = [(x+1, y) for x, y in zip(identity_comparison[["mean", "alignment_mean"]].max(axis=1), np.arange(0, len(identity_comparison.index) + 1))]
+    xy_values = [[(x - 0.5, y + 0.25), (x2 + 1, y)] for x, y, x2 in zip(identity_comparison[["mean", "alignment_mean"]].sum(axis=1)/2, np.arange(0, len(identity_comparison.index) + 1), identity_comparison[["mean", "alignment_mean"]].max(axis=1))]
     # annotate change
-    for annotation, xy in zip(list(identity_comparison["change"]), xy_values):
-        plt.annotate(annotation, xy, verticalalignment="center")
+    for change, p_value, xy in zip(list(identity_comparison["change"]), list(identity_comparison["ttest_pvalue"]), xy_values):
+        plt.annotate(change, xy[0], verticalalignment="center")
+        plt.annotate(p_value, xy[1], verticalalignment="center")
     plt.scatter(identity_comparison["mean"],
                 identity_comparison["virus"],
                 color="#0096d7",
@@ -870,7 +881,7 @@ def main(color_scheme, output_folder):
     alignment_stats("alignments")
     print("-pairwise sequence identity:")
     identity_all = pairwise_evaluation("sequence_identity/all")
-    print(identity_all)
+    print(identity_all[["virus", "mean", "std"]])
     sns.set_palette(palette=color_scheme, n_colors=7)
     print("- Plotting entropy...")
     calculate_and_plot_entropy("alignments", output_folder)
