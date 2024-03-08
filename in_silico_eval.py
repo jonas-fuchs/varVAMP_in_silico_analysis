@@ -673,7 +673,7 @@ def plot_sequence_identity_comparison(identity_all_df, identity_folder, output_f
     for name in identity_comparison["virus"]:
         if name in list(identity_all_df["virus"]):
             alignment_identity_temp = float(identity_all_df[identity_all_df["virus"] == name]["mean"])
-            identity_diff = alignment_identity_temp - float(identity_comparison[identity_comparison["virus"] == name]["mean"])
+            identity_diff = float(identity_comparison[identity_comparison["virus"] == name]["mean"] - alignment_identity_temp)
             alignment_identity.append(alignment_identity_temp)
             text.append(f"{round(identity_diff)}%")
             # t-test for the alignment seq identities and new seq identities
@@ -681,9 +681,20 @@ def plot_sequence_identity_comparison(identity_all_df, identity_folder, output_f
             all_values_aln = list(identity_all_df[identity_all_df["virus"] == name]["all_values"])[0]
             # check if n at least 3
             if all([len(all_values_new) >= 3, len(all_values_aln) >= 3]):
-                ttest_result.append(
-                    f"p = {round(stats.ttest_ind(all_values_new, all_values_aln, equal_var = False).pvalue, 4)}"
-                )
+                p_value = round(stats.ttest_ind(all_values_new, all_values_aln, equal_var=False).pvalue, 3)
+                # associate stars
+                prev_star, prev_sign = "n.s.", 0.05
+                for sign_n, stars in zip((0.05, 0.01, 0.001), ("*", "**", "***")):
+                    if p_value <= sign_n:
+                        prev_star = stars
+                if prev_star == "***":
+                    ttest_result.append(
+                        f"$^{{{prev_star}}}$p < 0.001"
+                    )
+                else:
+                    ttest_result.append(
+                        f"$^{{{prev_star}}}$p = {p_value}"
+                    )
             else:
                 ttest_result.append("n.d.")
         else:
@@ -726,7 +737,6 @@ def plot_sequence_identity_comparison(identity_all_df, identity_folder, output_f
     plt.xlim(right=100)
     plt.xlabel("% mean pairwise sequence identity")
     plt.tight_layout()
-
     plt.savefig(f"{output_folder}/identity_comparision.pdf", bbox_inches='tight')
 
 
