@@ -4,3 +4,4 @@ matplotlib~=3.8.0
 seaborn~=0.12.2
 biopython~=1.81
 primer3-py~=1.1.0
+scipy~=1.11.1

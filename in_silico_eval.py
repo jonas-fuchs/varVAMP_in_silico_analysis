@@ -47,7 +47,7 @@ Run:
     pip install .
     python3 extract_as_fasta.py
 
-will produce a new "output folder" with all files
+will produce a new "output" dir with some tabular files and all plots shown in the publication
 
 ########################## COPYRIGHT ################################
 
@@ -676,6 +676,7 @@ def plot_sequence_identity_comparison(identity_all_df, identity_folder, output_f
             identity_diff = float(identity_comparison[identity_comparison["virus"] == name]["mean"] - alignment_identity_temp)
             alignment_identity.append(alignment_identity_temp)
             text.append(f"{round(identity_diff)}%")
+
             # t-test for the alignment seq identities and new seq identities
             all_values_new = list(identity_comparison[identity_comparison["virus"] == name]["all_values"])[0]
             all_values_aln = list(identity_all_df[identity_all_df["virus"] == name]["all_values"])[0]
@@ -683,17 +684,17 @@ def plot_sequence_identity_comparison(identity_all_df, identity_folder, output_f
             if all([len(all_values_new) >= 3, len(all_values_aln) >= 3]):
                 p_value = round(stats.ttest_ind(all_values_new, all_values_aln, equal_var=False).pvalue, 3)
                 # associate stars
-                prev_star, prev_sign = "n.s.", 0.05
+                current_significance = "n.s."
                 for sign_n, stars in zip((0.05, 0.01, 0.001), ("*", "**", "***")):
                     if p_value <= sign_n:
-                        prev_star = stars
-                if prev_star == "***":
+                        current_significance = stars
+                if current_significance == "***":
                     ttest_result.append(
-                        f"$^{{{prev_star}}}$p < 0.001"
+                        f"$^{{{current_significance}}}$p < 0.001"
                     )
                 else:
                     ttest_result.append(
-                        f"$^{{{prev_star}}}$p = {p_value}"
+                        f"$^{{{current_significance}}}$p = {p_value}"
                     )
             else:
                 ttest_result.append("n.d.")
