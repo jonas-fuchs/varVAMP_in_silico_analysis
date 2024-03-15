@@ -14,7 +14,7 @@ All relevant data is given within this repo. The data was produced with:
     bed annotations for the primer locations of the varVAMP output were adapted to the appropriate references
     used for mapping the raw reads.
 - alignments:
-    Output of varVAMP. The initial non-gap masked alignment used as the varVAMP input can be found at
+    Output of varVAMP. The initial non-gap masked MAFFT alignment used as the varVAMP input can be found at
     https://github.com/jonas-fuchs/ViralPrimerSchemes
 - consensus files:
     varVAMP output
@@ -37,7 +37,9 @@ All relevant data is given within this repo. The data was produced with:
     pairwise identities calculated with https://github.com/BioinformaticsToolsmith/Identity using either the initial
     sequences used to generate the MAFFT alignment of the varVAMP input or the new sequences
 - variant tables:
-    tabular files extracted from vcf files (variant callings on *.bam files)
+    tabular files extracted from vcf files (variant callings on *.bam files) with SnpSift Extract Fields.
+    for medaka variant calls (ONT SARS-CoV-2 data), the AF field was artificially added and set to 1 for all mutations,
+    to ensure compatibility with the Illumina data.
 
 ########################## INSTALLATION AND RUNNING THE ANALYSIS ################################
 
@@ -895,19 +897,36 @@ def main(color_scheme, output_folder):
     print(identity_all[["virus", "mean", "std"]])
     sns.set_palette(palette=color_scheme, n_colors=7)
     print("- Plotting entropy...")
-    calculate_and_plot_entropy("alignments", output_folder)
+    calculate_and_plot_entropy(input_folder="alignments",
+                               output_folder=output_folder)
     print("- Plotting primer degeneracy...")
-    calculate_and_plot_degeneracy("primer_tsv_files", output_folder, color_scheme)
+    calculate_and_plot_degeneracy(input_folder="primer_tsv_files",
+                                  output_folder=output_folder,
+                                  colorscheme=color_scheme)
     print("- Plotting mismatches with alignment sequences...")
-    calculate_and_plot_mismatches("alignments", "primer_bed_files", "primer_tsv_files", output_folder)
+    calculate_and_plot_mismatches(alignment_folder="alignments",
+                                  bed_folder="primer_bed_files",
+                                  tsv_folder="primer_tsv_files",
+                                  output_folder=output_folder)
     print("- Plotting primer stats...")
-    plot_primer_stats(output_folder, "primer_tsv_files", "primer_bed_files", "consensus_files")
+    plot_primer_stats(output_folder=output_folder,
+                      tsv_folder="primer_tsv_files",
+                      bed_folder="primer_bed_files",
+                      consensus_folder="consensus_files")
     print("- Plotting identity comparison...")
-    plot_sequence_identity_comparison(identity_all, "sequence_identity/new_seq", output_folder)
+    plot_sequence_identity_comparison(identity_all_df=identity_all,
+                                      identity_folder="sequence_identity/new_seq",
+                                      output_folder=output_folder)
     print("- Plotting per amplicon coverages...")
-    plot_per_amplicon_coverages("coverages_per_amplicon", output_folder)
+    plot_per_amplicon_coverages(coverages="coverages_per_amplicon",
+                                output_folder=output_folder)
     print("- Plotting how well primers match to new sequences...")
-    analyse_and_plot_primer_binding("adapted_bed_primer_files", "reference_seq", "variant_tables", "per_base_coverages", "primer_tsv_files", output_folder)
+    analyse_and_plot_primer_binding(adapted_bed_folder="adapted_bed_primer_files",
+                                    ref_folder="reference_seq",
+                                    variant_folder="variant_tables",
+                                    per_base_coverages_folder="per_base_coverages",
+                                    tsv_folder="primer_tsv_files",
+                                    output_folder=output_folder)
     print("\n###         Finished the analysis          ###")
 
 
