@@ -402,7 +402,7 @@ def calculate_and_plot_entropy(input_folder, output_folder):
             entropies["normalized Shannon\'s entropy (average)"],
             linestyle="-",
             label=name,
-            linewidth=1,
+            linewidth=1.5,
         )
     # set plotting stuff
     plt.legend(frameon=False)
