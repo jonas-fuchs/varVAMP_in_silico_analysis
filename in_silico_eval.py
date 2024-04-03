@@ -449,7 +449,7 @@ def calculate_and_plot_degeneracy(input_folder, output_folder, colorscheme):
     ax.set_xticklabels(labels=range(0, len(names)), rotation=45, ha="right")
     ax.set_xticklabels(names)
     sns.despine()
-    plt.ylabel("degeneracy per primer")
+    plt.ylabel("n permutations per primer")
     plt.savefig(f"{output_folder}/degeneracy.pdf", bbox_inches='tight')
 
 
