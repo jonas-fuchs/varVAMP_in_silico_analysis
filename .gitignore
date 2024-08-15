@@ -1,3 +1,4 @@
 output/**
 .idea/**
 snp-sites/olivar_input/
+__pycache__
