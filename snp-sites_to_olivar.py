@@ -5,7 +5,8 @@
 ########################## INFO ################################
 
 This helper script converts the output of snp-sites to an
-olivar (https://github.com/treangenlab/Olivar) compatible output.
+olivar (https://github.com/treangenlab/Olivar) compatible csv and creates a
+ref sequence.
 
 The aim is a head-to-head comparison of varVAMP and olivar (v1.1.5). However,
 olivar requires a csv with all variants and can not handle the initial
@@ -81,7 +82,7 @@ def main():
                     nucs_sorted = list(map(lambda x: x.replace('*', '-'), nucs_sorted))
                     for alt_nuc, count in zip(nucs_sorted[1:], counts_sorted[1:]):
                         nuc_freq = count/total_counts
-                        print(start_pos, start_pos,nuc_freq,seq[start_pos-1],alt_nuc,sep=",", file=olivar_csv)
+                        print(start_pos, start_pos,nuc_freq,seq[start_pos-1].upper(),alt_nuc,sep=",", file=olivar_csv)
             # add deletion frequencies and mutate N to A
             seq_list = list(seq)
             for index, nuc in enumerate(seq_list):
@@ -91,8 +92,9 @@ def main():
             # save fasta seq
             with open(f"snp-sites/olivar_input/{name}_olivar.fasta", "w") as fasta:
                 mutated_fasta = "".join(seq_list)
-                print(f">{name}_olivar_ref\n{mutated_fasta}", file=fasta)
+                print(f">{name}_olivar_ref\n{mutated_fasta.upper()}", file=fasta)
 
 
 if __name__ == "__main__":
     main()
+    print("Successfully produced fasta and csv input for olivar in 'snp-sites/olivar_input'.")
