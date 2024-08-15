@@ -13,7 +13,8 @@ olivar requires a csv with all variants and can not handle the initial
 input alignment used by varVAMP. Therefore, we need to calculate all variants
 of the respective alignments.
 To make a head-to-head comparison fair, we use the gap cleaned alignment
-of the varVAMP output. Therefore, the consensus sequence comprising the majority
+of the varVAMP output as this is essentially the alignment varVAMP uses for its
+primer design. Therefore, the consensus sequence comprising the majority
 nucleotides that was calculated by varVAMP has the identical ref nucleotide
 as the most frequent variant in the called variants. This allows to use the
  majority consensus sequence as the input for olivar.
@@ -24,7 +25,7 @@ snp-sites -v -o snp-sites/[alignment_name.vcf] alignments/[respective alignment]
 Afterwards run the script with:
 python3 snp-sites_to_olivar.py
 
-This will create olivar compatible tab sep csv files in a new folder:
+This will create olivar compatible csv files in a new folder:
 snp-sites/olivar_input
 Additionally it will create fasta sequences that will serve as a reference
 for olivar. As varVAMP indicates deletions with "N" in the consensus seqs
