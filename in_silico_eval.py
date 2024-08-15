@@ -312,7 +312,8 @@ def calculate_mismatches(primer_starts, primer_stops, primer_seqs, primer_names,
     for start, stop, primer, primer_name in zip(primer_starts, primer_stops, primer_seqs, primer_names):
         mismatches_per_position = len(primer) * [0]
         mismatches_per_sequence = []
-        if "RW" in primer_name:
+        primer = primer.lower()
+        if "RW" in primer_name or "RIGHT" in primer_name:
             primer = rev_complement(primer)
         for sequence in alignment:
             mismatch = 0
@@ -928,6 +929,80 @@ def main(color_scheme, output_folder):
                                     tsv_folder="primer_tsv_files",
                                     output_folder=output_folder)
     print("\n###         Finished the analysis          ###")
+
+
+#primer_starts, primer_stops, primer_seqs, primer_names, alignment
+
+bed_file = "primer_bed_files_olivar/7_ratHEV.bed"
+alignment_file = "alignments/7_ratHEV.fasta"
+
+tsv_file = "primer_tsv_files/7_ratHEV.tsv"
+bed_file_2 = "primer_bed_files/7_ratHEV.bed"
+
+
+alignment = read_alignment(alignment_file)
+bed_df = pd.read_csv(bed_file, sep="\t", header=None)
+
+mismatches, mean_mismatches, per_pos_mismatches_per_scheme = calculate_mismatches(bed_df[1]-1, bed_df[2], bed_df[6], bed_df[3], alignment)
+
+
+tsv_df = pd.read_csv(tsv_file, sep="\t", header=0)
+bed_df = pd.read_csv(bed_file_2, sep="\t", header=None)
+mismatches_2, mean_mismatches_2, per_pos_mismatches_per_scheme_2 = calculate_mismatches(bed_df[1], bed_df[2], tsv_df["seq"],tsv_df["primer_name"], alignment)
+
+print(f"\nvarvamp mismatches:\n {sum(mean_mismatches_2)/len(mean_mismatches_2)},\n\n olivar mismatches:\n {sum(mean_mismatches)/len(mean_mismatches)}")
+
+
+
+alignment_folder = "alignments"
+bed_folder = "primer_bed_files_olivar"
+
+flattened_mismatches, per_pos_mismatch_list_all = [], []
+
+# load data
+alignment_files = get_files(alignment_folder)
+bed_files = get_files(bed_folder)
+names = get_file_names(bed_files)
+
+# calculate all mismatches
+for bed_file, alignment_file, name in zip(bed_files, alignment_files, names):
+    bed_df = pd.read_csv(bed_file, sep="\t", header=None)
+    alignment = read_alignment(alignment_file)
+    mismatches, mean_mismatches, per_pos_mismatches_per_scheme = calculate_mismatches(
+        bed_df[1]-1, bed_df[2], bed_df[6],bed_df[3], alignment
+    )
+    # flatten all mismatches to one list
+    flattened_mismatches.append([item for sublist in mismatches for item in sublist])
+    per_pos_mismatch_list_all.append(per_pos_mismatches_per_scheme)
+
+# ini figure for mismatch bubble plot
+fig, ax = plt.subplots(figsize=(4, 4.5))
+
+for idx, mismatches in enumerate(flattened_mismatches):
+    value, counts = np.unique(mismatches, return_counts=True)
+    # normalize to total number
+    counts_norm = [x / sum(counts) * 100 for x in counts]
+    # plot to ax
+    ax.scatter(x=[idx] * len(counts_norm), y=value, s=counts_norm)
+# pseudodata for legend
+legend_dot_size = ax.scatter([0, 0, 0], [0, 0, 0], s=[1, 10, 100], edgecolor=None, alpha=0.1)
+legend = plt.legend(
+    *legend_dot_size.legend_elements("sizes"),
+    title="Percent",
+    frameon=False,
+    loc='upper center',
+    ncols=3
+)
+ax.add_artist(legend)
+ax.set_xticklabels(rotation=45, ha="right", labels=range(-1, len(counts_norm)))
+ax.set_xticklabels([""] + names)
+ax.set_ylabel("nt mismatches between primers and sequences")
+sns.despine()
+#fig.savefig(f"{output_folder}/mismatches.pdf", bbox_inches='tight')
+plt.show()
+
+
+
 
 
 # run the analysis
