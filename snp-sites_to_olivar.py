@@ -7,7 +7,7 @@
 This helper script converts the output of snp-sites to an
 olivar (https://github.com/treangenlab/Olivar) compatible output.
 
-The aim is a head-to-head comparison of varVAMP and olivar. However,
+The aim is a head-to-head comparison of varVAMP and olivar (v1.1.5). However,
 olivar requires a csv with all variants and can not handle the initial
 input alignment used by varVAMP. Therefore, we need to calculate all variants
 of the respective alignments.
@@ -25,6 +25,12 @@ python3 snp-sites_to_olivar.py
 
 This will create olivar compatible tab sep csv files in a new folder:
 snp-sites/olivar_input
+Additionally it will create fasta sequences that will serve as a reference
+for olivar. As varVAMP indicates deletions with "N" in the consensus seqs
+but olivar can not handle degenerated nucleotides, all "N" will be overwritten
+with "A". To prohibit that olivar will design primers in this region, the script
+creates a dummy variation in the csv setting the variant to "-" with a frequency of
+1.
 
 ########################## COPYRIGHT ################################
 
@@ -35,9 +41,7 @@ Institute for Virology, Freiburg, Germany
 
 
 import os
-
 import numpy as np
-
 from in_silico_eval import get_files, get_file_names, read_fasta
 
 
@@ -64,22 +68,31 @@ def main():
                     line = line[:-1]
                     values = line.split("\t")
                     start_pos = int(values[1])
-                    nucs = [values[3]]+values[4].split(",")
-                    numeric_nucs, counts = np.unique(values[9:], return_counts=True)
-                    total_counts = sum(counts)
-                    # sort counts and nucleotides
-                    counts_sorted = sorted(counts, reverse=True)
+                    nucs = [values[3]]+values[4].split(",")  # possible nucs at each pos
+                    numeric_nucs, counts = np.unique(values[9:], return_counts=True)  # respective nuc counts
+                    total_counts = sum(counts)  # total nuc counts
                     # the vcf file from snp-sites reports the respective nucleotide
-                    # for each sequence id. to calculate the FREQ the most freq nuc
-                    # is the same as the nuc of the consensus sequence. all other
-                    # nucleotides are therefore variants of the consensus sequence
+                    # for each sequence id. the most freq nuc is the same as the nuc of the consensus sequence.
+                    # all other nucleotides are therefore variants of the consensus sequence
                     # the next section is to demultiplex the different variants at the
-                    # same position
+                    # same position and calc their frequency
+                    counts_sorted = sorted(counts, reverse=True)
                     nucs_sorted = [x for _, x in sorted(zip(counts, nucs), reverse=True)]
                     nucs_sorted = list(map(lambda x: x.replace('*', '-'), nucs_sorted))
                     for alt_nuc, count in zip(nucs_sorted[1:], counts_sorted[1:]):
-                        nuc_freq = count/total_counts*100
+                        nuc_freq = count/total_counts
                         print(start_pos, start_pos,nuc_freq,seq[start_pos-1],alt_nuc,sep=",", file=olivar_csv)
+            # add deletion frequencies and mutate N to A
+            seq_list = list(seq)
+            for index, nuc in enumerate(seq_list):
+                if nuc == "N":
+                    print(index+1, index+1, 1, "A", "-", sep=",", file=olivar_csv)
+                    seq_list[index] = "A"
+            # save fasta seq
+            with open(f"snp-sites/olivar_input/{name}_olivar.fasta", "w") as fasta:
+                mutated_fasta = "".join(seq_list)
+                print(f">{name}_olivar_ref\n{mutated_fasta}", file=fasta)
+
 
 if __name__ == "__main__":
     main()
