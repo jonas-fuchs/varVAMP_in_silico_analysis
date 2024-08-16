@@ -3,3 +3,4 @@ output/**
 snp-sites/olivar_input/
 __pycache__/
 venv/**
+*.py[cod]
