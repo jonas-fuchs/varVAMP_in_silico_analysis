@@ -19,10 +19,10 @@ nucleotides that was calculated by varVAMP has the identical ref nucleotide
 as the most frequent variant in the called variants. This allows to use the
  majority consensus sequence as the input for olivar.
 
-Variants were called with snp-sites (https://github.com/sanger-pathogens/snp-sites):
+Variants were called with snp-sites snp-sites 2.5.1 (https://github.com/sanger-pathogens/snp-sites):
 snp-sites -v -o snp-sites/[alignment_name.vcf] alignments/[respective alignment]
 
-Afterwards run the script with:
+To reproduce the olivar input run:
 python3 snp-sites_to_olivar.py
 
 This will create olivar compatible csv files in a new folder:
