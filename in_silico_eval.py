@@ -47,7 +47,7 @@ requires python 3.11
 
 Run:
     pip install .
-    python3 extract_as_fasta.py
+    python3 in_silico_eval.py
 
 will produce a new "output" dir with some tabular files and all plots shown in the publication
 
