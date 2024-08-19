@@ -949,6 +949,54 @@ def main(color_scheme, output_folder):
     print("\n###         Finished the analysis          ###")
 
 
+
+
+def plot_amplicons(ax, bed_file, y_value, color, seq_len):
+    """
+    automatically plot a amplicon scheme at a custom y value
+    """
+    bed_df = pd.read_csv(bed_file, sep="\t", header=None)
+    bed_df.sort_values(by=1, inplace=True)
+    bed_df.reset_index(drop=True, inplace=True)
+    top, previous_idx = True, 0
+    for idx_fw, primer_fw in bed_df.iterrows():
+        if primer_fw[5] == "-":
+            continue
+        for idx_rev, primer_rev in bed_df[previous_idx:].iterrows():
+            if primer_rev[5] == "-":
+                previous_idx = idx_rev + 1
+                break
+        if top:
+            ax.hlines(y=y_value + 0.1, xmin=primer_fw[1], xmax=primer_rev[2], linewidth=4, color=color)
+            top = False
+        else:
+            top = True
+            ax.hlines(y=y_value - 0.1, xmin=primer_fw[1], xmax=primer_rev[2], linewidth=4, color=color)
+    recovery = f"recovery: {round((max(bed_df[2]) - min(bed_df[1]))/seq_len * 100)}%"
+    ax.text(x=seq_len, y=y_value, s=recovery, color=color, ha="right", va="center")
+
+bed_files_varVAMP = sorted(get_files("primer_bed_files"))
+bed_files_olivar = sorted(get_files("primer_bed_files_olivar"))
+consensus_files = sorted(get_files("consensus_files"))
+
+for bed_files_varVAMP, bed_file_olivar, consensus in zip(bed_files_varVAMP, bed_files_olivar, consensus_files):
+    fig, ax = plt.subplots(figsize=(16,5))
+    seq_len = len(read_fasta(consensus)[1])
+    plot_amplicons(ax, bed_files_varVAMP, 1, color="red", seq_len=seq_len)
+    plot_amplicons(ax, bed_file_olivar, 0.5, color="blue", seq_len=seq_len)
+    ax.set_yticks([1, 0.5])
+    ax.set_xlim([0, seq_len - 1])
+    ax.set_xticks([0, seq_len - 1])
+    ax.set_yticklabels(['varVAMP', "olivar"])
+    ax.set_xlabel("alignment position")
+    sns.despine(left=True)
+    plt.show()
+
+
+
+
+
+
 # run the analysis
 if __name__ == "__main__":
     main(color_scheme="coolwarm", output_folder="output")
