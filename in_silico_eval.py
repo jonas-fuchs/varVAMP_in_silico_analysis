@@ -975,22 +975,29 @@ def plot_amplicons(ax, bed_file, y_value, color, seq_len):
     recovery = f"recovery: {round((max(bed_df[2]) - min(bed_df[1]))/seq_len * 100)}%"
     ax.text(x=seq_len, y=y_value, s=recovery, color=color, ha="right", va="center")
 
-bed_files_varVAMP = sorted(get_files("primer_bed_files"))
-bed_files_olivar = sorted(get_files("primer_bed_files_olivar"))
-consensus_files = sorted(get_files("consensus_files"))
 
-for bed_files_varVAMP, bed_file_olivar, consensus in zip(bed_files_varVAMP, bed_files_olivar, consensus_files):
-    fig, ax = plt.subplots(figsize=(16,5))
-    seq_len = len(read_fasta(consensus)[1])
-    plot_amplicons(ax, bed_files_varVAMP, 1, color="red", seq_len=seq_len)
-    plot_amplicons(ax, bed_file_olivar, 0.5, color="blue", seq_len=seq_len)
-    ax.set_yticks([1, 0.5])
-    ax.set_xlim([0, seq_len - 1])
-    ax.set_xticks([0, seq_len - 1])
-    ax.set_yticklabels(['varVAMP', "olivar"])
-    ax.set_xlabel("alignment position")
-    sns.despine(left=True)
-    plt.show()
+
+def generate_scheme_overviews(varVAMP_bed_folder, olivar_bed_folder, consensus_folder, output_folder):
+    """
+    generate the scheme overview and calculate recovery over alignment
+    """
+    bed_files_varVAMP = sorted(get_files(varVAMP_bed_folder))
+    bed_files_olivar = sorted(get_files(olivar_bed_folder))
+    consensus_files = sorted(get_files(consensus_folder))
+    names = get_file_names(bed_files_varVAMP)
+
+    for bed_files_varVAMP, bed_file_olivar, consensus in zip(bed_files_varVAMP, bed_files_olivar, consensus_files):
+        fig, ax = plt.subplots(figsize=(16,5))
+        seq_len = len(read_fasta(consensus)[1])
+        plot_amplicons(ax, bed_files_varVAMP, 1, color="red", seq_len=seq_len)
+        plot_amplicons(ax, bed_file_olivar, 0.5, color="blue", seq_len=seq_len)
+        ax.set_yticks([1, 0.5])
+        ax.set_xlim([0, seq_len - 1])
+        ax.set_xticks([0, seq_len - 1])
+        ax.set_yticklabels(['varVAMP', "olivar"])
+        ax.set_xlabel("alignment position")
+        sns.despine(left=True)
+        plt.savefig(f"{output_folder}/{names}_primer_mismatches.pdf", bbox_inches='tight')
 
 
 
