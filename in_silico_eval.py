@@ -981,7 +981,7 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
     for virus, mismatch_list_varvamp, mismatch_list_olivar, mismatch_list_primalscheme in zip(varvamp_mis[1], varvamp_mis[0], olivar_mis[0], primalscheme_con_mis[0]):
         data = [mismatch_list_varvamp, mismatch_list_olivar, mismatch_list_primalscheme]
         # calculate statistics
-        # Prepare data for ANOVA and Tukey HSD test
+        # Prepare data for Tukey HSD test
         all_values = []
         labels = []
         # Custom labels
@@ -990,7 +990,7 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
         for i, group in enumerate(data):
             all_values.extend(group)
             labels.extend([custom_labels[i]] * len(group))
-        # Perform Tukeys multiple comparision test
+        # Perform Tukeys multiple comparison test
         results = pairwise_tukeyhsd(endog=all_values, groups=labels, alpha=0.05).pvalues
         # generate the plot
         plt.figure(figsize=(3, 5))
@@ -1005,7 +1005,7 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
                          color="black",
                          capsize=5,
                          elinewidth=1,
-                         zorder=10,
+                         zorder=10,  # plot on top
             )
             # y error
             plt.errorbar(x=x,
