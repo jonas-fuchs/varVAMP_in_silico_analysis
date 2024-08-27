@@ -1000,6 +1000,7 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
             labels.extend([custom_labels[i]] * len(group))
         # Perform Tukeys multiple comparison test
         results = pairwise_tukeyhsd(endog=all_values, groups=labels, alpha=0.05).pvalues
+        print(pairwise_tukeyhsd(endog=all_values, groups=labels, alpha=0.05))
         # generate the plot
         plt.figure(figsize=(5, 5))
         ax = sns.stripplot()
@@ -1026,13 +1027,13 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
             sns.stripplot(x=x, y=y, color=color, size=4)
         # plot stats
         ax.hlines(xmin=0, xmax=1, y=5, color="black", linewidth=1)
-        for x_values, y_value, result in zip([(1,3), (1,2), (0,1), (2,3), (0,3), (0,2)], [7, 6.5, 5, 7.5, 6, 5.5], results):
+        for x_values, y_value, result in zip([(1,2), (1,3), (0,1), (2,3), (0,2), (0,3)], [6.5, 7, 5, 7.5, 5.5, 6], results):
             if result <= 0.05:
                 result_string = f"*p = {round(result, 3)}"
             else:
                 result_string = f"n.s. p = {round(result, 3)}"
             if result <= 0.01:
-                result_string = f"**p = {round(result, 3)}"
+                result_string = f"**p = {round(result, 4)}"
             if result <= 0.001:
                 result_string = "***p ≤ 0.001"
             ax.hlines(xmin=x_values[0], xmax=x_values[1], y=y_value, color="black", linewidth=1)
