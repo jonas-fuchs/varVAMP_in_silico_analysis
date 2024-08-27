@@ -951,9 +951,9 @@ def generate_scheme_overviews(varVAMP_bed_folder, olivar_bed_folder, primalschem
     for bed_files_varVAMP, bed_file_olivar, bed_file_primalscheme_con, bed_file_primalscheme_aln, consensus, name in zip(bed_files_varVAMP, bed_files_olivar, bed_files_primalscheme_con, bed_files_primalscheme_aln, consensus_files, names):
         fig, ax = plt.subplots(figsize=(16,5))
         seq_len = len(read_fasta(consensus)[1])
-        plot_amplicons(ax, bed_files_varVAMP, 2, color="red", seq_len=seq_len)
-        plot_amplicons(ax, bed_file_olivar, 1.5, color="blue", seq_len=seq_len)
-        plot_amplicons(ax, bed_file_primalscheme_aln, 1, color="black", seq_len=seq_len)
+        plot_amplicons(ax, bed_files_varVAMP, 2, color="sienna", seq_len=seq_len)
+        plot_amplicons(ax, bed_file_olivar, 1.5, color="darkgoldenrod", seq_len=seq_len)
+        plot_amplicons(ax, bed_file_primalscheme_aln, 1, color="darkslateblue", seq_len=seq_len)
         plot_amplicons(ax, bed_file_primalscheme_con, 0.5, color="grey", seq_len=seq_len)
 
         ax.set_yticks([2, 1.5, 1, 0.5])
@@ -1000,11 +1000,10 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
             labels.extend([custom_labels[i]] * len(group))
         # Perform Tukeys multiple comparison test
         results = pairwise_tukeyhsd(endog=all_values, groups=labels, alpha=0.05).pvalues
-        print(pairwise_tukeyhsd(endog=all_values, groups=labels, alpha=0.05))
         # generate the plot
         plt.figure(figsize=(5, 5))
         ax = sns.stripplot()
-        for x, y, color in zip([0,1,2,3], data, ["red", "blue", "grey", "black"]):
+        for x, y, color in zip([0,1,2,3], data, ["sienna", "darkgoldenrod", "darkslateblue", "grey"]):
             mean_y = np.mean(y)
             std_y = np.std(y)
             # y std
