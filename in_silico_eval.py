@@ -509,6 +509,7 @@ def mismatch_plots(flattened_mismatches, per_pos_mismatch_list_all, output_folde
     plt.legend(frameon=False)
     plt.xlabel("distance from 3' primer end")
     plt.ylabel("% mismatch with alignment sequences")
+    plt.ylim(top=60)
     sns.despine()
     plt.xticks(np.arange(0, max_primer_len, 2.0))
     # save plot
@@ -936,32 +937,35 @@ def plot_amplicons(ax, bed_file, y_value, color, seq_len):
     ax.text(x=seq_len, y=y_value, s=recovery, color=color, ha="right", va="center")
 
 
-def generate_scheme_overviews(varVAMP_bed_folder, olivar_bed_folder, primalscheme_bed_con_folder, consensus_folder, output_folder):
+def generate_scheme_overviews(varVAMP_bed_folder, olivar_bed_folder, primalscheme_bed_con_folder, primalscheme_bed_aln_folder, consensus_folder, output_folder):
     """
     generate the scheme overview and calculate recovery over alignment
     """
     bed_files_varVAMP = sorted(get_files(varVAMP_bed_folder))
     bed_files_olivar = sorted(get_files(olivar_bed_folder))
     bed_files_primalscheme_con = sorted(get_files(primalscheme_bed_con_folder))
+    bed_files_primalscheme_aln = sorted(get_files(primalscheme_bed_aln_folder))
     consensus_files = sorted(get_files(consensus_folder))
     names = get_file_names(bed_files_varVAMP)
 
-    for bed_files_varVAMP, bed_file_olivar, bed_file_primalscheme_con, consensus, name in zip(bed_files_varVAMP, bed_files_olivar, bed_files_primalscheme_con, consensus_files, names):
+    for bed_files_varVAMP, bed_file_olivar, bed_file_primalscheme_con, bed_file_primalscheme_aln, consensus, name in zip(bed_files_varVAMP, bed_files_olivar, bed_files_primalscheme_con, bed_files_primalscheme_aln, consensus_files, names):
         fig, ax = plt.subplots(figsize=(16,5))
         seq_len = len(read_fasta(consensus)[1])
-        plot_amplicons(ax, bed_files_varVAMP, 1.5, color="red", seq_len=seq_len)
-        plot_amplicons(ax, bed_file_olivar, 1, color="blue", seq_len=seq_len)
+        plot_amplicons(ax, bed_files_varVAMP, 2, color="red", seq_len=seq_len)
+        plot_amplicons(ax, bed_file_olivar, 1.5, color="blue", seq_len=seq_len)
+        plot_amplicons(ax, bed_file_primalscheme_aln, 1, color="black", seq_len=seq_len)
         plot_amplicons(ax, bed_file_primalscheme_con, 0.5, color="grey", seq_len=seq_len)
-        ax.set_yticks([1.5, 1, 0.5])
+
+        ax.set_yticks([2, 1.5, 1, 0.5])
         ax.set_xlim([0, seq_len - 1])
         ax.set_xticks([0, seq_len - 1])
-        ax.set_yticklabels(['varVAMP', "olivar", "primalscheme (consensus)"])
+        ax.set_yticklabels(['varVAMP', "Olivar", "PrimalScheme (alignment)", "PrimalScheme (consensus)"])
         ax.set_xlabel("alignment position")
         sns.despine(left=True)
         plt.savefig(f"{output_folder}/{name}_schemes.pdf", bbox_inches='tight')
 
 
-def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_files_varvamp, primer_tsv_files, primer_bed_files_olivar, primer_bed_files_primalscheme_con, output_folder):
+def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_files_varvamp, primer_tsv_files, primer_bed_files_olivar, primer_bed_files_primalscheme_con, primer_bed_files_primalscheme_aln, output_folder):
     # calculate mean mismatches per primer
     varvamp_mis = calculate_and_plot_mismatches(alignment_folder=alignment_folder,
                                   bed_folder=primer_bed_files_varvamp,
@@ -977,15 +981,19 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
                                   bed_folder=primer_bed_files_primalscheme_con,
                                   scheme="primalscheme_con",
                                   plot=False)
+    primalscheme_aln_mis = calculate_and_plot_mismatches(alignment_folder=alignment_folder,
+                                  bed_folder=primer_bed_files_primalscheme_aln,
+                                  scheme="primalscheme_aln",
+                                  plot=False)
     # gen stats and plots for each virus comparing all schemes
-    for virus, mismatch_list_varvamp, mismatch_list_olivar, mismatch_list_primalscheme in zip(varvamp_mis[1], varvamp_mis[0], olivar_mis[0], primalscheme_con_mis[0]):
-        data = [mismatch_list_varvamp, mismatch_list_olivar, mismatch_list_primalscheme]
+    for virus, mismatch_list_varvamp, mismatch_list_olivar, mismatch_list_primalscheme_con, mismatch_list_primalscheme_aln in zip(varvamp_mis[1], varvamp_mis[0], olivar_mis[0], primalscheme_con_mis[0], primalscheme_aln_mis[0]):
+        data = [mismatch_list_varvamp, mismatch_list_olivar, mismatch_list_primalscheme_aln, mismatch_list_primalscheme_con]
         # calculate statistics
         # Prepare data for Tukey HSD test
         all_values = []
         labels = []
         # Custom labels
-        custom_labels = ["varVAMP", "olivar", "primalscheme_con"]
+        custom_labels = ["varVAMP", "olivar","primalscheme_aln", "primalscheme_con"]
         # prepare for multi comparisons
         for i, group in enumerate(data):
             all_values.extend(group)
@@ -993,9 +1001,9 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
         # Perform Tukeys multiple comparison test
         results = pairwise_tukeyhsd(endog=all_values, groups=labels, alpha=0.05).pvalues
         # generate the plot
-        plt.figure(figsize=(3, 5))
+        plt.figure(figsize=(5, 5))
         ax = sns.stripplot()
-        for x, y, color in zip([0,1,2], data, ["red", "blue", "grey"]):
+        for x, y, color in zip([0,1,2,3], data, ["red", "blue", "grey", "black"]):
             mean_y = np.mean(y)
             std_y = np.std(y)
             # y std
@@ -1018,9 +1026,9 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
             sns.stripplot(x=x, y=y, color=color, size=4)
         # plot stats
         ax.hlines(xmin=0, xmax=1, y=5, color="black", linewidth=1)
-        for x_values, y_value, result in zip([(1,2), (0,1), (0,2)], [6,5,7], results):
+        for x_values, y_value, result in zip([(1,3), (1,2), (0,1), (2,3), (0,3), (0,2)], [7, 6.5, 5, 7.5, 6, 5.5], results):
             if result <= 0.05:
-                result_string = f"*p = {round(result, 3)})"
+                result_string = f"*p = {round(result, 3)}"
             else:
                 result_string = f"n.s. p = {round(result, 3)}"
             if result <= 0.01:
@@ -1028,10 +1036,10 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
             if result <= 0.001:
                 result_string = "***p ≤ 0.001"
             ax.hlines(xmin=x_values[0], xmax=x_values[1], y=y_value, color="black", linewidth=1)
-            ax.text(x=x_values[0]+(x_values[1]-x_values[0])/2, y=y_value+0.2, s=result_string, horizontalalignment='center')
+            ax.text(x=x_values[0]+(x_values[1]-x_values[0])/2, y=y_value+0.1, s=result_string, horizontalalignment='center', fontsize=8)
         # general formatting
         sns.despine()
-        ax.set_xticks([0,1,2], labels=["varVAMP", "olivar", "primalscheme\n(consensus)"])
+        ax.set_xticks([0,1,2,3], labels=["varVAMP", "Olivar", "PrimalScheme\n(alignment)", "PrimalScheme\n(consensus)"])
         ax.set_yticks([0,1,2,3,4,5,6,7,8])
         plt.ylabel("mean mismatches per primer")
         plt.savefig(f"{output_folder}/{virus}_mean_primer_mismatches_with_alignment.pdf")
@@ -1083,6 +1091,7 @@ def main(color_scheme, output_folder):
     generate_scheme_overviews(varVAMP_bed_folder="primer_bed_files",
                               olivar_bed_folder="primer_bed_files_olivar",
                               primalscheme_bed_con_folder="primer_bed_files_primalscheme_con",
+                              primalscheme_bed_aln_folder="primer_bed_files_primalscheme_aln",
                               consensus_folder="consensus_files",
                               output_folder=output_folder)
     print("\t- Plotting mismatches with alignment sequences for varVAMP...")
@@ -1103,12 +1112,19 @@ def main(color_scheme, output_folder):
                                   output_folder=output_folder,
                                   max_primer_len=32,
                                   scheme="primalscheme_con")
+    print("\t- Plotting mismatches with alignment sequences for primalscheme designed on the alignment...")
+    calculate_and_plot_mismatches(alignment_folder="alignments",
+                                  bed_folder="primer_bed_files_primalscheme_aln",
+                                  output_folder=output_folder,
+                                  max_primer_len=32,
+                                  scheme="primalscheme_aln")
     print("\t- Comparing and plotting mean mismatches per primer for all alignments and schemes...")
     plot_mean_mismatches_between_primer_schemes(alignment_folder="alignments",
                                                 primer_bed_files_varvamp="primer_bed_files",
                                                 primer_tsv_files="primer_tsv_files",
                                                 primer_bed_files_olivar="primer_bed_files_olivar",
                                                 primer_bed_files_primalscheme_con="primer_bed_files_primalscheme_con",
+                                                primer_bed_files_primalscheme_aln="primer_bed_files_primalscheme_aln",
                                                 output_folder=output_folder)
     print("\n###         Finished the analysis          ###")
 
