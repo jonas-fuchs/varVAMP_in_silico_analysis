@@ -393,7 +393,7 @@ def calculate_and_plot_entropy(input_folder, output_folder):
     names = get_file_names(files)
     # set colormap
     # ini fig
-    fig = plt.figure(figsize=(16, 4.5))
+    fig = plt.figure(figsize=(12, 4.5))
     # cal entropy and plot
     for file, name in zip(files, names):
         alignment = read_alignment(file)
