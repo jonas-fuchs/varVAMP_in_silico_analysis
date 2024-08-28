@@ -459,7 +459,7 @@ def mismatch_plots(flattened_mismatches, per_pos_mismatch_list_all, output_folde
     generate mismatch plots
     """
     # ini figure for mismatch bubble plot
-    fig, ax = plt.subplots(figsize=(4, 4.5))
+    fig, ax = plt.subplots(figsize=(4, 3.5))
 
     for idx, mismatches in enumerate(flattened_mismatches):
         value, counts = np.unique(mismatches, return_counts=True)
@@ -479,15 +479,15 @@ def mismatch_plots(flattened_mismatches, per_pos_mismatch_list_all, output_folde
     ax.add_artist(legend)
     ax.set_xticklabels(rotation=45, ha="right", labels=range(-1, len(counts_norm)))
     ax.set_xticklabels([""] + names)
-    ax.set_ylim(top=16)
+    ax.set_ylim(top=16, bottom=-1)
     ax.set_yticks([0,2,4,6,8,10,12,14,16])
-    ax.set_ylabel("nt mismatches between primers and sequences")
+    ax.set_ylabel("nt mismatches per primer")
     sns.despine()
     # save plot
     fig.savefig(f"{output_folder}/mismatches_{scheme_type}.pdf", bbox_inches='tight')
 
     # ini figure for distance mismatch plot
-    fig = plt.figure(figsize=(7, 4.5))
+    fig = plt.figure(figsize=(4, 4))
 
     for i, (per_pos_mismatches_per_scheme, name) in enumerate(zip(per_pos_mismatch_list_all, names)):
         # maximum length of list
@@ -508,10 +508,10 @@ def mismatch_plots(flattened_mismatches, per_pos_mismatch_list_all, output_folde
 
     plt.legend(frameon=False)
     plt.xlabel("distance from 3' primer end")
-    plt.ylabel("% mismatch with alignment sequences")
-    plt.ylim(top=60)
+    plt.ylabel("% mismatch")
+    plt.ylim(top=60, bottom=-2)
     sns.despine()
-    plt.xticks(np.arange(0, max_primer_len, 2.0))
+    plt.xticks(np.arange(0, max_primer_len, 3))
     # save plot
     fig.savefig(f"{output_folder}/mismatches_distance_from_3_prime_{scheme_type}.pdf", bbox_inches='tight')
 
