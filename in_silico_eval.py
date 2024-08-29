@@ -988,18 +988,18 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
     # gen stats and plots for each virus comparing all schemes
     for virus, mismatch_list_varvamp, mismatch_list_olivar, mismatch_list_primalscheme_con, mismatch_list_primalscheme_aln in zip(varvamp_mis[1], varvamp_mis[0], olivar_mis[0], primalscheme_con_mis[0], primalscheme_aln_mis[0]):
         data = [mismatch_list_varvamp, mismatch_list_olivar, mismatch_list_primalscheme_aln, mismatch_list_primalscheme_con]
-        # calculate statistics
-        # Prepare data for Tukey HSD test
-        all_values = []
-        labels = []
-        # Custom labels
-        custom_labels = ["varVAMP", "olivar","primalscheme_aln", "primalscheme_con"]
-        # prepare for multi comparisons
-        for i, group in enumerate(data):
-            all_values.extend(group)
-            labels.extend([custom_labels[i]] * len(group))
-        # Perform Tukeys multiple comparison test
-        results = pairwise_tukeyhsd(endog=all_values, groups=labels, alpha=0.05).pvalues
+        # calculate anova
+        f_statistic, p_value = stats.f_oneway(*data)
+        # perform post-hoc multi comparison test if anova is significant
+        if p_value <= 0.05:
+            # Tukeys post hoc-test
+            all_values = []
+            labels = []
+            custom_labels = ["varVAMP", "olivar", "primalscheme_aln", "primalscheme_con"]
+            for i, group in enumerate(data):
+                all_values.extend(group)
+                labels.extend([custom_labels[i]] * len(group))
+            results = pairwise_tukeyhsd(endog=all_values, groups=labels, alpha=0.05).pvalues
         # generate the plot
         plt.figure(figsize=(5, 5))
         ax = sns.stripplot()
@@ -1026,17 +1026,21 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
             sns.stripplot(x=x, y=y, color=color, size=4)
         # plot stats
         ax.hlines(xmin=0, xmax=1, y=5, color="black", linewidth=1)
-        for x_values, y_value, result in zip([(1,2), (1,3), (0,1), (2,3), (0,2), (0,3)], [6.5, 7, 5, 7.5, 5.5, 6], results):
-            if result <= 0.05:
-                result_string = f"*p = {round(result, 3)}"
-            else:
-                result_string = f"n.s. p = {round(result, 3)}"
-            if result <= 0.01:
-                result_string = f"**p = {round(result, 4)}"
-            if result <= 0.001:
-                result_string = "***p ≤ 0.001"
-            ax.hlines(xmin=x_values[0], xmax=x_values[1], y=y_value, color="black", linewidth=1)
-            ax.text(x=x_values[0]+(x_values[1]-x_values[0])/2, y=y_value+0.1, s=result_string, horizontalalignment='center', fontsize=8)
+        if p_value <= 0.05:  # plot multi comp if anova is significant
+            for x_values, y_value, result in zip([(1,2), (1,3), (0,1), (2,3), (0,2), (0,3)], [6.5, 7, 5, 7.5, 5.5, 6], results):
+                if result <= 0.05:
+                    result_string = f"*p = {round(result, 3)}"
+                else:
+                    result_string = f"n.s. p = {round(result, 3)}"
+                if result <= 0.01:
+                    result_string = f"**p = {round(result, 4)}"
+                if result <= 0.001:
+                    result_string = "***p ≤ 0.001"
+                ax.hlines(xmin=x_values[0], xmax=x_values[1], y=y_value, color="black", linewidth=1)
+                ax.text(x=x_values[0]+(x_values[1]-x_values[0])/2, y=y_value+0.1, s=result_string, horizontalalignment='center', fontsize=8)
+        else:  # indicate that anova was not significant
+            ax.hlines(xmin=0, xmax=3, y=7.5, color="black", linewidth=1)
+            ax.text(x=1.5, y=7.6, s="n.s.", horizontalalignment='center', fontsize=8)
         # general formatting
         sns.despine()
         ax.set_xticks([0,1,2,3], labels=["varVAMP", "Olivar", "PrimalScheme\n(alignment)", "PrimalScheme\n(consensus)"])
