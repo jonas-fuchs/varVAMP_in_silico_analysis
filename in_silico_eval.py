@@ -972,7 +972,6 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
                                   tsv_folder=primer_tsv_files,
                                   scheme="varVAMP",
                                   plot=False)
-
     olivar_mis = calculate_and_plot_mismatches(alignment_folder=alignment_folder,
                                   bed_folder=primer_bed_files_olivar,
                                   scheme="olivar",
@@ -986,12 +985,14 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
                                   scheme="primalscheme_aln",
                                   plot=False)
     # gen stats and plots for each virus comparing all schemes
+    print(f"{'-' * 72}\nPerforming statistics for mean primer mismatches\n{'-' * 72}")
     for virus, mismatch_list_varvamp, mismatch_list_olivar, mismatch_list_primalscheme_con, mismatch_list_primalscheme_aln in zip(varvamp_mis[1], varvamp_mis[0], olivar_mis[0], primalscheme_con_mis[0], primalscheme_aln_mis[0]):
         data = [mismatch_list_varvamp, mismatch_list_olivar, mismatch_list_primalscheme_aln, mismatch_list_primalscheme_con]
         # calculate anova
         f_statistic, p_value = stats.f_oneway(*data)
         # perform post-hoc multi comparison test if anova is significant
         if p_value <= 0.05:
+            print(f"For {virus} the ANOVA was significant p={round(p_value, 5)}. Performing post-hoc test.\n")
             # Tukeys post hoc-test
             all_values = []
             labels = []
@@ -999,7 +1000,8 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
             for i, group in enumerate(data):
                 all_values.extend(group)
                 labels.extend([custom_labels[i]] * len(group))
-            results = pairwise_tukeyhsd(endog=all_values, groups=labels, alpha=0.05).pvalues
+            post_hoc_results = pairwise_tukeyhsd(endog=all_values, groups=labels, alpha=0.05)
+            print(post_hoc_results)
         # generate the plot
         plt.figure(figsize=(5, 5))
         ax = sns.stripplot()
@@ -1027,7 +1029,7 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
         # plot stats
         ax.hlines(xmin=0, xmax=1, y=5, color="black", linewidth=1)
         if p_value <= 0.05:  # plot multi comp if anova is significant
-            for x_values, y_value, result in zip([(1,2), (1,3), (0,1), (2,3), (0,2), (0,3)], [6.5, 7, 5, 7.5, 5.5, 6], results):
+            for x_values, y_value, result in zip([(1,2), (1,3), (0,1), (2,3), (0,2), (0,3)], [6.5, 7, 5, 7.5, 5.5, 6], post_hoc_results.pvalues):
                 if result <= 0.05:
                     result_string = f"*p = {round(result, 3)}"
                 else:
@@ -1047,7 +1049,7 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
         ax.set_yticks([0,1,2,3,4,5,6,7,8])
         plt.ylabel("mean mismatches per primer")
         plt.savefig(f"{output_folder}/{virus}_mean_primer_mismatches_with_alignment.pdf")
-
+    print(f"{'-' * 72}\nFinished statistics\n{'-' * 72}")
 
 def main(color_scheme, output_folder):
     """
