@@ -46,7 +46,7 @@ All relevant data is given within this repo. The data was produced with:
 requires python 3.11
 
 Run:
-    pip install .
+    pip install -r requirements.txt
     python3 in_silico_eval.py
 
 will produce a new "output" dir with some tabular files and all plots shown in the publication
