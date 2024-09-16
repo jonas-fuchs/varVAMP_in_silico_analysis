@@ -29,3 +29,11 @@ To reproduce the phylogenetic tree visualization run (might take a few mins):
 ```bash
 Rscript tree_vis.R -t tree/HepE.aln.treefile -c tree/clus.tabular -o tree.pdf
 ```
+
+To reproduce the input preparation for olivar, run:
+
+```bash
+python3 snp-sites_to_olivar.py
+```
+
+

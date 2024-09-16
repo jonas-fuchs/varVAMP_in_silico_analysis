@@ -1,0 +1,14 @@
+input-seq-1	59	74	olivar-design_1_LEFT	1	+	GCTGCTCTGGCTGCGG
+input-seq-1	944	962	olivar-design_2_LEFT	2	+	GCCGTCCCGGTCCATATCT
+input-seq-1	1293	1310	olivar-design_1_RIGHT	1	-	GGCGGCACTGCGCATAAA
+input-seq-1	2055	2072	olivar-design_3_LEFT	1	+	CGGGGCATCTTTGGGAGT
+input-seq-1	2084	2103	olivar-design_2_RIGHT	2	-	AGTGTGCTCTCACCGCAAAA
+input-seq-1	2807	2822	olivar-design_4_LEFT	2	+	CAGCTGCCGCCTGGTT
+input-seq-1	3139	3160	olivar-design_3_RIGHT	1	-	GAAGCGAAGGTGCCTCATCTAT
+input-seq-1	4111	4129	olivar-design_5_LEFT	1	+	GTTGAGGCCATGGTGGAGA
+input-seq-1	4180	4203	olivar-design_4_RIGHT	2	-	CTGGAAGAATGTAATACGCGAGAC
+input-seq-1	5146	5164	olivar-design_6_LEFT	2	+	TGTTCTGTGCATCGCCCAT
+input-seq-1	5287	5305	olivar-design_5_RIGHT	1	-	GTCACCCCAGAAACCACCG
+input-seq-1	5468	5488	olivar-design_7_LEFT	1	+	CGTCGTCGATCTACCCCAACT
+input-seq-1	6299	6319	olivar-design_6_RIGHT	2	-	CGCCGAGAAGTGTATCAGCAA
+input-seq-1	6701	6719	olivar-design_7_RIGHT	1	-	TCAAGGGATCGGGCAACAG
