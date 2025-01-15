@@ -1139,24 +1139,31 @@ def plot_off_target_hits(kraken_folder, output_folder):
         # read in files
         kraken_files = get_files(f"{kraken_folder}/{virus_name}")
         names = get_file_names(kraken_files)
-        k_dict = {}
         # ini plot
         fig, ax = plt.subplots(figsize=(len(names) / 2, 4))
         x_value, x_values = 1, []
         for kraken_file in kraken_files:
+            k_dict = {
+                'Unclassified': 0,
+                'Eukaryota': 0,
+                'Bacteria': 0,
+                'Viruses': 0,
+                'Archaea': 0,
+            }
             # extract kingdom information
             with open(kraken_file, 'r') as kraken:
                 for line in kraken:
-                    line = line.strip().split('\t')
-                    if len(line) == 2:
-                        kingdom = line[1]
-                        if kingdom.startswith('k__'):
-                            kingdom = kingdom[3:]
-                        k_dict[kingdom] = int(line[0])
-                    else:
-                        k_dict[kingdom] += int(line[0])
+                    new_kingdom_found = False
+                    line_values = line.strip().split('\t')
+                    number_of_reads = int(line_values[0])
+                    for value in line_values[1:]:
+                        kingdom = value.lstrip('k__')
+                        if kingdom in k_dict or kingdom == 'Unclassified':
+                            k_dict[kingdom] += number_of_reads
+                            break
             # calculate percentage
-            k_dict = {k: v for k, v in zip(k_dict.keys(), [x / sum(k_dict.values()) * 100 for x in k_dict.values()])}
+            all_reads = sum(k_dict.values())
+            k_dict = {k: v for k, v in zip(k_dict.keys(), [x / all_reads * 100 if all_reads >0 else 0 for x in k_dict.values()])}
             # plot that stuff
             bottom = 0
             for kingdom in k_dict.items():
