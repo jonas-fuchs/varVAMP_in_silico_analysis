@@ -21,6 +21,8 @@ All relevant data is given within this repo. The data was produced with:
 - coverages per amplicon:
     bamDASH output from mapped *.bam files and bed files for the amplicons used as track
     (--dump to dump the data to tabular)
+- Kraken2_output:
+    contains Kraken2 classification of unmapped reads for all samples
 - new sequences:
     output of the mapping and consensus Galaxy pipeline. The regions of the most left and right primers were
     masked with 'N'. Additionally low covered regions (<20x) and mutations between a frequency of 0.3 and 0.7
@@ -29,10 +31,18 @@ All relevant data is given within this repo. The data was produced with:
     output of bamQC (https://github.com/s-andrews/BamQC) generated from mapped *.bam files
 - primer bed files:
     initial primer bed files from the varVAMP output. Locations are relative to the consensus sequences
+- primer bed files olivar:
+    primer bed file output of olivar
+- primer bed files primalscheme aln:
+    primer bed file output of primalscheme with alignment as input
+- primer bed files primalscheme con:
+    primer bed file output of primalscheme with consensus as input
 - primer tsv files:
     varVAMP output
 - reference seq:
     reference sequences used for mapping
+- samtools stats:
+    output of samtools stats from the primary mappings for showing mapped to unmapped reads
 - sequence identity:
     pairwise identities calculated with https://github.com/BioinformaticsToolsmith/Identity using either the initial
     sequences used to generate the MAFFT alignment of the varVAMP input or the new sequences
@@ -984,7 +994,7 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
                                   bed_folder=primer_bed_files_primalscheme_aln,
                                   scheme="primalscheme_aln",
                                   plot=False)
-    # gen stats and plots for each virus comparing all schemes
+    # get stats and plots for each virus comparing all schemes
     print(f"{'-' * 72}\nPerforming statistics for mean primer mismatches\n{'-' * 72}")
     for virus, mismatch_list_varvamp, mismatch_list_olivar, mismatch_list_primalscheme_con, mismatch_list_primalscheme_aln in zip(varvamp_mis[1], varvamp_mis[0], olivar_mis[0], primalscheme_con_mis[0], primalscheme_aln_mis[0]):
         data = [mismatch_list_varvamp, mismatch_list_olivar, mismatch_list_primalscheme_aln, mismatch_list_primalscheme_con]
@@ -1050,6 +1060,65 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
         plt.ylabel("mean mismatches per primer")
         plt.savefig(f"{output_folder}/{virus}_mean_primer_mismatches_with_alignment.pdf")
     print(f"{'-' * 72}\nFinished statistics\n{'-' * 72}")
+
+
+def plot_mapping_ratio(stat_files, output_folder):
+    """
+    plot mapping ratios for different schemes (unmapped/mapped*100)
+    """
+    plt.figure(figsize=(5, 5))
+    ax = sns.stripplot()
+
+    virus_names = list_folder_names(stat_files)
+    x_value, x_list = 1, []
+
+    for virus_name in virus_names:
+        # read in files
+        stat_files = get_files(f"samtools_stats/{virus_name}")
+        names = get_file_names(stat_files)
+        stat_dict = {}
+        # get mapping stats
+        for stat_file, name in zip(stat_files, names):
+            with open(stat_file, "r") as f:
+                for line in f:
+                    if line.startswith("reads mapped:"):
+                        mapped = int(line.strip().split()[2])
+                    if line.startswith("reads unmapped:"):
+                        unmapped = int(line.strip().split()[2])
+            stat_dict[name] = unmapped / mapped * 100
+        x_list.append(x_value)
+        y_values = list(stat_dict.values())
+        mean_y = np.mean(y_values)
+        std_y = np.std(y_values)
+
+        # plot stats
+        plt.scatter(x=[x_value] * len(stat_dict), y=y_values)
+        plt.errorbar(x=x_value,
+                     y=mean_y,
+                     yerr=std_y,
+                     color="black",
+                     capsize=5,
+                     elinewidth=1,
+                     zorder=10,  # plot on top
+                     )
+        plt.errorbar(x=x_value,
+                     y=mean_y,
+                     xerr=0.1,
+                     color="black",
+                     elinewidth=2,
+                     zorder=10
+                     )
+
+        x_value += 1
+    # configure axis
+    ax.set_xticks(x_list)
+    ax.set_xticklabels(virus_names)
+    ax.set_ylim([0, 100])
+    ax.set_ylabel("% unmapped reads")
+    sns.despine()
+    ax.set_xlabel("")
+    plt.savefig(f"{output_folder}/mapped_to_unmapped_ratio.pdf", bbox_inches='tight')
+
 
 def main(color_scheme, output_folder):
     """
@@ -1124,6 +1193,9 @@ def main(color_scheme, output_folder):
                                   output_folder=output_folder,
                                   max_primer_len=32,
                                   scheme="primalscheme_aln")
+    print("\t- Plotting mapped to unmapped read ratios for all schemes and samples...")
+    plot_mapping_ratio('samtools_stats',
+                       output_folder)
     print("\t- Comparing and plotting mean mismatches per primer for all alignments and schemes...")
     plot_mean_mismatches_between_primer_schemes(alignment_folder="alignments",
                                                 primer_bed_files_varvamp="primer_bed_files",
@@ -1132,8 +1204,8 @@ def main(color_scheme, output_folder):
                                                 primer_bed_files_primalscheme_con="primer_bed_files_primalscheme_con",
                                                 primer_bed_files_primalscheme_aln="primer_bed_files_primalscheme_aln",
                                                 output_folder=output_folder)
-    print("\n###         Finished the analysis          ###")
 
+    print("\n###         Finished the analysis          ###")
 
 
 # run the analysis
