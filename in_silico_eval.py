@@ -59,7 +59,7 @@ Run:
     pip install -r requirements.txt
     python3 in_silico_eval.py
 
-will produce a new "output" dir with some tabular files and all plots shown in the publication
+will produce a new "output" dir with all plots shown in the publication
 
 ########################## COPYRIGHT ################################
 
@@ -1062,19 +1062,19 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
     print(f"{'-' * 72}\nFinished statistics\n{'-' * 72}")
 
 
-def plot_mapping_ratio(stat_files, output_folder):
+def plot_mapping_ratio(stat_files_folder, output_folder):
     """
     plot mapping ratios for different schemes (unmapped/mapped*100)
     """
     plt.figure(figsize=(5, 5))
     ax = sns.stripplot()
 
-    virus_names = list_folder_names(stat_files)
+    virus_names = list_folder_names(stat_files_folder)
     x_value, x_list = 1, []
 
     for virus_name in virus_names:
         # read in files
-        stat_files = get_files(f"samtools_stats/{virus_name}")
+        stat_files = get_files(f"{stat_files_folder}/{virus_name}")
         names = get_file_names(stat_files)
         stat_dict = {}
         # get mapping stats
@@ -1112,12 +1112,79 @@ def plot_mapping_ratio(stat_files, output_folder):
         x_value += 1
     # configure axis
     ax.set_xticks(x_list)
-    ax.set_xticklabels(virus_names)
+    ax.set_xticklabels(virus_names, rotation=45, ha="right")
     ax.set_ylim([0, 100])
     ax.set_ylabel("% unmapped reads")
     sns.despine()
     ax.set_xlabel("")
     plt.savefig(f"{output_folder}/mapped_to_unmapped_ratio.pdf", bbox_inches='tight')
+
+
+def plot_off_target_hits(kraken_folder, output_folder):
+    """
+    Plot off-target hits as analysed by unmapped reads classified with Kraken2 using the Minikraken database.
+    """
+
+    virus_names = list_folder_names(kraken_folder)
+
+    color_mappings = {
+        'Unclassified': 'grey',
+        'Eukaryota': 'darkred',
+        'Bacteria': 'burlywood',
+        'Viruses': 'steelblue',
+        'Archaea': 'black',
+    }
+
+    for virus_name in virus_names:
+        # read in files
+        kraken_files = get_files(f"{kraken_folder}/{virus_name}")
+        names = get_file_names(kraken_files)
+        k_dict = {}
+        # ini plot
+        fig, ax = plt.subplots(figsize=(len(names) / 2, 4))
+        x_value, x_values = 1, []
+        for kraken_file in kraken_files:
+            # extract kingdom information
+            with open(kraken_file, 'r') as kraken:
+                for line in kraken:
+                    line = line.strip().split('\t')
+                    if len(line) == 2:
+                        kingdom = line[1]
+                        if kingdom.startswith('k__'):
+                            kingdom = kingdom[3:]
+                        k_dict[kingdom] = int(line[0])
+                    else:
+                        k_dict[kingdom] += int(line[0])
+            # calculate percentage
+            k_dict = {k: v for k, v in zip(k_dict.keys(), [x / sum(k_dict.values()) * 100 for x in k_dict.values()])}
+            # plot that stuff
+            bottom = 0
+            for kingdom in k_dict.items():
+                ax.bar(x=x_value, height=kingdom[1], bottom=bottom, color=color_mappings[kingdom[0]], alpha=0.8)
+                bottom += kingdom[1]
+            x_values.append(x_value)
+            x_value += 1
+        sns.despine()
+        ax.set_xticks(x_values)
+        ax.set_xticklabels(names, rotation=45, ha="right")
+        # create custom legend
+        custom_legend = [ax.add_line(
+            plt.Line2D([], [], color=color_mappings[key],
+                       marker='s',
+                       markeredgecolor='grey',
+                       linestyle='',
+                       alpha=0.8,
+                       markersize=10)) for key in color_mappings]
+
+        ax.legend(
+            custom_legend,
+            color_mappings.keys(),
+            loc='upper left',
+            bbox_to_anchor=(1, 1),
+            ncols=1,
+            frameon=False
+        )
+        plt.savefig(f"{output_folder}/{virus_name}_offtargets.pdf", bbox_inches='tight')
 
 
 def main(color_scheme, output_folder):
@@ -1161,6 +1228,11 @@ def main(color_scheme, output_folder):
                                     per_base_coverages_folder="per_base_coverages",
                                     tsv_folder="primer_tsv_files",
                                     output_folder=output_folder)
+    print("- Plotting mapped to unmapped read ratios...")
+    plot_mapping_ratio('samtools_stats',
+                       output_folder)
+    print("- Plotting off-target hits of unmapped reads...")
+    plot_off_target_hits("kraken2_output",output_folder)
     print("- Comparing varVAMP to primalscheme and olivar designs:")
     print("\t- Generating scheme overviews from bed")
     generate_scheme_overviews(varVAMP_bed_folder="primer_bed_files",
@@ -1193,9 +1265,6 @@ def main(color_scheme, output_folder):
                                   output_folder=output_folder,
                                   max_primer_len=32,
                                   scheme="primalscheme_aln")
-    print("\t- Plotting mapped to unmapped read ratios for all schemes and samples...")
-    plot_mapping_ratio('samtools_stats',
-                       output_folder)
     print("\t- Comparing and plotting mean mismatches per primer for all alignments and schemes...")
     plot_mean_mismatches_between_primer_schemes(alignment_folder="alignments",
                                                 primer_bed_files_varvamp="primer_bed_files",
