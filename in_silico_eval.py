@@ -48,7 +48,7 @@ All relevant data is given within this repo. The data was produced with:
     sequences used to generate the MAFFT alignment of the varVAMP input or the new sequences
 - variant tables:
     tabular files extracted from vcf files (variant callings on *.bam files) with SnpSift Extract Fields.
-    for medaka variant calls (ONT SARS-CoV-2 data), the AF field was artificially added and set to 1 for all mutations,
+    for medaka variant calls (ONT 1_SARS-CoV-2 data), the AF field was artificially added and set to 1 for all mutations,
     to ensure compatibility with the Illumina data.
 
 ########################## INSTALLATION AND RUNNING THE ANALYSIS ################################
@@ -87,6 +87,7 @@ import seaborn as sns
 import primer3 as p3
 from Bio.Seq import Seq
 from Bio import AlignIO
+
 
 AMBIG_NUCS = {
     "r": ["a", "g"],
@@ -1062,7 +1063,7 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
     print(f"{'-' * 72}\nFinished statistics\n{'-' * 72}")
 
 
-def plot_mapping_ratio(stat_files_folder, output_folder):
+def plot_mapping_ratio(stat_files_folder, output_folder, color_palette):
     """
     plot mapping ratios for different schemes (unmapped/mapped*100)
     """
@@ -1070,9 +1071,10 @@ def plot_mapping_ratio(stat_files_folder, output_folder):
     ax = sns.stripplot()
 
     virus_names = list_folder_names(stat_files_folder)
+    virus_names.sort()
     x_value, x_list = 1, []
-
-    for virus_name in virus_names:
+    colors = sns.color_palette(color_palette, n_colors=len(virus_names))
+    for color, virus_name in zip(colors, virus_names):
         # read in files
         stat_files = get_files(f"{stat_files_folder}/{virus_name}")
         names = get_file_names(stat_files)
@@ -1085,14 +1087,14 @@ def plot_mapping_ratio(stat_files_folder, output_folder):
                         mapped = int(line.strip().split()[2])
                     if line.startswith("reads unmapped:"):
                         unmapped = int(line.strip().split()[2])
-            stat_dict[name] = unmapped / mapped * 100
+            stat_dict[name] = unmapped / (mapped + unmapped) * 100
         x_list.append(x_value)
         y_values = list(stat_dict.values())
         mean_y = np.mean(y_values)
         std_y = np.std(y_values)
 
         # plot stats
-        plt.scatter(x=[x_value] * len(stat_dict), y=y_values)
+        plt.scatter(x=[x_value] * len(stat_dict), y=y_values, color=color)
         plt.errorbar(x=x_value,
                      y=mean_y,
                      yerr=std_y,
@@ -1112,7 +1114,7 @@ def plot_mapping_ratio(stat_files_folder, output_folder):
         x_value += 1
     # configure axis
     ax.set_xticks(x_list)
-    ax.set_xticklabels(virus_names, rotation=45, ha="right")
+    ax.set_xticklabels(get_file_names(virus_names), rotation=45, ha="right")
     ax.set_ylim([0, 100])
     ax.set_ylabel("% unmapped reads")
     sns.despine()
@@ -1237,7 +1239,8 @@ def main(color_scheme, output_folder):
                                     output_folder=output_folder)
     print("- Plotting mapped to unmapped read ratios...")
     plot_mapping_ratio('samtools_stats',
-                       output_folder)
+                       output_folder,
+                       color_scheme)
     print("- Plotting off-target hits of unmapped reads...")
     plot_off_target_hits("kraken2_output",output_folder)
     print("- Comparing varVAMP to primalscheme and olivar designs:")
