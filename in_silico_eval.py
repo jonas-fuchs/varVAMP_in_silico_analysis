@@ -823,8 +823,10 @@ def plot_per_amplicon_coverages(coverages, output_folder):
                 ax=ax2
             )
         sns.despine()
-        ax1.set_ylabel("% recovery (>= 20x)")
-        ax2.set_ylabel("% normalized coverage")
+        ax1.set_ylabel("% recovery (>= 20x)", fontsize=12)
+        ax2.set_ylabel("% normalized coverage", fontsize=12)
+        ax1.tick_params(labelsize=12)
+        ax2.tick_params(labelsize=12)
         ax2.set_yscale("log")
         ax2.xaxis.set_label_text("")
         ax2.set_xlim(left=-0.5, right=len(set(final_df["scheme_name"]))-0.5)  # overwrite autospacing so it matches barplot
@@ -913,11 +915,11 @@ def analyse_and_plot_primer_binding(adapted_bed_folder, ref_folder, variant_fold
             stacked=True,
         )
         sns.despine()
-        plt.xticks(rotation=45, ha="right", fontsize=14)
+        plt.xticks(rotation=45, ha="right", fontsize=12)
         set_size(len(variant_files) * 0.35, 4.5)
         plt.legend(loc="lower left", title="number of mismatches", ncol=3, bbox_to_anchor=(0,1))
-        plt.ylabel("primer target sequences covered >= 20x", fontsize=14)
-        plt.yticks(fontsize=14)
+        plt.ylabel("primer target sequences covered >= 20x", fontsize=12)
+        plt.yticks(fontsize=12)
         plt.savefig(f"{output_folder}/{virus_name}_primer_mismatches.pdf", bbox_inches='tight')
 
 
@@ -1122,7 +1124,6 @@ def plot_mapping_ratio(stat_files_folder, output_folder, color_palette):
     ax.set_xlim([0, 100])
     ax.set_xlabel("% unmapped reads", fontsize=12)
     sns.despine()
-    ax.set_xlabel("")
     plt.savefig(f"{output_folder}/mapped_to_unmapped_ratio.pdf", bbox_inches='tight')
 
 
