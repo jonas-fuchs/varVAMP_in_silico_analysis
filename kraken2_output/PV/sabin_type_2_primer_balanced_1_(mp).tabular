@@ -1,0 +1,18 @@
+47	Unclassified
+0	k__Bacteria
+0	k__Bacteria	p__Proteobacteria
+0	k__Bacteria	p__Proteobacteria	c__Gammaproteobacteria
+0	k__Bacteria	p__Proteobacteria	c__Gammaproteobacteria	o__Pseudomonadales
+0	k__Bacteria	p__Proteobacteria	c__Gammaproteobacteria	o__Pseudomonadales	f__Moraxellaceae
+6	k__Bacteria	p__Proteobacteria	c__Gammaproteobacteria	o__Pseudomonadales	f__Moraxellaceae	g__Acinetobacter
+32	k__Bacteria	p__Proteobacteria	c__Gammaproteobacteria	o__Pseudomonadales	f__Moraxellaceae	g__Acinetobacter	s__Acinetobacter_nosocomialis
+0	k__Bacteria	p__Actinobacteria
+0	k__Bacteria	p__Actinobacteria	c__Actinobacteria
+0	k__Bacteria	p__Firmicutes
+0	k__Bacteria	p__Firmicutes	c__Bacilli
+0	k__Bacteria	p__Firmicutes	c__Bacilli	o__Lactobacillales
+0	k__Viruses
+0	k__Viruses	f__Orthomyxoviridae
+0	k__Viruses	f__Orthomyxoviridae	g__Betainfluenzavirus
+14	k__Viruses	f__Orthomyxoviridae	g__Betainfluenzavirus	s__Influenza_B_virus
+0	k__Viruses	f__Orthomyxoviridae	g__Alphainfluenzavirus

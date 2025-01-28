@@ -751,11 +751,11 @@ def plot_sequence_identity_comparison(identity_all_df, identity_folder, output_f
                color=colors,
                lw=10)
     # generate x,y tuple for annotation
-    xy_values = [[(x - 0.5, y + 0.25), (x2 + 1, y)] for x, y, x2 in zip(identity_comparison[["mean", "alignment_mean"]].sum(axis=1)/2, np.arange(0, len(identity_comparison.index) + 1), identity_comparison[["mean", "alignment_mean"]].max(axis=1))]
+    xy_values = [[(x - 0.5, y + 0.35), (x2 + 1, y)] for x, y, x2 in zip(identity_comparison[["mean", "alignment_mean"]].sum(axis=1)/2, np.arange(0, len(identity_comparison.index) + 1), identity_comparison[["mean", "alignment_mean"]].max(axis=1))]
     # annotate change
     for change, p_value, xy in zip(list(identity_comparison["change"]), list(identity_comparison["ttest_pvalue"]), xy_values):
-        plt.annotate(change, xy[0], verticalalignment="center")
-        plt.annotate(p_value, xy[1], verticalalignment="center")
+        plt.annotate(change, xy[0], verticalalignment="center", fontsize=12)
+        plt.annotate(p_value, xy[1], verticalalignment="center", fontsize=12)
     plt.scatter(identity_comparison["mean"],
                 identity_comparison["virus"],
                 color="#0096d7",
@@ -772,9 +772,12 @@ def plot_sequence_identity_comparison(identity_all_df, identity_folder, output_f
     plt.legend(ncol=2,
                bbox_to_anchor=(1., 1.01),
                loc="lower right",
-               frameon=False)
+               frameon=False,
+               fontsize=12)
     plt.xlim(right=100)
-    plt.xlabel("% mean pairwise sequence identity")
+    plt.xlabel("% mean pairwise sequence identity", fontsize=12)
+    plt.yticks(fontsize=12)
+    plt.xticks(fontsize=12)
     plt.tight_layout()
     plt.savefig(f"{output_folder}/identity_comparision.pdf", bbox_inches='tight')
 
@@ -910,10 +913,11 @@ def analyse_and_plot_primer_binding(adapted_bed_folder, ref_folder, variant_fold
             stacked=True,
         )
         sns.despine()
-        plt.xticks(rotation=45, ha="right")
+        plt.xticks(rotation=45, ha="right", fontsize=14)
         set_size(len(variant_files) * 0.35, 4.5)
         plt.legend(loc="lower left", title="number of mismatches", ncol=3, bbox_to_anchor=(0,1))
-        plt.ylabel("primer target sequences covered >= 20x")
+        plt.ylabel("primer target sequences covered >= 20x", fontsize=14)
+        plt.yticks(fontsize=14)
         plt.savefig(f"{output_folder}/{virus_name}_primer_mismatches.pdf", bbox_inches='tight')
 
 
@@ -1067,12 +1071,12 @@ def plot_mapping_ratio(stat_files_folder, output_folder, color_palette):
     """
     plot mapping ratios for different schemes (unmapped/mapped*100)
     """
-    plt.figure(figsize=(5, 5))
+    plt.figure(figsize=(9, 4.5))
     ax = sns.stripplot()
 
     virus_names = list_folder_names(stat_files_folder)
     virus_names.sort()
-    x_value, x_list = 1, []
+    y_value, y_list = 1, []
     colors = sns.color_palette(color_palette, n_colors=len(virus_names))
     for color, virus_name in zip(colors, virus_names):
         # read in files
@@ -1088,35 +1092,35 @@ def plot_mapping_ratio(stat_files_folder, output_folder, color_palette):
                     if line.startswith("reads unmapped:"):
                         unmapped = int(line.strip().split()[2])
             stat_dict[name] = unmapped / (mapped + unmapped) * 100
-        x_list.append(x_value)
-        y_values = list(stat_dict.values())
-        mean_y = np.mean(y_values)
-        std_y = np.std(y_values)
+        y_list.append(y_value)
+        x_values = list(stat_dict.values())
+        mean_x = np.mean(x_values)
+        std_x = np.std(x_values)
 
         # plot stats
-        plt.scatter(x=[x_value] * len(stat_dict), y=y_values, color=color)
-        plt.errorbar(x=x_value,
-                     y=mean_y,
-                     yerr=std_y,
+        plt.scatter(x=x_values, y=[y_value] * len(stat_dict), color=color)
+        plt.errorbar(x=mean_x,
+                     y=y_value,
+                     xerr=std_x,
                      color="black",
                      capsize=5,
                      elinewidth=1,
                      zorder=10,  # plot on top
                      )
-        plt.errorbar(x=x_value,
-                     y=mean_y,
-                     xerr=0.1,
+        plt.errorbar(x=mean_x,
+                     y=y_value,
+                     yerr=0.1,
                      color="black",
                      elinewidth=2,
                      zorder=10
                      )
 
-        x_value += 1
+        y_value += 1
     # configure axis
-    ax.set_xticks(x_list)
-    ax.set_xticklabels(get_file_names(virus_names), rotation=45, ha="right")
-    ax.set_ylim([0, 100])
-    ax.set_ylabel("% unmapped reads")
+    ax.set_yticks(y_list)
+    ax.set_yticklabels(get_file_names(virus_names), ha="right", fontsize=12)
+    ax.set_xlim([0, 100])
+    ax.set_xlabel("% unmapped reads", fontsize=12)
     sns.despine()
     ax.set_xlabel("")
     plt.savefig(f"{output_folder}/mapped_to_unmapped_ratio.pdf", bbox_inches='tight')
