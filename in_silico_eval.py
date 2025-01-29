@@ -471,13 +471,14 @@ def mismatch_plots(flattened_mismatches, per_pos_mismatch_list_all, output_folde
     """
     # ini figure for mismatch bubble plot
     fig, ax = plt.subplots(figsize=(4, 3.5))
-
+    x_values = []
     for idx, mismatches in enumerate(flattened_mismatches):
         value, counts = np.unique(mismatches, return_counts=True)
         # normalize to total number
         counts_norm = [x / sum(counts) * 100 for x in counts]
         # plot to ax
         ax.scatter(x=[idx] * len(counts_norm), y=value, s=counts_norm)
+        x_values.append(idx)
     # pseudodata for legend
     legend_dot_size = ax.scatter([0, 0, 0], [0, 0, 0], s=[1, 10, 100], edgecolor=None, alpha=0.1)
     legend = plt.legend(
@@ -485,14 +486,15 @@ def mismatch_plots(flattened_mismatches, per_pos_mismatch_list_all, output_folde
         title="Percent",
         frameon=False,
         loc='upper center',
-        ncols=3
+        ncols=3,
+        fontsize=12
     )
     ax.add_artist(legend)
-    ax.set_xticklabels(rotation=45, ha="right", labels=range(-1, len(counts_norm)))
-    ax.set_xticklabels([""] + names)
+    ax.set_xticks(x_values, labels=names, rotation=45, ha="right")
     ax.set_ylim(top=16, bottom=-1)
     ax.set_yticks([0,2,4,6,8,10,12,14,16])
-    ax.set_ylabel("nt mismatches per primer")
+    ax.tick_params(labelsize=12)
+    ax.set_ylabel("nt mismatches per primer", fontsize=12)
     sns.despine()
     # save plot
     fig.savefig(f"{output_folder}/mismatches_{scheme_type}.pdf", bbox_inches='tight')
@@ -517,12 +519,13 @@ def mismatch_plots(flattened_mismatches, per_pos_mismatch_list_all, output_folde
         normalized_mismatches = normalized_mismatches + [None] * (max_primer_len - len(normalized_mismatches))
         sns.lineplot(x=list(range(0, max_primer_len)), y=normalized_mismatches, label=name)
 
-    plt.legend(frameon=False)
-    plt.xlabel("distance from 3' primer end")
-    plt.ylabel("% mismatch")
+    plt.legend(frameon=False, fontsize=12)
+    plt.xlabel("distance from 3' primer end", fontsize=12)
+    plt.ylabel("% mismatch", fontsize=12)
     plt.ylim(top=60, bottom=-2)
     sns.despine()
-    plt.xticks(np.arange(0, max_primer_len, 3))
+    plt.xticks(np.arange(0, max_primer_len, 3), fontsize=12)
+    plt.yticks(fontsize=12)
     # save plot
     fig.savefig(f"{output_folder}/mismatches_distance_from_3_prime_{scheme_type}.pdf", bbox_inches='tight')
 
@@ -823,10 +826,10 @@ def plot_per_amplicon_coverages(coverages, output_folder):
                 ax=ax2
             )
         sns.despine()
-        ax1.set_ylabel("% recovery (>= 20x)", fontsize=13)
-        ax2.set_ylabel("% normalized coverage", fontsize=13)
-        ax1.tick_params(labelsize=13)
-        ax2.tick_params(labelsize=13)
+        ax1.set_ylabel("% recovery (>= 20x)", fontsize=14)
+        ax2.set_ylabel("% normalized coverage", fontsize=14)
+        ax1.tick_params(labelsize=14)
+        ax2.tick_params(labelsize=14)
         ax2.set_yscale("log")
         ax2.xaxis.set_label_text("")
         ax2.set_xlim(left=-0.5, right=len(set(final_df["scheme_name"]))-0.5)  # overwrite autospacing so it matches barplot
@@ -915,11 +918,11 @@ def analyse_and_plot_primer_binding(adapted_bed_folder, ref_folder, variant_fold
             stacked=True,
         )
         sns.despine()
-        plt.xticks(rotation=45, ha="right", fontsize=13)
+        plt.xticks(rotation=45, ha="right", fontsize=14)
         set_size(len(variant_files) * 0.35, 4.5)
         plt.legend(loc="lower left", title="number of mismatches", ncol=3, bbox_to_anchor=(0,1))
-        plt.ylabel("primer target sequences covered >= 20x", fontsize=13)
-        plt.yticks(fontsize=13)
+        plt.ylabel("primer target sequences covered >= 20x", fontsize=14)
+        plt.yticks(fontsize=14)
         plt.savefig(f"{output_folder}/{virus_name}_primer_mismatches.pdf", bbox_inches='tight')
 
 
@@ -1120,10 +1123,10 @@ def plot_mapping_ratio(stat_files_folder, output_folder, color_palette):
         y_value += 1
     # configure axis
     ax.set_yticks(y_list)
-    ax.tick_params(labelsize=12)
-    ax.set_yticklabels(get_file_names(virus_names), ha="right", fontsize=12)
+    ax.tick_params(labelsize=13)
+    ax.set_yticklabels(get_file_names(virus_names), ha="right", fontsize=13)
     ax.set_xlim([0, 100])
-    ax.set_xlabel("% unmapped reads", fontsize=12)
+    ax.set_xlabel("% unmapped reads", fontsize=13)
     sns.despine()
     plt.savefig(f"{output_folder}/mapped_to_unmapped_ratio.pdf", bbox_inches='tight')
 
