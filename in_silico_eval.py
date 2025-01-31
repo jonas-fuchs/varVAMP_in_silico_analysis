@@ -1025,9 +1025,11 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
         # generate the plot
         plt.figure(figsize=(5, 5))
         ax = sns.stripplot()
+        print('virus\tsoftware\tmismatches')
         for x, y, color in zip([0,1,2,3], data, ["sienna", "darkgoldenrod", "darkslateblue", "grey"]):
             mean_y = np.mean(y)
             std_y = np.std(y)
+            print(f'{virus}\t{custom_labels[x]}\t{mean_y}')
             # y std
             plt.errorbar(x=x,
                          y=mean_y,
