@@ -1,0 +1,15 @@
+15654	Unclassified
+0	k__Eukaryota
+0	k__Eukaryota	p__Chordata
+0	k__Eukaryota	p__Chordata	c__Mammalia
+0	k__Eukaryota	p__Chordata	c__Mammalia	o__Primates
+0	k__Eukaryota	p__Chordata	c__Mammalia	o__Primates	f__Hominidae
+0	k__Eukaryota	p__Chordata	c__Mammalia	o__Primates	f__Hominidae	g__Homo
+553649	k__Eukaryota	p__Chordata	c__Mammalia	o__Primates	f__Hominidae	g__Homo	s__Homo_sapiens
+2	k__Bacteria
+0	k__Bacteria	p__Actinobacteria
+0	k__Bacteria	p__Actinobacteria	c__Actinobacteria
+0	k__Bacteria	p__Actinobacteria	c__Actinobacteria	o__Streptomycetales
+0	k__Bacteria	p__Actinobacteria	c__Actinobacteria	o__Streptomycetales	f__Streptomycetaceae
+0	k__Bacteria	p__Actinobacteria	c__Actinobacteria	o__Streptomycetales	f__Streptomycetaceae	g__Streptomyces
+7	k__Bacteria	p__Actinobacteria	c__Actinobacteria	o__Streptomycetales	f__Streptomycetaceae	g__Streptomyces	s__Streptomyces_lividans

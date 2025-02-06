@@ -21,6 +21,8 @@ All relevant data is given within this repo. The data was produced with:
 - coverages per amplicon:
     bamDASH output from mapped *.bam files and bed files for the amplicons used as track
     (--dump to dump the data to tabular)
+- Kraken2_output:
+    contains Kraken2 classification of unmapped reads for all samples
 - new sequences:
     output of the mapping and consensus Galaxy pipeline. The regions of the most left and right primers were
     masked with 'N'. Additionally low covered regions (<20x) and mutations between a frequency of 0.3 and 0.7
@@ -29,16 +31,24 @@ All relevant data is given within this repo. The data was produced with:
     output of bamQC (https://github.com/s-andrews/BamQC) generated from mapped *.bam files
 - primer bed files:
     initial primer bed files from the varVAMP output. Locations are relative to the consensus sequences
+- primer bed files olivar:
+    primer bed file output of olivar
+- primer bed files primalscheme aln:
+    primer bed file output of primalscheme with alignment as input
+- primer bed files primalscheme con:
+    primer bed file output of primalscheme with consensus as input
 - primer tsv files:
     varVAMP output
 - reference seq:
     reference sequences used for mapping
+- samtools stats:
+    output of samtools stats from the primary mappings for showing mapped to unmapped reads
 - sequence identity:
     pairwise identities calculated with https://github.com/BioinformaticsToolsmith/Identity using either the initial
     sequences used to generate the MAFFT alignment of the varVAMP input or the new sequences
 - variant tables:
     tabular files extracted from vcf files (variant callings on *.bam files) with SnpSift Extract Fields.
-    for medaka variant calls (ONT SARS-CoV-2 data), the AF field was artificially added and set to 1 for all mutations,
+    for medaka variant calls (ONT 1_SARS-CoV-2 data), the AF field was artificially added and set to 1 for all mutations,
     to ensure compatibility with the Illumina data.
 
 ########################## INSTALLATION AND RUNNING THE ANALYSIS ################################
@@ -49,7 +59,7 @@ Run:
     pip install -r requirements.txt
     python3 in_silico_eval.py
 
-will produce a new "output" dir with some tabular files and all plots shown in the publication
+will produce a new "output" dir with all plots shown in the publication
 
 ########################## COPYRIGHT ################################
 
@@ -77,6 +87,7 @@ import seaborn as sns
 import primer3 as p3
 from Bio.Seq import Seq
 from Bio import AlignIO
+
 
 AMBIG_NUCS = {
     "r": ["a", "g"],
@@ -460,13 +471,14 @@ def mismatch_plots(flattened_mismatches, per_pos_mismatch_list_all, output_folde
     """
     # ini figure for mismatch bubble plot
     fig, ax = plt.subplots(figsize=(4, 3.5))
-
+    x_values = []
     for idx, mismatches in enumerate(flattened_mismatches):
         value, counts = np.unique(mismatches, return_counts=True)
         # normalize to total number
         counts_norm = [x / sum(counts) * 100 for x in counts]
         # plot to ax
         ax.scatter(x=[idx] * len(counts_norm), y=value, s=counts_norm)
+        x_values.append(idx)
     # pseudodata for legend
     legend_dot_size = ax.scatter([0, 0, 0], [0, 0, 0], s=[1, 10, 100], edgecolor=None, alpha=0.1)
     legend = plt.legend(
@@ -474,14 +486,15 @@ def mismatch_plots(flattened_mismatches, per_pos_mismatch_list_all, output_folde
         title="Percent",
         frameon=False,
         loc='upper center',
-        ncols=3
+        ncols=3,
+        fontsize=12
     )
     ax.add_artist(legend)
-    ax.set_xticklabels(rotation=45, ha="right", labels=range(-1, len(counts_norm)))
-    ax.set_xticklabels([""] + names)
+    ax.set_xticks(x_values, labels=names, rotation=45, ha="right")
     ax.set_ylim(top=16, bottom=-1)
     ax.set_yticks([0,2,4,6,8,10,12,14,16])
-    ax.set_ylabel("nt mismatches per primer")
+    ax.tick_params(labelsize=12)
+    ax.set_ylabel("nt mismatches per primer", fontsize=12)
     sns.despine()
     # save plot
     fig.savefig(f"{output_folder}/mismatches_{scheme_type}.pdf", bbox_inches='tight')
@@ -506,12 +519,13 @@ def mismatch_plots(flattened_mismatches, per_pos_mismatch_list_all, output_folde
         normalized_mismatches = normalized_mismatches + [None] * (max_primer_len - len(normalized_mismatches))
         sns.lineplot(x=list(range(0, max_primer_len)), y=normalized_mismatches, label=name)
 
-    plt.legend(frameon=False)
-    plt.xlabel("distance from 3' primer end")
-    plt.ylabel("% mismatch")
+    plt.legend(frameon=False, fontsize=12)
+    plt.xlabel("distance from 3' primer end", fontsize=12)
+    plt.ylabel("% mismatch", fontsize=12)
     plt.ylim(top=60, bottom=-2)
     sns.despine()
-    plt.xticks(np.arange(0, max_primer_len, 3))
+    plt.xticks(np.arange(0, max_primer_len, 3), fontsize=12)
+    plt.yticks(fontsize=12)
     # save plot
     fig.savefig(f"{output_folder}/mismatches_distance_from_3_prime_{scheme_type}.pdf", bbox_inches='tight')
 
@@ -740,11 +754,11 @@ def plot_sequence_identity_comparison(identity_all_df, identity_folder, output_f
                color=colors,
                lw=10)
     # generate x,y tuple for annotation
-    xy_values = [[(x - 0.5, y + 0.25), (x2 + 1, y)] for x, y, x2 in zip(identity_comparison[["mean", "alignment_mean"]].sum(axis=1)/2, np.arange(0, len(identity_comparison.index) + 1), identity_comparison[["mean", "alignment_mean"]].max(axis=1))]
+    xy_values = [[(x - 0.5, y + 0.35), (x2 + 1, y)] for x, y, x2 in zip(identity_comparison[["mean", "alignment_mean"]].sum(axis=1)/2, np.arange(0, len(identity_comparison.index) + 1), identity_comparison[["mean", "alignment_mean"]].max(axis=1))]
     # annotate change
     for change, p_value, xy in zip(list(identity_comparison["change"]), list(identity_comparison["ttest_pvalue"]), xy_values):
-        plt.annotate(change, xy[0], verticalalignment="center")
-        plt.annotate(p_value, xy[1], verticalalignment="center")
+        plt.annotate(change, xy[0], verticalalignment="center", fontsize=12)
+        plt.annotate(p_value, xy[1], verticalalignment="center", fontsize=12)
     plt.scatter(identity_comparison["mean"],
                 identity_comparison["virus"],
                 color="#0096d7",
@@ -761,9 +775,12 @@ def plot_sequence_identity_comparison(identity_all_df, identity_folder, output_f
     plt.legend(ncol=2,
                bbox_to_anchor=(1., 1.01),
                loc="lower right",
-               frameon=False)
+               frameon=False,
+               fontsize=12)
     plt.xlim(right=100)
-    plt.xlabel("% mean pairwise sequence identity")
+    plt.xlabel("% mean pairwise sequence identity", fontsize=12)
+    plt.yticks(fontsize=12)
+    plt.xticks(fontsize=12)
     plt.tight_layout()
     plt.savefig(f"{output_folder}/identity_comparision.pdf", bbox_inches='tight')
 
@@ -809,8 +826,10 @@ def plot_per_amplicon_coverages(coverages, output_folder):
                 ax=ax2
             )
         sns.despine()
-        ax1.set_ylabel("% recovery (>= 20x)")
-        ax2.set_ylabel("% normalized coverage")
+        ax1.set_ylabel("% recovery (>= 20x)", fontsize=14)
+        ax2.set_ylabel("% normalized coverage", fontsize=14)
+        ax1.tick_params(labelsize=14)
+        ax2.tick_params(labelsize=14)
         ax2.set_yscale("log")
         ax2.xaxis.set_label_text("")
         ax2.set_xlim(left=-0.5, right=len(set(final_df["scheme_name"]))-0.5)  # overwrite autospacing so it matches barplot
@@ -899,10 +918,11 @@ def analyse_and_plot_primer_binding(adapted_bed_folder, ref_folder, variant_fold
             stacked=True,
         )
         sns.despine()
-        plt.xticks(rotation=45, ha="right")
+        plt.xticks(rotation=45, ha="right", fontsize=14)
         set_size(len(variant_files) * 0.35, 4.5)
         plt.legend(loc="lower left", title="number of mismatches", ncol=3, bbox_to_anchor=(0,1))
-        plt.ylabel("primer target sequences covered >= 20x")
+        plt.ylabel("primer target sequences covered >= 20x", fontsize=14)
+        plt.yticks(fontsize=14)
         plt.savefig(f"{output_folder}/{virus_name}_primer_mismatches.pdf", bbox_inches='tight')
 
 
@@ -984,7 +1004,7 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
                                   bed_folder=primer_bed_files_primalscheme_aln,
                                   scheme="primalscheme_aln",
                                   plot=False)
-    # gen stats and plots for each virus comparing all schemes
+    # get stats and plots for each virus comparing all schemes
     print(f"{'-' * 72}\nPerforming statistics for mean primer mismatches\n{'-' * 72}")
     for virus, mismatch_list_varvamp, mismatch_list_olivar, mismatch_list_primalscheme_con, mismatch_list_primalscheme_aln in zip(varvamp_mis[1], varvamp_mis[0], olivar_mis[0], primalscheme_con_mis[0], primalscheme_aln_mis[0]):
         data = [mismatch_list_varvamp, mismatch_list_olivar, mismatch_list_primalscheme_aln, mismatch_list_primalscheme_con]
@@ -1005,9 +1025,11 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
         # generate the plot
         plt.figure(figsize=(5, 5))
         ax = sns.stripplot()
+        print('virus\tsoftware\tmismatches')
         for x, y, color in zip([0,1,2,3], data, ["sienna", "darkgoldenrod", "darkslateblue", "grey"]):
             mean_y = np.mean(y)
             std_y = np.std(y)
+            print(f'{virus}\t{custom_labels[x]}\t{mean_y}')
             # y std
             plt.errorbar(x=x,
                          y=mean_y,
@@ -1051,6 +1073,140 @@ def plot_mean_mismatches_between_primer_schemes(alignment_folder, primer_bed_fil
         plt.savefig(f"{output_folder}/{virus}_mean_primer_mismatches_with_alignment.pdf")
     print(f"{'-' * 72}\nFinished statistics\n{'-' * 72}")
 
+
+def plot_mapping_ratio(stat_files_folder, output_folder, color_palette):
+    """
+    plot mapping ratios for different schemes (unmapped/mapped*100)
+    """
+    plt.figure(figsize=(9, 4.5))
+    ax = sns.stripplot()
+
+    virus_names = list_folder_names(stat_files_folder)
+    virus_names.sort()
+    y_value, y_list = 1, []
+    colors = sns.color_palette(color_palette, n_colors=len(virus_names))
+    for color, virus_name in zip(colors, virus_names):
+        # read in files
+        stat_files = get_files(f"{stat_files_folder}/{virus_name}")
+        names = get_file_names(stat_files)
+        stat_dict = {}
+        # get mapping stats
+        for stat_file, name in zip(stat_files, names):
+            with open(stat_file, "r") as f:
+                for line in f:
+                    if line.startswith("reads mapped:"):
+                        mapped = int(line.strip().split()[2])
+                    if line.startswith("reads unmapped:"):
+                        unmapped = int(line.strip().split()[2])
+            stat_dict[name] = unmapped / (mapped + unmapped) * 100
+        y_list.append(y_value)
+        x_values = list(stat_dict.values())
+        mean_x = np.mean(x_values)
+        std_x = np.std(x_values)
+
+        # plot stats
+        plt.scatter(x=x_values, y=[y_value] * len(stat_dict), color=color)
+        plt.errorbar(x=mean_x,
+                     y=y_value,
+                     xerr=std_x,
+                     color="black",
+                     capsize=5,
+                     elinewidth=1,
+                     zorder=10,  # plot on top
+                     )
+        plt.errorbar(x=mean_x,
+                     y=y_value,
+                     yerr=0.1,
+                     color="black",
+                     elinewidth=2,
+                     zorder=10
+                     )
+
+        y_value += 1
+    # configure axis
+    ax.set_yticks(y_list)
+    ax.tick_params(labelsize=13)
+    ax.set_yticklabels(get_file_names(virus_names), ha="right", fontsize=13)
+    ax.set_xlim([0, 100])
+    ax.set_xlabel("% unmapped reads", fontsize=13)
+    sns.despine()
+    plt.savefig(f"{output_folder}/mapped_to_unmapped_ratio.pdf", bbox_inches='tight')
+
+
+def plot_off_target_hits(kraken_folder, output_folder):
+    """
+    Plot off-target hits as analysed by unmapped reads classified with Kraken2 using the Minikraken database.
+    """
+
+    virus_names = list_folder_names(kraken_folder)
+
+    color_mappings = {
+        'Unclassified': 'grey',
+        'Eukaryota': 'darkred',
+        'Bacteria': 'burlywood',
+        'Viruses': 'steelblue',
+        'Archaea': 'black',
+    }
+
+    for virus_name in virus_names:
+        # read in files
+        kraken_files = get_files(f"{kraken_folder}/{virus_name}")
+        names = get_file_names(kraken_files)
+        # ini plot
+        fig, ax = plt.subplots(figsize=(len(names) / 2, 4))
+        x_value, x_values = 1, []
+        for kraken_file in kraken_files:
+            k_dict = {
+                'Unclassified': 0,
+                'Eukaryota': 0,
+                'Bacteria': 0,
+                'Viruses': 0,
+                'Archaea': 0,
+            }
+            # extract kingdom information
+            with open(kraken_file, 'r') as kraken:
+                for line in kraken:
+                    new_kingdom_found = False
+                    line_values = line.strip().split('\t')
+                    number_of_reads = int(line_values[0])
+                    for value in line_values[1:]:
+                        kingdom = value.lstrip('k__')
+                        if kingdom in k_dict or kingdom == 'Unclassified':
+                            k_dict[kingdom] += number_of_reads
+                            break
+            # calculate percentage
+            all_reads = sum(k_dict.values())
+            k_dict = {k: v for k, v in zip(k_dict.keys(), [x / all_reads * 100 if all_reads >0 else 0 for x in k_dict.values()])}
+            # plot that stuff
+            bottom = 0
+            for kingdom in k_dict.items():
+                ax.bar(x=x_value, height=kingdom[1], bottom=bottom, color=color_mappings[kingdom[0]], alpha=0.8)
+                bottom += kingdom[1]
+            x_values.append(x_value)
+            x_value += 1
+        sns.despine()
+        ax.set_xticks(x_values)
+        ax.set_xticklabels(names, rotation=45, ha="right")
+        # create custom legend
+        custom_legend = [ax.add_line(
+            plt.Line2D([], [], color=color_mappings[key],
+                       marker='s',
+                       markeredgecolor='grey',
+                       linestyle='',
+                       alpha=0.8,
+                       markersize=10)) for key in color_mappings]
+
+        ax.legend(
+            custom_legend,
+            color_mappings.keys(),
+            loc='upper left',
+            bbox_to_anchor=(1, 1),
+            ncols=1,
+            frameon=False
+        )
+        plt.savefig(f"{output_folder}/{virus_name}_offtargets.pdf", bbox_inches='tight')
+
+
 def main(color_scheme, output_folder):
     """
     main function
@@ -1092,6 +1248,12 @@ def main(color_scheme, output_folder):
                                     per_base_coverages_folder="per_base_coverages",
                                     tsv_folder="primer_tsv_files",
                                     output_folder=output_folder)
+    print("- Plotting mapped to unmapped read ratios...")
+    plot_mapping_ratio('samtools_stats',
+                       output_folder,
+                       color_scheme)
+    print("- Plotting off-target hits of unmapped reads...")
+    plot_off_target_hits("kraken2_output",output_folder)
     print("- Comparing varVAMP to primalscheme and olivar designs:")
     print("\t- Generating scheme overviews from bed")
     generate_scheme_overviews(varVAMP_bed_folder="primer_bed_files",
@@ -1132,8 +1294,8 @@ def main(color_scheme, output_folder):
                                                 primer_bed_files_primalscheme_con="primer_bed_files_primalscheme_con",
                                                 primer_bed_files_primalscheme_aln="primer_bed_files_primalscheme_aln",
                                                 output_folder=output_folder)
-    print("\n###         Finished the analysis          ###")
 
+    print("\n###         Finished the analysis          ###")
 
 
 # run the analysis
